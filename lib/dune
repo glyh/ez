@@ -1,0 +1,12 @@
+(menhir (modules parser))
+(ocamllex (modules lexer))
+
+(library
+ (name ez_lib)
+ (libraries
+   ctypes-foreign
+   core
+   nice_parser
+   pbrt)
+   
+ (inline_tests))

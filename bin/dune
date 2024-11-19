@@ -1,0 +1,4 @@
+(executable
+ (public_name ez)
+ (name main)
+ (libraries ez_lib))

@@ -1,0 +1,126 @@
+syntax = "proto2";
+
+package ez_proto;
+
+message EzType {
+  enum NonPtr {
+    VOID = 0;
+    I64 = 1;
+    STR = 2;
+    F64 = 3;
+    BOOL = 4;
+  }
+
+  oneof kind {
+    NonPtr non_ptr = 1;
+    EzType ptr = 2;
+  }
+}
+
+message Value {
+  oneof kind {
+    int64 i64_val = 1;
+    string str_val = 2;
+    double f64_val = 3;
+    bool bool_val = 4;
+  }
+}
+
+message Expr {
+
+  message Assign {
+    required string name = 1;
+    required Expr rhs = 2;
+  }
+
+  message Binary {
+    enum BinOp {
+      ADD = 0;
+      SUB = 1;
+      MUL = 2;
+      DIV = 3;
+      MOD = 4;
+      EQ = 5;
+      NOTEQ = 6;
+      LESSTHAN = 7;
+      LESSEQ = 8;
+      GREATERTHAN = 9;
+      GREATEREQ = 10;
+      LAND = 11;
+      LOR = 12;
+    }
+
+    required BinOp op = 1;
+    required Expr lhs = 2;
+    required Expr rhs = 3;
+  }
+
+  message Unary {
+    enum UnOp {
+      NOT = 0;
+      REF = 1;
+      DEREF = 2;
+    }
+
+    required UnOp op = 1;
+    required Expr inner = 2;
+  }
+
+  message Call {
+    required string callee = 1;
+    repeated Expr args = 2;
+  }
+  oneof kind {
+    Assign assign = 1;
+    Binary binary = 2;
+    Unary unary = 3;
+    Value value = 4;
+    string variable = 5;
+    Call call = 6;
+  }
+  required EzType expr_type = 7;
+}
+
+message Statement {
+  message Declaration {
+    required string name = 1;
+    required Expr rhs = 2;
+  }
+
+  message If {
+    required Expr condition = 1;
+    required Statement then_branch = 2;
+    required Statement else_branch = 3;
+  }
+
+  message Block { repeated Statement statements = 1; }
+
+  message For {
+    required Expr initializer = 1;
+    required Expr condition = 2;
+    required Expr increment = 3;
+    required Statement body = 4;
+  }
+
+  oneof kind {
+    Expr expr = 1;
+    Declaration declaration = 2;
+    If if = 3;
+    Block block = 4;
+    For for = 5;
+    Expr return = 6;
+  }
+}
+
+message Definition {
+  message EzTypedArg {
+    required EzType arg_type = 1;
+    required string name = 2;
+  }
+  required EzType return_type = 1;
+  required string name = 2;
+  repeated EzTypedArg args = 3;
+  required Statement body = 4;
+}
+
+message Program { repeated Definition definitions = 1; }
