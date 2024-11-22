@@ -1,9 +1,10 @@
-#include "ezdebug.hpp"
-#include "ez_ir.pb.h"
 #include <format>
 #include <stdexcept>
 
-str ez_binop_to_string(ez_proto::Expr_Binary_BinOp bop) {
+#include "ez_ir.pb.h"
+#include "ezdebug.hpp"
+
+std::string ez_binop_to_string(ez_proto::Expr_Binary_BinOp bop) {
   switch (bop) {
   case ez_proto::Expr_Binary_BinOp_ADD:
     return "+";
@@ -36,7 +37,7 @@ str ez_binop_to_string(ez_proto::Expr_Binary_BinOp bop) {
   }
 }
 
-str ez_type_to_string(const ez_proto::EzType &ty) {
+std::string ez_type_to_string(const ez_proto::EzType &ty) {
   switch (ty.kind_case()) {
   case ez_proto::EzType::kNonPtr:
     switch (ty.non_ptr()) {

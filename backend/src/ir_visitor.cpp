@@ -1,4 +1,9 @@
+// NOTE:
+// 1. we assign names to all tmps so they don't colide with potential unnamed
+// blocks
+
 #include <cstdio>
+#include <llvm/ADT/STLExtras.h>
 #include <llvm/IR/BasicBlock.h>
 #include <llvm/IR/Constants.h>
 #include <llvm/IR/DerivedTypes.h>
@@ -11,6 +16,7 @@
 #include <llvm/Support/Error.h>
 #include <llvm/Support/raw_ostream.h>
 #include <stdexcept>
+#include <unordered_set>
 
 #include "extra_exceptions.hpp"
 #include "ez_ir.pb.h"
@@ -19,11 +25,12 @@
 
 using namespace llvm;
 
-CodegenVisitor::CodegenVisitor(const char *module_name) {
-  context = make_box<LLVMContext>();
-  builder = box<IRBuilder<>>(new IRBuilder<>(*context));
-  module = make_box<Module>(module_name, *context);
-  env = make_box<scoped_environment>();
+CodegenVisitor::CodegenVisitor(std::shared_ptr<LLVMContext> ctx,
+                               std::shared_ptr<Module> mod) {
+  context = ctx;
+  builder = std::unique_ptr<IRBuilder<>>(new IRBuilder<>(*context));
+  module = mod;
+  env = std::make_unique<scoped_environment>();
 }
 
 Type *CodegenVisitor::generate_type(const ez_proto::EzType &ty) {
@@ -96,7 +103,7 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr &expr) {
     return codegen(expr.value());
 
   case ez_proto::Expr::kVariable: {
-    const str variable_name = expr.variable();
+    const std::string variable_name = expr.variable();
     auto alloc_inst = env->find(variable_name);
     if (alloc_inst == nullptr) {
       throw UndefinedVariable(variable_name);
@@ -112,11 +119,11 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr &expr) {
   case ez_proto::Expr::kCall: {
     auto call = expr.call();
     Function *function_to_call = module->getFunction(call.callee());
-    vec<Value *> args;
+    std::vector<Value *> args;
     for (auto arg : call.args()) {
       args.push_back(codegen(arg));
     }
-    return builder->CreateCall(function_to_call, args);
+    return builder->CreateCall(function_to_call, args, "calltmp");
   }
 
   default:
@@ -132,46 +139,45 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
   switch (bop) {
   case ez_proto::Expr_Binary_BinOp_ADD:
     if (left_type.non_ptr() == ez_proto::EzType_NonPtr_I64) {
-      return builder->CreateAdd(lhs, rhs);
+      return builder->CreateAdd(lhs, rhs, "i64_add_tmp");
     } else {
-      return builder->CreateFAdd(lhs, rhs);
+      return builder->CreateFAdd(lhs, rhs, "f64_add_tmp");
     }
 
   case ez_proto::Expr_Binary_BinOp_SUB:
     if (left_type.non_ptr() == ez_proto::EzType_NonPtr_I64) {
-      return builder->CreateSub(lhs, rhs);
+      return builder->CreateSub(lhs, rhs, "i64_sub_tmp");
     } else {
-      return builder->CreateFSub(lhs, rhs);
+      return builder->CreateFSub(lhs, rhs, "f64_sub_tmp");
     }
 
   case ez_proto::Expr_Binary_BinOp_MUL:
     if (left_type.non_ptr() == ez_proto::EzType_NonPtr_I64) {
-      return builder->CreateMul(lhs, rhs);
+      return builder->CreateMul(lhs, rhs, "i64_mul_tmp");
     } else {
-      return builder->CreateFMul(lhs, rhs);
+      return builder->CreateFMul(lhs, rhs, "f64_mul_tmp");
     }
 
   case ez_proto::Expr_Binary_BinOp_DIV:
     if (left_type.non_ptr() == ez_proto::EzType_NonPtr_I64) {
-      return builder->CreateSDiv(lhs, rhs);
+      return builder->CreateSDiv(lhs, rhs, "i64_div_tmp");
     } else {
-      return builder->CreateFDiv(lhs, rhs);
+      return builder->CreateFDiv(lhs, rhs, "f64_div_tmp");
     }
 
   case ez_proto::Expr_Binary_BinOp_MOD:
     if (left_type.non_ptr() == ez_proto::EzType_NonPtr_I64) {
-      return builder->CreateSRem(lhs, rhs);
+      return builder->CreateSRem(lhs, rhs, "i64_mod_tmp");
     } else {
-      return builder->CreateFRem(lhs, rhs);
+      return builder->CreateFRem(lhs, rhs, "f64_mod_tmp");
     }
   case ez_proto::Expr_Binary_BinOp_EQ:
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        fflush(stdout);
-        return builder->CreateICmpEQ(lhs, rhs);
+        return builder->CreateICmpEQ(lhs, rhs, "i64_cmp_eq_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpOEQ(lhs, rhs);
+        return builder->CreateFCmpOEQ(lhs, rhs, "f64_cmp_oeq_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -184,9 +190,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        return builder->CreateICmpNE(lhs, rhs);
+        return builder->CreateICmpNE(lhs, rhs, "i64_cmp_ne_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpONE(lhs, rhs);
+        return builder->CreateFCmpONE(lhs, rhs, "f64_cmp_one_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -199,9 +205,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        return builder->CreateICmpSLT(lhs, rhs);
+        return builder->CreateICmpSLT(lhs, rhs, "i64_cmp_slt_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpOLT(lhs, rhs);
+        return builder->CreateFCmpOLT(lhs, rhs, "f64_cmp_olt_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -214,9 +220,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        return builder->CreateICmpSLE(lhs, rhs);
+        return builder->CreateICmpSLE(lhs, rhs, "f64_cmp_sle_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpOLE(lhs, rhs);
+        return builder->CreateFCmpOLE(lhs, rhs, "f64_cmp_ole_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -229,9 +235,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        return builder->CreateICmpSGT(lhs, rhs);
+        return builder->CreateICmpSGT(lhs, rhs, "f64_cmp_sgt_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpOGT(lhs, rhs);
+        return builder->CreateFCmpOGT(lhs, rhs, "f64_cmp_ogt_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -244,9 +250,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
     if (left_type.kind_case() == ez_proto::EzType::kNonPtr) {
       switch (left_type.non_ptr()) {
       case ez_proto::EzType_NonPtr_I64:
-        return builder->CreateICmpSGE(lhs, rhs);
+        return builder->CreateICmpSGE(lhs, rhs, "i64_cmp_sge_tmp");
       case ez_proto::EzType_NonPtr_F64:
-        return builder->CreateFCmpOGE(lhs, rhs);
+        return builder->CreateFCmpOGE(lhs, rhs, "f64_cmp_oge_tmp");
       default:
         throw NotImplemented(std::format("`{}` of {}", ez_binop_to_string(bop),
                                          ez_type_to_string(left_type)));
@@ -256,9 +262,9 @@ Value *CodegenVisitor::codegen(const ez_proto::Expr_Binary &expr) {
                                        ez_type_to_string(left_type)));
     }
   case ez_proto::Expr_Binary_BinOp_LAND:
-    return builder->CreateAnd(lhs, rhs);
+    return builder->CreateAnd(lhs, rhs, "land_tmp");
   case ez_proto::Expr_Binary_BinOp_LOR:
-    return builder->CreateOr(lhs, rhs);
+    return builder->CreateOr(lhs, rhs, "lor_tmp");
   default:
     throw std::domain_error("invalid bin op");
   }
@@ -349,7 +355,7 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     Function *TheFunction = builder->GetInsertBlock()->getParent();
     Value *init_val = codegen(declare_stmt.rhs());
     Type *var_type = generate_type(declare_stmt.type());
-    const str &name = declare_stmt.name();
+    const std::string &name = declare_stmt.name();
     AllocaInst *alloc = create_entry_block_alloca(TheFunction, name, var_type);
     builder->CreateStore(init_val, alloc);
     env->add(name, alloc);
@@ -358,7 +364,7 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
 
   case ez_proto::Statement::kAssign: {
     auto assign_stmt = stmt.assign();
-    const str &var_name = assign_stmt.name();
+    const std::string &var_name = assign_stmt.name();
     Value *rhs = codegen(assign_stmt.rhs());
     auto lhs = env->find(var_name);
     if (lhs == nullptr) {
@@ -373,9 +379,48 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     throw std::domain_error("statement has invalid type");
   }
 }
+
+void CodegenVisitor::sanitize_function(Function &f) {
+  // 1. ensure each block has only a single PC Inst at the end
+  for (BasicBlock &BB : f) {
+    auto remove_start = BB.end();
+    for (auto it = BB.begin(); it != BB.end(); ++it) {
+      if (it->isTerminator()) {
+        remove_start = ++it;
+        break;
+      }
+    }
+    BB.erase(remove_start, BB.end());
+  }
+  // 2. remove all empty blocks and fix
+  // Iterate through all the basic blocks in the function
+  BasicBlock *cur_head = nullptr;
+  std::unordered_set<BasicBlock *> to_erase;
+
+  for (BasicBlock &bb : reverse(f)) {
+    if (BranchInst *b_inst = dyn_cast<BranchInst>(&bb.back())) {
+      for (int idx = b_inst->getNumSuccessors() - 1; idx >= 0; --idx) {
+        auto successor = b_inst->getSuccessor(idx);
+        if (to_erase.contains(successor)) {
+          b_inst->setSuccessor(idx, cur_head);
+        }
+      }
+    }
+    if (bb.empty()) {
+      to_erase.insert(&bb);
+    } else {
+      cur_head = &bb;
+    }
+  }
+
+  for (auto bb : to_erase) {
+    bb->eraseFromParent();
+  }
+}
+
 Function *CodegenVisitor::codegen(const ez_proto::Definition &def) {
   FunctionType *cur_fn_type = generate_function_type(def);
-  const str &name = def.name();
+  const std::string &name = def.name();
   Function *cur_fn = Function::Create(cur_fn_type, Function::ExternalLinkage,
                                       name, module.get());
   auto params = def.params();
@@ -390,7 +435,7 @@ Function *CodegenVisitor::codegen(const ez_proto::Definition &def) {
   env->enter_scope();
 
   for (auto &arg : cur_fn->args()) {
-    std::string name = str(arg.getName());
+    std::string name(arg.getName());
 
     AllocaInst *alloc_inst =
         create_entry_block_alloca(cur_fn, name, arg.getType());
@@ -399,7 +444,8 @@ Function *CodegenVisitor::codegen(const ez_proto::Definition &def) {
     env->add(name, alloc_inst);
   }
   codegen(def.body());
-  verifyFunction(*cur_fn);
+  sanitize_function(*cur_fn);
+  verifyFunction(*cur_fn, &errs());
 
   env->exit_scope();
   return cur_fn;

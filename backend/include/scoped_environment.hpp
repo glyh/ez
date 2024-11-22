@@ -9,12 +9,10 @@
 #include <llvm/IR/Value.h>
 #include <vector>
 
-#include "alias.hpp"
-
 using namespace llvm;
 
 struct scoped_environment {
-  std::vector<std::unordered_map<str, AllocaInst *>> scopes_stack;
+  std::vector<std::unordered_map<std::string, AllocaInst *>> scopes_stack;
   scoped_environment();
   AllocaInst *find(const std::string &);
   void add(const std::string &, AllocaInst *);

@@ -12,12 +12,10 @@
 
 #include "scoped_environment.hpp"
 
-#include "alias.hpp"
-
 using namespace llvm;
 
 struct CodegenVisitor {
-  CodegenVisitor(const char *module_name);
+  CodegenVisitor(std::shared_ptr<LLVMContext>, std::shared_ptr<Module>);
 
   Value *generate_unit();
   Type *generate_type(const ez_proto::EzType &);
@@ -30,9 +28,10 @@ struct CodegenVisitor {
   Value *codegen(const ez_proto::Expr_Binary &);
   void codegen(const ez_proto::Statement &);
   Function *codegen(const ez_proto::Definition &);
+  void sanitize_function(Function &);
 
-  box<LLVMContext> context;
-  box<IRBuilder<>> builder;
-  box<Module> module;
-  box<scoped_environment> env;
+  std::shared_ptr<LLVMContext> context;
+  std::shared_ptr<Module> module;
+  std::unique_ptr<IRBuilder<>> builder;
+  std::unique_ptr<scoped_environment> env;
 };

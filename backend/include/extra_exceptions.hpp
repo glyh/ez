@@ -6,23 +6,22 @@
 #include "ez_ir.pb.h"
 #include "pcap-bpf.h"
 
-#include "alias.hpp"
 #include "ezdebug.hpp"
 
 class Unreachable : public std::logic_error {
 public:
-  Unreachable(const str &name) : std::logic_error(name) {};
+  Unreachable(const std::string &name) : std::logic_error(name) {};
 };
 
 class NotImplemented : public std::logic_error {
 public:
   NotImplemented(const char *reason) : std::logic_error(reason) {};
-  NotImplemented(str reason) : std::logic_error(reason) {};
+  NotImplemented(std::string reason) : std::logic_error(reason) {};
 };
 
 class UndefinedVariable : public std::logic_error {
 public:
-  UndefinedVariable(const str &name) : std::logic_error(name) {};
+  UndefinedVariable(const std::string &name) : std::logic_error(name) {};
 };
 
 class BinOpMismatch : public std::logic_error {

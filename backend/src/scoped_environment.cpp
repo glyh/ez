@@ -1,5 +1,6 @@
 #include "scoped_environment.hpp"
 #include <cstdio>
+#include <string>
 
 scoped_environment::scoped_environment() : scopes_stack({}) {}
 
@@ -16,7 +17,7 @@ AllocaInst *scoped_environment::find(const std::string &name) {
 }
 
 void scoped_environment::add(const std::string &name, AllocaInst *alloc) {
-  std::unordered_map<str, AllocaInst *> &last = scopes_stack.back();
+  std::unordered_map<std::string, AllocaInst *> &last = scopes_stack.back();
   last.insert({name, alloc});
 }
 
