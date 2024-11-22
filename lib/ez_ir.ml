@@ -1,7 +1,7 @@
 [@@@ocaml.warning "-27-30-39-44"]
 
 type ez_type_non_ptr =
-  | Void 
+  | Unit 
   | I64 
   | Str 
   | F64 
@@ -11,7 +11,10 @@ type ez_type =
   | Non_ptr of ez_type_non_ptr
   | Ptr of ez_type
 
+type value_unit = unit
+
 type value =
+  | Unit_val
   | I64_val of int64
   | Str_val of string
   | F64_val of float
@@ -32,20 +35,14 @@ type expr_binary_bin_op =
   | Land 
   | Lor 
 
-type expr_unary_un_op =
-  | Not 
-  | Ref 
-  | Deref 
-
-type expr_assign = {
-  name : string;
+type expr_binary = {
+  op : expr_binary_bin_op;
+  lhs : expr;
   rhs : expr;
 }
 
 and expr_kind =
-  | Assign of expr_assign
   | Binary of expr_binary
-  | Unary of expr_unary
   | Value of value
   | Variable of string
   | Call of expr_call
@@ -55,23 +52,18 @@ and expr = {
   expr_type : ez_type;
 }
 
-and expr_binary = {
-  op : expr_binary_bin_op;
-  lhs : expr;
-  rhs : expr;
-}
-
-and expr_unary = {
-  op : expr_unary_un_op;
-  inner : expr;
-}
-
 and expr_call = {
   callee : string;
   args : expr list;
 }
 
 type statement_declaration = {
+  name : string;
+  type_ : ez_type;
+  rhs : expr;
+}
+
+type statement_assign = {
   name : string;
   rhs : expr;
 }
@@ -87,29 +79,28 @@ and statement =
   | Declaration of statement_declaration
   | If of statement_if
   | Block of statement_block
-  | For of statement_for
+  | While of statement_while
   | Return of expr
+  | Assign of statement_assign
 
 and statement_block = {
   statements : statement list;
 }
 
-and statement_for = {
-  initializer_ : expr;
+and statement_while = {
   condition : expr;
-  increment : expr;
   body : statement;
 }
 
-type definition_ez_typed_arg = {
-  arg_type : ez_type;
+type definition_ez_typed_param = {
+  param_type : ez_type;
   name : string;
 }
 
 type definition = {
   return_type : ez_type;
   name : string;
-  args : definition_ez_typed_arg list;
+  params : definition_ez_typed_param list;
   body : statement;
 }
 
@@ -117,35 +108,17 @@ type program = {
   definitions : definition list;
 }
 
-let rec default_ez_type_non_ptr () = (Void:ez_type_non_ptr)
+let rec default_ez_type_non_ptr () = (Unit:ez_type_non_ptr)
 
 let rec default_ez_type () : ez_type = Non_ptr (default_ez_type_non_ptr ())
 
-let rec default_value () : value = I64_val (0L)
+let rec default_value_unit = ()
+
+let rec default_value (): value = Unit_val
 
 let rec default_expr_binary_bin_op () = (Add:expr_binary_bin_op)
 
-let rec default_expr_unary_un_op () = (Not:expr_unary_un_op)
-
-let rec default_expr_assign 
-  ?name:((name:string) = "")
-  ?rhs:((rhs:expr) = default_expr ())
-  () : expr_assign  = {
-  name;
-  rhs;
-}
-
-and default_expr_kind () : expr_kind = Assign (default_expr_assign ())
-
-and default_expr 
-  ?kind:((kind:expr_kind) = Assign (default_expr_assign ()))
-  ?expr_type:((expr_type:ez_type) = default_ez_type ())
-  () : expr  = {
-  kind;
-  expr_type;
-}
-
-and default_expr_binary 
+let rec default_expr_binary 
   ?op:((op:expr_binary_bin_op) = default_expr_binary_bin_op ())
   ?lhs:((lhs:expr) = default_expr ())
   ?rhs:((rhs:expr) = default_expr ())
@@ -155,12 +128,14 @@ and default_expr_binary
   rhs;
 }
 
-and default_expr_unary 
-  ?op:((op:expr_unary_un_op) = default_expr_unary_un_op ())
-  ?inner:((inner:expr) = default_expr ())
-  () : expr_unary  = {
-  op;
-  inner;
+and default_expr_kind () : expr_kind = Binary (default_expr_binary ())
+
+and default_expr 
+  ?kind:((kind:expr_kind) = Binary (default_expr_binary ()))
+  ?expr_type:((expr_type:ez_type) = default_ez_type ())
+  () : expr  = {
+  kind;
+  expr_type;
 }
 
 and default_expr_call 
@@ -173,8 +148,18 @@ and default_expr_call
 
 let rec default_statement_declaration 
   ?name:((name:string) = "")
+  ?type_:((type_:ez_type) = default_ez_type ())
   ?rhs:((rhs:expr) = default_expr ())
   () : statement_declaration  = {
+  name;
+  type_;
+  rhs;
+}
+
+let rec default_statement_assign 
+  ?name:((name:string) = "")
+  ?rhs:((rhs:expr) = default_expr ())
+  () : statement_assign  = {
   name;
   rhs;
 }
@@ -197,35 +182,31 @@ and default_statement_block
   statements;
 }
 
-and default_statement_for 
-  ?initializer_:((initializer_:expr) = default_expr ())
+and default_statement_while 
   ?condition:((condition:expr) = default_expr ())
-  ?increment:((increment:expr) = default_expr ())
   ?body:((body:statement) = default_statement ())
-  () : statement_for  = {
-  initializer_;
+  () : statement_while  = {
   condition;
-  increment;
   body;
 }
 
-let rec default_definition_ez_typed_arg 
-  ?arg_type:((arg_type:ez_type) = default_ez_type ())
+let rec default_definition_ez_typed_param 
+  ?param_type:((param_type:ez_type) = default_ez_type ())
   ?name:((name:string) = "")
-  () : definition_ez_typed_arg  = {
-  arg_type;
+  () : definition_ez_typed_param  = {
+  param_type;
   name;
 }
 
 let rec default_definition 
   ?return_type:((return_type:ez_type) = default_ez_type ())
   ?name:((name:string) = "")
-  ?args:((args:definition_ez_typed_arg list) = [])
+  ?params:((params:definition_ez_typed_param list) = [])
   ?body:((body:statement) = default_statement ())
   () : definition  = {
   return_type;
   name;
-  args;
+  params;
   body;
 }
 
@@ -233,26 +214,6 @@ let rec default_program
   ?definitions:((definitions:definition list) = [])
   () : program  = {
   definitions;
-}
-
-type expr_assign_mutable = {
-  mutable name : string;
-  mutable rhs : expr;
-}
-
-let default_expr_assign_mutable () : expr_assign_mutable = {
-  name = "";
-  rhs = default_expr ();
-}
-
-type expr_mutable = {
-  mutable kind : expr_kind;
-  mutable expr_type : ez_type;
-}
-
-let default_expr_mutable () : expr_mutable = {
-  kind = Assign (default_expr_assign ());
-  expr_type = default_ez_type ();
 }
 
 type expr_binary_mutable = {
@@ -267,14 +228,14 @@ let default_expr_binary_mutable () : expr_binary_mutable = {
   rhs = default_expr ();
 }
 
-type expr_unary_mutable = {
-  mutable op : expr_unary_un_op;
-  mutable inner : expr;
+type expr_mutable = {
+  mutable kind : expr_kind;
+  mutable expr_type : ez_type;
 }
 
-let default_expr_unary_mutable () : expr_unary_mutable = {
-  op = default_expr_unary_un_op ();
-  inner = default_expr ();
+let default_expr_mutable () : expr_mutable = {
+  kind = Binary (default_expr_binary ());
+  expr_type = default_ez_type ();
 }
 
 type expr_call_mutable = {
@@ -289,10 +250,22 @@ let default_expr_call_mutable () : expr_call_mutable = {
 
 type statement_declaration_mutable = {
   mutable name : string;
+  mutable type_ : ez_type;
   mutable rhs : expr;
 }
 
 let default_statement_declaration_mutable () : statement_declaration_mutable = {
+  name = "";
+  type_ = default_ez_type ();
+  rhs = default_expr ();
+}
+
+type statement_assign_mutable = {
+  mutable name : string;
+  mutable rhs : expr;
+}
+
+let default_statement_assign_mutable () : statement_assign_mutable = {
   name = "";
   rhs = default_expr ();
 }
@@ -317,41 +290,37 @@ let default_statement_block_mutable () : statement_block_mutable = {
   statements = [];
 }
 
-type statement_for_mutable = {
-  mutable initializer_ : expr;
+type statement_while_mutable = {
   mutable condition : expr;
-  mutable increment : expr;
   mutable body : statement;
 }
 
-let default_statement_for_mutable () : statement_for_mutable = {
-  initializer_ = default_expr ();
+let default_statement_while_mutable () : statement_while_mutable = {
   condition = default_expr ();
-  increment = default_expr ();
   body = default_statement ();
 }
 
-type definition_ez_typed_arg_mutable = {
-  mutable arg_type : ez_type;
+type definition_ez_typed_param_mutable = {
+  mutable param_type : ez_type;
   mutable name : string;
 }
 
-let default_definition_ez_typed_arg_mutable () : definition_ez_typed_arg_mutable = {
-  arg_type = default_ez_type ();
+let default_definition_ez_typed_param_mutable () : definition_ez_typed_param_mutable = {
+  param_type = default_ez_type ();
   name = "";
 }
 
 type definition_mutable = {
   mutable return_type : ez_type;
   mutable name : string;
-  mutable args : definition_ez_typed_arg list;
+  mutable params : definition_ez_typed_param list;
   mutable body : statement;
 }
 
 let default_definition_mutable () : definition_mutable = {
   return_type = default_ez_type ();
   name = "";
-  args = [];
+  params = [];
   body = default_statement ();
 }
 
@@ -369,7 +338,7 @@ let default_program_mutable () : program_mutable = {
 
 let rec encode_pb_ez_type_non_ptr (v:ez_type_non_ptr) encoder =
   match v with
-  | Void -> Pbrt.Encoder.int_as_varint (0) encoder
+  | Unit -> Pbrt.Encoder.int_as_varint (0) encoder
   | I64 -> Pbrt.Encoder.int_as_varint 1 encoder
   | Str -> Pbrt.Encoder.int_as_varint 2 encoder
   | F64 -> Pbrt.Encoder.int_as_varint 3 encoder
@@ -385,20 +354,26 @@ let rec encode_pb_ez_type (v:ez_type) encoder =
     Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   end
 
+let rec encode_pb_value_unit (v:value_unit) encoder = 
+()
+
 let rec encode_pb_value (v:value) encoder = 
   begin match v with
+  | Unit_val ->
+    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+    Pbrt.Encoder.empty_nested encoder
   | I64_val x ->
     Pbrt.Encoder.int64_as_varint x encoder;
-    Pbrt.Encoder.key 1 Pbrt.Varint encoder; 
+    Pbrt.Encoder.key 2 Pbrt.Varint encoder; 
   | Str_val x ->
     Pbrt.Encoder.string x encoder;
-    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
   | F64_val x ->
     Pbrt.Encoder.float_as_bits64 x encoder;
-    Pbrt.Encoder.key 3 Pbrt.Bits64 encoder; 
+    Pbrt.Encoder.key 4 Pbrt.Bits64 encoder; 
   | Bool_val x ->
     Pbrt.Encoder.bool x encoder;
-    Pbrt.Encoder.key 4 Pbrt.Varint encoder; 
+    Pbrt.Encoder.key 5 Pbrt.Varint encoder; 
   end
 
 let rec encode_pb_expr_binary_bin_op (v:expr_binary_bin_op) encoder =
@@ -417,67 +392,7 @@ let rec encode_pb_expr_binary_bin_op (v:expr_binary_bin_op) encoder =
   | Land -> Pbrt.Encoder.int_as_varint 11 encoder
   | Lor -> Pbrt.Encoder.int_as_varint 12 encoder
 
-let rec encode_pb_expr_unary_un_op (v:expr_unary_un_op) encoder =
-  match v with
-  | Not -> Pbrt.Encoder.int_as_varint (0) encoder
-  | Ref -> Pbrt.Encoder.int_as_varint 1 encoder
-  | Deref -> Pbrt.Encoder.int_as_varint 2 encoder
-
-let rec encode_pb_expr_assign (v:expr_assign) encoder = 
-  Pbrt.Encoder.string v.name encoder;
-  Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
-  Pbrt.Encoder.nested encode_pb_expr v.rhs encoder;
-  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
-  ()
-
-and encode_pb_expr_kind (v:expr_kind) encoder = 
-  begin match v with
-  | Assign x ->
-    Pbrt.Encoder.nested encode_pb_expr_assign x encoder;
-    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
-  | Binary x ->
-    Pbrt.Encoder.nested encode_pb_expr_binary x encoder;
-    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
-  | Unary x ->
-    Pbrt.Encoder.nested encode_pb_expr_unary x encoder;
-    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
-  | Value x ->
-    Pbrt.Encoder.nested encode_pb_value x encoder;
-    Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
-  | Variable x ->
-    Pbrt.Encoder.string x encoder;
-    Pbrt.Encoder.key 5 Pbrt.Bytes encoder; 
-  | Call x ->
-    Pbrt.Encoder.nested encode_pb_expr_call x encoder;
-    Pbrt.Encoder.key 6 Pbrt.Bytes encoder; 
-  end
-
-and encode_pb_expr (v:expr) encoder = 
-  begin match v.kind with
-  | Assign x ->
-    Pbrt.Encoder.nested encode_pb_expr_assign x encoder;
-    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
-  | Binary x ->
-    Pbrt.Encoder.nested encode_pb_expr_binary x encoder;
-    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
-  | Unary x ->
-    Pbrt.Encoder.nested encode_pb_expr_unary x encoder;
-    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
-  | Value x ->
-    Pbrt.Encoder.nested encode_pb_value x encoder;
-    Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
-  | Variable x ->
-    Pbrt.Encoder.string x encoder;
-    Pbrt.Encoder.key 5 Pbrt.Bytes encoder; 
-  | Call x ->
-    Pbrt.Encoder.nested encode_pb_expr_call x encoder;
-    Pbrt.Encoder.key 6 Pbrt.Bytes encoder; 
-  end;
-  Pbrt.Encoder.nested encode_pb_ez_type v.expr_type encoder;
-  Pbrt.Encoder.key 7 Pbrt.Bytes encoder; 
-  ()
-
-and encode_pb_expr_binary (v:expr_binary) encoder = 
+let rec encode_pb_expr_binary (v:expr_binary) encoder = 
   encode_pb_expr_binary_bin_op v.op encoder;
   Pbrt.Encoder.key 1 Pbrt.Varint encoder; 
   Pbrt.Encoder.nested encode_pb_expr v.lhs encoder;
@@ -486,11 +401,39 @@ and encode_pb_expr_binary (v:expr_binary) encoder =
   Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
   ()
 
-and encode_pb_expr_unary (v:expr_unary) encoder = 
-  encode_pb_expr_unary_un_op v.op encoder;
-  Pbrt.Encoder.key 1 Pbrt.Varint encoder; 
-  Pbrt.Encoder.nested encode_pb_expr v.inner encoder;
-  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+and encode_pb_expr_kind (v:expr_kind) encoder = 
+  begin match v with
+  | Binary x ->
+    Pbrt.Encoder.nested encode_pb_expr_binary x encoder;
+    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+  | Value x ->
+    Pbrt.Encoder.nested encode_pb_value x encoder;
+    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+  | Variable x ->
+    Pbrt.Encoder.string x encoder;
+    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
+  | Call x ->
+    Pbrt.Encoder.nested encode_pb_expr_call x encoder;
+    Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
+  end
+
+and encode_pb_expr (v:expr) encoder = 
+  begin match v.kind with
+  | Binary x ->
+    Pbrt.Encoder.nested encode_pb_expr_binary x encoder;
+    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+  | Value x ->
+    Pbrt.Encoder.nested encode_pb_value x encoder;
+    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+  | Variable x ->
+    Pbrt.Encoder.string x encoder;
+    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
+  | Call x ->
+    Pbrt.Encoder.nested encode_pb_expr_call x encoder;
+    Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
+  end;
+  Pbrt.Encoder.nested encode_pb_ez_type v.expr_type encoder;
+  Pbrt.Encoder.key 7 Pbrt.Bytes encoder; 
   ()
 
 and encode_pb_expr_call (v:expr_call) encoder = 
@@ -503,6 +446,15 @@ and encode_pb_expr_call (v:expr_call) encoder =
   ()
 
 let rec encode_pb_statement_declaration (v:statement_declaration) encoder = 
+  Pbrt.Encoder.string v.name encoder;
+  Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+  Pbrt.Encoder.nested encode_pb_ez_type v.type_ encoder;
+  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+  Pbrt.Encoder.nested encode_pb_expr v.rhs encoder;
+  Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
+  ()
+
+let rec encode_pb_statement_assign (v:statement_assign) encoder = 
   Pbrt.Encoder.string v.name encoder;
   Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
   Pbrt.Encoder.nested encode_pb_expr v.rhs encoder;
@@ -532,12 +484,15 @@ and encode_pb_statement (v:statement) encoder =
   | Block x ->
     Pbrt.Encoder.nested encode_pb_statement_block x encoder;
     Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
-  | For x ->
-    Pbrt.Encoder.nested encode_pb_statement_for x encoder;
+  | While x ->
+    Pbrt.Encoder.nested encode_pb_statement_while x encoder;
     Pbrt.Encoder.key 5 Pbrt.Bytes encoder; 
   | Return x ->
     Pbrt.Encoder.nested encode_pb_expr x encoder;
     Pbrt.Encoder.key 6 Pbrt.Bytes encoder; 
+  | Assign x ->
+    Pbrt.Encoder.nested encode_pb_statement_assign x encoder;
+    Pbrt.Encoder.key 7 Pbrt.Bytes encoder; 
   end
 
 and encode_pb_statement_block (v:statement_block) encoder = 
@@ -547,19 +502,15 @@ and encode_pb_statement_block (v:statement_block) encoder =
   ) v.statements encoder;
   ()
 
-and encode_pb_statement_for (v:statement_for) encoder = 
-  Pbrt.Encoder.nested encode_pb_expr v.initializer_ encoder;
-  Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+and encode_pb_statement_while (v:statement_while) encoder = 
   Pbrt.Encoder.nested encode_pb_expr v.condition encoder;
-  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
-  Pbrt.Encoder.nested encode_pb_expr v.increment encoder;
-  Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
+  Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
   Pbrt.Encoder.nested encode_pb_statement v.body encoder;
-  Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
+  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   ()
 
-let rec encode_pb_definition_ez_typed_arg (v:definition_ez_typed_arg) encoder = 
-  Pbrt.Encoder.nested encode_pb_ez_type v.arg_type encoder;
+let rec encode_pb_definition_ez_typed_param (v:definition_ez_typed_param) encoder = 
+  Pbrt.Encoder.nested encode_pb_ez_type v.param_type encoder;
   Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
   Pbrt.Encoder.string v.name encoder;
   Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
@@ -571,9 +522,9 @@ let rec encode_pb_definition (v:definition) encoder =
   Pbrt.Encoder.string v.name encoder;
   Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   Pbrt.List_util.rev_iter_with (fun x encoder -> 
-    Pbrt.Encoder.nested encode_pb_definition_ez_typed_arg x encoder;
+    Pbrt.Encoder.nested encode_pb_definition_ez_typed_param x encoder;
     Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
-  ) v.args encoder;
+  ) v.params encoder;
   Pbrt.Encoder.nested encode_pb_statement v.body encoder;
   Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
   ()
@@ -591,7 +542,7 @@ let rec encode_pb_program (v:program) encoder =
 
 let rec decode_pb_ez_type_non_ptr d = 
   match Pbrt.Decoder.int_as_varint d with
-  | 0 -> (Void:ez_type_non_ptr)
+  | 0 -> (Unit:ez_type_non_ptr)
   | 1 -> (I64:ez_type_non_ptr)
   | 2 -> (Str:ez_type_non_ptr)
   | 3 -> (F64:ez_type_non_ptr)
@@ -613,14 +564,24 @@ let rec decode_pb_ez_type d =
   in
   loop ()
 
+let rec decode_pb_value_unit d =
+  match Pbrt.Decoder.key d with
+  | None -> ();
+  | Some (_, pk) -> 
+    Pbrt.Decoder.unexpected_payload "Unexpected fields in empty message(value_unit)" pk
+
 let rec decode_pb_value d = 
   let rec loop () = 
     let ret:value = match Pbrt.Decoder.key d with
       | None -> Pbrt.Decoder.malformed_variant "value"
-      | Some (1, _) -> (I64_val (Pbrt.Decoder.int64_as_varint d) : value) 
-      | Some (2, _) -> (Str_val (Pbrt.Decoder.string d) : value) 
-      | Some (3, _) -> (F64_val (Pbrt.Decoder.float_as_bits64 d) : value) 
-      | Some (4, _) -> (Bool_val (Pbrt.Decoder.bool d) : value) 
+      | Some (1, _) -> begin 
+        Pbrt.Decoder.empty_nested d ;
+        (Unit_val : value)
+      end
+      | Some (2, _) -> (I64_val (Pbrt.Decoder.int64_as_varint d) : value) 
+      | Some (3, _) -> (Str_val (Pbrt.Decoder.string d) : value) 
+      | Some (4, _) -> (F64_val (Pbrt.Decoder.float_as_bits64 d) : value) 
+      | Some (5, _) -> (Bool_val (Pbrt.Decoder.bool d) : value) 
       | Some (n, payload_kind) -> (
         Pbrt.Decoder.skip d payload_kind; 
         loop () 
@@ -647,112 +608,7 @@ let rec decode_pb_expr_binary_bin_op d =
   | 12 -> (Lor:expr_binary_bin_op)
   | _ -> Pbrt.Decoder.malformed_variant "expr_binary_bin_op"
 
-let rec decode_pb_expr_unary_un_op d = 
-  match Pbrt.Decoder.int_as_varint d with
-  | 0 -> (Not:expr_unary_un_op)
-  | 1 -> (Ref:expr_unary_un_op)
-  | 2 -> (Deref:expr_unary_un_op)
-  | _ -> Pbrt.Decoder.malformed_variant "expr_unary_un_op"
-
-let rec decode_pb_expr_assign d =
-  let v = default_expr_assign_mutable () in
-  let continue__= ref true in
-  let rhs_is_set = ref false in
-  let name_is_set = ref false in
-  while !continue__ do
-    match Pbrt.Decoder.key d with
-    | None -> (
-    ); continue__ := false
-    | Some (1, Pbrt.Bytes) -> begin
-      v.name <- Pbrt.Decoder.string d; name_is_set := true;
-    end
-    | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr_assign), field(1)" pk
-    | Some (2, Pbrt.Bytes) -> begin
-      v.rhs <- decode_pb_expr (Pbrt.Decoder.nested d); rhs_is_set := true;
-    end
-    | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr_assign), field(2)" pk
-    | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
-  done;
-  begin if not !rhs_is_set then Pbrt.Decoder.missing_field "rhs" end;
-  begin if not !name_is_set then Pbrt.Decoder.missing_field "name" end;
-  ({
-    name = v.name;
-    rhs = v.rhs;
-  } : expr_assign)
-
-and decode_pb_expr_kind d = 
-  let rec loop () = 
-    let ret:expr_kind = match Pbrt.Decoder.key d with
-      | None -> Pbrt.Decoder.malformed_variant "expr_kind"
-      | Some (1, _) -> (Assign (decode_pb_expr_assign (Pbrt.Decoder.nested d)) : expr_kind) 
-      | Some (2, _) -> (Binary (decode_pb_expr_binary (Pbrt.Decoder.nested d)) : expr_kind) 
-      | Some (3, _) -> (Unary (decode_pb_expr_unary (Pbrt.Decoder.nested d)) : expr_kind) 
-      | Some (4, _) -> (Value (decode_pb_value (Pbrt.Decoder.nested d)) : expr_kind) 
-      | Some (5, _) -> (Variable (Pbrt.Decoder.string d) : expr_kind) 
-      | Some (6, _) -> (Call (decode_pb_expr_call (Pbrt.Decoder.nested d)) : expr_kind) 
-      | Some (n, payload_kind) -> (
-        Pbrt.Decoder.skip d payload_kind; 
-        loop () 
-      )
-    in
-    ret
-  in
-  loop ()
-
-and decode_pb_expr d =
-  let v = default_expr_mutable () in
-  let continue__= ref true in
-  let expr_type_is_set = ref false in
-  while !continue__ do
-    match Pbrt.Decoder.key d with
-    | None -> (
-    ); continue__ := false
-    | Some (1, Pbrt.Bytes) -> begin
-      v.kind <- Assign (decode_pb_expr_assign (Pbrt.Decoder.nested d));
-    end
-    | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(1)" pk
-    | Some (2, Pbrt.Bytes) -> begin
-      v.kind <- Binary (decode_pb_expr_binary (Pbrt.Decoder.nested d));
-    end
-    | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(2)" pk
-    | Some (3, Pbrt.Bytes) -> begin
-      v.kind <- Unary (decode_pb_expr_unary (Pbrt.Decoder.nested d));
-    end
-    | Some (3, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(3)" pk
-    | Some (4, Pbrt.Bytes) -> begin
-      v.kind <- Value (decode_pb_value (Pbrt.Decoder.nested d));
-    end
-    | Some (4, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(4)" pk
-    | Some (5, Pbrt.Bytes) -> begin
-      v.kind <- Variable (Pbrt.Decoder.string d);
-    end
-    | Some (5, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(5)" pk
-    | Some (6, Pbrt.Bytes) -> begin
-      v.kind <- Call (decode_pb_expr_call (Pbrt.Decoder.nested d));
-    end
-    | Some (6, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(6)" pk
-    | Some (7, Pbrt.Bytes) -> begin
-      v.expr_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); expr_type_is_set := true;
-    end
-    | Some (7, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr), field(7)" pk
-    | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
-  done;
-  begin if not !expr_type_is_set then Pbrt.Decoder.missing_field "expr_type" end;
-  ({
-    kind = v.kind;
-    expr_type = v.expr_type;
-  } : expr)
-
-and decode_pb_expr_binary d =
+let rec decode_pb_expr_binary d =
   let v = default_expr_binary_mutable () in
   let continue__= ref true in
   let rhs_is_set = ref false in
@@ -788,33 +644,63 @@ and decode_pb_expr_binary d =
     rhs = v.rhs;
   } : expr_binary)
 
-and decode_pb_expr_unary d =
-  let v = default_expr_unary_mutable () in
+and decode_pb_expr_kind d = 
+  let rec loop () = 
+    let ret:expr_kind = match Pbrt.Decoder.key d with
+      | None -> Pbrt.Decoder.malformed_variant "expr_kind"
+      | Some (1, _) -> (Binary (decode_pb_expr_binary (Pbrt.Decoder.nested d)) : expr_kind) 
+      | Some (2, _) -> (Value (decode_pb_value (Pbrt.Decoder.nested d)) : expr_kind) 
+      | Some (3, _) -> (Variable (Pbrt.Decoder.string d) : expr_kind) 
+      | Some (4, _) -> (Call (decode_pb_expr_call (Pbrt.Decoder.nested d)) : expr_kind) 
+      | Some (n, payload_kind) -> (
+        Pbrt.Decoder.skip d payload_kind; 
+        loop () 
+      )
+    in
+    ret
+  in
+  loop ()
+
+and decode_pb_expr d =
+  let v = default_expr_mutable () in
   let continue__= ref true in
-  let inner_is_set = ref false in
-  let op_is_set = ref false in
+  let expr_type_is_set = ref false in
   while !continue__ do
     match Pbrt.Decoder.key d with
     | None -> (
     ); continue__ := false
-    | Some (1, Pbrt.Varint) -> begin
-      v.op <- decode_pb_expr_unary_un_op d; op_is_set := true;
+    | Some (1, Pbrt.Bytes) -> begin
+      v.kind <- Binary (decode_pb_expr_binary (Pbrt.Decoder.nested d));
     end
     | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr_unary), field(1)" pk
+      Pbrt.Decoder.unexpected_payload "Message(expr), field(1)" pk
     | Some (2, Pbrt.Bytes) -> begin
-      v.inner <- decode_pb_expr (Pbrt.Decoder.nested d); inner_is_set := true;
+      v.kind <- Value (decode_pb_value (Pbrt.Decoder.nested d));
     end
     | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(expr_unary), field(2)" pk
+      Pbrt.Decoder.unexpected_payload "Message(expr), field(2)" pk
+    | Some (3, Pbrt.Bytes) -> begin
+      v.kind <- Variable (Pbrt.Decoder.string d);
+    end
+    | Some (3, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(expr), field(3)" pk
+    | Some (4, Pbrt.Bytes) -> begin
+      v.kind <- Call (decode_pb_expr_call (Pbrt.Decoder.nested d));
+    end
+    | Some (4, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(expr), field(4)" pk
+    | Some (7, Pbrt.Bytes) -> begin
+      v.expr_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); expr_type_is_set := true;
+    end
+    | Some (7, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(expr), field(7)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
-  begin if not !inner_is_set then Pbrt.Decoder.missing_field "inner" end;
-  begin if not !op_is_set then Pbrt.Decoder.missing_field "op" end;
+  begin if not !expr_type_is_set then Pbrt.Decoder.missing_field "expr_type" end;
   ({
-    op = v.op;
-    inner = v.inner;
-  } : expr_unary)
+    kind = v.kind;
+    expr_type = v.expr_type;
+  } : expr)
 
 and decode_pb_expr_call d =
   let v = default_expr_call_mutable () in
@@ -847,6 +733,7 @@ let rec decode_pb_statement_declaration d =
   let v = default_statement_declaration_mutable () in
   let continue__= ref true in
   let rhs_is_set = ref false in
+  let type__is_set = ref false in
   let name_is_set = ref false in
   while !continue__ do
     match Pbrt.Decoder.key d with
@@ -858,10 +745,45 @@ let rec decode_pb_statement_declaration d =
     | Some (1, pk) -> 
       Pbrt.Decoder.unexpected_payload "Message(statement_declaration), field(1)" pk
     | Some (2, Pbrt.Bytes) -> begin
-      v.rhs <- decode_pb_expr (Pbrt.Decoder.nested d); rhs_is_set := true;
+      v.type_ <- decode_pb_ez_type (Pbrt.Decoder.nested d); type__is_set := true;
     end
     | Some (2, pk) -> 
       Pbrt.Decoder.unexpected_payload "Message(statement_declaration), field(2)" pk
+    | Some (3, Pbrt.Bytes) -> begin
+      v.rhs <- decode_pb_expr (Pbrt.Decoder.nested d); rhs_is_set := true;
+    end
+    | Some (3, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(statement_declaration), field(3)" pk
+    | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
+  done;
+  begin if not !rhs_is_set then Pbrt.Decoder.missing_field "rhs" end;
+  begin if not !type__is_set then Pbrt.Decoder.missing_field "type_" end;
+  begin if not !name_is_set then Pbrt.Decoder.missing_field "name" end;
+  ({
+    name = v.name;
+    type_ = v.type_;
+    rhs = v.rhs;
+  } : statement_declaration)
+
+let rec decode_pb_statement_assign d =
+  let v = default_statement_assign_mutable () in
+  let continue__= ref true in
+  let rhs_is_set = ref false in
+  let name_is_set = ref false in
+  while !continue__ do
+    match Pbrt.Decoder.key d with
+    | None -> (
+    ); continue__ := false
+    | Some (1, Pbrt.Bytes) -> begin
+      v.name <- Pbrt.Decoder.string d; name_is_set := true;
+    end
+    | Some (1, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(statement_assign), field(1)" pk
+    | Some (2, Pbrt.Bytes) -> begin
+      v.rhs <- decode_pb_expr (Pbrt.Decoder.nested d); rhs_is_set := true;
+    end
+    | Some (2, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(statement_assign), field(2)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
   begin if not !rhs_is_set then Pbrt.Decoder.missing_field "rhs" end;
@@ -869,7 +791,7 @@ let rec decode_pb_statement_declaration d =
   ({
     name = v.name;
     rhs = v.rhs;
-  } : statement_declaration)
+  } : statement_assign)
 
 let rec decode_pb_statement_if d =
   let v = default_statement_if_mutable () in
@@ -915,8 +837,9 @@ and decode_pb_statement d =
       | Some (2, _) -> (Declaration (decode_pb_statement_declaration (Pbrt.Decoder.nested d)) : statement) 
       | Some (3, _) -> (If (decode_pb_statement_if (Pbrt.Decoder.nested d)) : statement) 
       | Some (4, _) -> (Block (decode_pb_statement_block (Pbrt.Decoder.nested d)) : statement) 
-      | Some (5, _) -> (For (decode_pb_statement_for (Pbrt.Decoder.nested d)) : statement) 
+      | Some (5, _) -> (While (decode_pb_statement_while (Pbrt.Decoder.nested d)) : statement) 
       | Some (6, _) -> (Return (decode_pb_expr (Pbrt.Decoder.nested d)) : statement) 
+      | Some (7, _) -> (Assign (decode_pb_statement_assign (Pbrt.Decoder.nested d)) : statement) 
       | Some (n, payload_kind) -> (
         Pbrt.Decoder.skip d payload_kind; 
         loop () 
@@ -945,77 +868,61 @@ and decode_pb_statement_block d =
     statements = v.statements;
   } : statement_block)
 
-and decode_pb_statement_for d =
-  let v = default_statement_for_mutable () in
+and decode_pb_statement_while d =
+  let v = default_statement_while_mutable () in
   let continue__= ref true in
   let body_is_set = ref false in
-  let increment_is_set = ref false in
   let condition_is_set = ref false in
-  let initializer__is_set = ref false in
   while !continue__ do
     match Pbrt.Decoder.key d with
     | None -> (
     ); continue__ := false
     | Some (1, Pbrt.Bytes) -> begin
-      v.initializer_ <- decode_pb_expr (Pbrt.Decoder.nested d); initializer__is_set := true;
-    end
-    | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(statement_for), field(1)" pk
-    | Some (2, Pbrt.Bytes) -> begin
       v.condition <- decode_pb_expr (Pbrt.Decoder.nested d); condition_is_set := true;
     end
-    | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(statement_for), field(2)" pk
-    | Some (3, Pbrt.Bytes) -> begin
-      v.increment <- decode_pb_expr (Pbrt.Decoder.nested d); increment_is_set := true;
-    end
-    | Some (3, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(statement_for), field(3)" pk
-    | Some (4, Pbrt.Bytes) -> begin
+    | Some (1, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(statement_while), field(1)" pk
+    | Some (2, Pbrt.Bytes) -> begin
       v.body <- decode_pb_statement (Pbrt.Decoder.nested d); body_is_set := true;
     end
-    | Some (4, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(statement_for), field(4)" pk
+    | Some (2, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(statement_while), field(2)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
   begin if not !body_is_set then Pbrt.Decoder.missing_field "body" end;
-  begin if not !increment_is_set then Pbrt.Decoder.missing_field "increment" end;
   begin if not !condition_is_set then Pbrt.Decoder.missing_field "condition" end;
-  begin if not !initializer__is_set then Pbrt.Decoder.missing_field "initializer_" end;
   ({
-    initializer_ = v.initializer_;
     condition = v.condition;
-    increment = v.increment;
     body = v.body;
-  } : statement_for)
+  } : statement_while)
 
-let rec decode_pb_definition_ez_typed_arg d =
-  let v = default_definition_ez_typed_arg_mutable () in
+let rec decode_pb_definition_ez_typed_param d =
+  let v = default_definition_ez_typed_param_mutable () in
   let continue__= ref true in
   let name_is_set = ref false in
-  let arg_type_is_set = ref false in
+  let param_type_is_set = ref false in
   while !continue__ do
     match Pbrt.Decoder.key d with
     | None -> (
     ); continue__ := false
     | Some (1, Pbrt.Bytes) -> begin
-      v.arg_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); arg_type_is_set := true;
+      v.param_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); param_type_is_set := true;
     end
     | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_arg), field(1)" pk
+      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_param), field(1)" pk
     | Some (2, Pbrt.Bytes) -> begin
       v.name <- Pbrt.Decoder.string d; name_is_set := true;
     end
     | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_arg), field(2)" pk
+      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_param), field(2)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
   begin if not !name_is_set then Pbrt.Decoder.missing_field "name" end;
-  begin if not !arg_type_is_set then Pbrt.Decoder.missing_field "arg_type" end;
+  begin if not !param_type_is_set then Pbrt.Decoder.missing_field "param_type" end;
   ({
-    arg_type = v.arg_type;
+    param_type = v.param_type;
     name = v.name;
-  } : definition_ez_typed_arg)
+  } : definition_ez_typed_param)
 
 let rec decode_pb_definition d =
   let v = default_definition_mutable () in
@@ -1026,7 +933,7 @@ let rec decode_pb_definition d =
   while !continue__ do
     match Pbrt.Decoder.key d with
     | None -> (
-      v.args <- List.rev v.args;
+      v.params <- List.rev v.params;
     ); continue__ := false
     | Some (1, Pbrt.Bytes) -> begin
       v.return_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); return_type_is_set := true;
@@ -1039,7 +946,7 @@ let rec decode_pb_definition d =
     | Some (2, pk) -> 
       Pbrt.Decoder.unexpected_payload "Message(definition), field(2)" pk
     | Some (3, Pbrt.Bytes) -> begin
-      v.args <- (decode_pb_definition_ez_typed_arg (Pbrt.Decoder.nested d)) :: v.args;
+      v.params <- (decode_pb_definition_ez_typed_param (Pbrt.Decoder.nested d)) :: v.params;
     end
     | Some (3, pk) -> 
       Pbrt.Decoder.unexpected_payload "Message(definition), field(3)" pk
@@ -1056,7 +963,7 @@ let rec decode_pb_definition d =
   ({
     return_type = v.return_type;
     name = v.name;
-    args = v.args;
+    params = v.params;
     body = v.body;
   } : definition)
 

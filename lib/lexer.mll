@@ -33,44 +33,42 @@ rule next_token = parse
   | int_constant { INT (Int64.of_string (Lexing.lexeme lexbuf)) }
   | float_constant { F64 (float_of_string (Lexing.lexeme lexbuf)) }
   (* binary operators *)
+  | "()" { UNIT }
+  | "==" { EQ }
+  | "!=" { NEQ }
+  | "<=" { LE }
+  | ">=" { GE }
   | ";" { SEMICOL }
+  | ":" { COLON }
   | "," { COMMA }
   | "{" { LBRACE }
   | "}" { RBRACE }
   | "(" { LPAREN }
   | ")" { RPAREN }
-  | "==" { EQ }
-  | "!=" { NEQ }
-  | "<=" { LE }
+  | "[" { LBKT }
+  | "]" { RBKT }
   | "<" { LT }
-  | ">=" { GE }
   | ">" { GT }
   | "+" { ADD }
   | "-" { SUB }
   | "*" { MUL }
   | "/" { DIV }
-  | "and" { AND }
-  | "or" { OR }
-  | "not" { NOT }
   | "=" { ASSIGN }
 
-  (* preserved words *)
-  | "if" { IF }
-  | "else" { ELSE }
-  | "when" { WHEN }
-  | "while" { WHILE }
-  | "for" { FOR }
   | "return" { RETURN }
-
-  | "true" { TRUE }
+  | "string" { STR_T }
   | "false" { FALSE }
-
-  (* primitive types *)
-   | "void" { VOID_T }
-   | "int" { INT_T }
-   | "string" { STR_T }
-   | "float" { FLOAT_T }
-   | "bool" { BOOL_T }
+  | "while" { WHILE }
+  | "bool" { BOOL_T }
+  | "else" { ELSE }
+  | "true" { TRUE }
+  | "unit" { UNIT_T }
+  | "f64" { FLOAT_T }
+  | "i64" { INT_T }
+  | "and" { AND }
+  | "ptr" { PTR_T }
+  | "if" { IF }
+  | "or" { OR }
 
   (*This is for disambiguiate, as we allow arbitrary sequence of expressions, and
     `ID (..)` is a tuple followed by an ID, while `ID(..)` is a call *)

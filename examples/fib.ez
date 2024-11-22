@@ -1,4 +1,4 @@
-int fib(int n) {
+i64 fib(i64 n) {
   if(n == 0) {
     return 0;
   } else if (n == 1) {
@@ -8,6 +8,6 @@ int fib(int n) {
   }
 }
 
-int main() {
+i64 main() {
   return fib(7);
 }

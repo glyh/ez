@@ -20,6 +20,7 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/arena.h"
 #include "google/protobuf/arenastring.h"
+#include "google/protobuf/generated_message_bases.h"
 #include "google/protobuf/generated_message_tctable_decl.h"
 #include "google/protobuf/generated_message_util.h"
 #include "google/protobuf/metadata_lite.h"
@@ -54,24 +55,18 @@ namespace ez_proto {
 class Definition;
 struct DefinitionDefaultTypeInternal;
 extern DefinitionDefaultTypeInternal _Definition_default_instance_;
-class Definition_EzTypedArg;
-struct Definition_EzTypedArgDefaultTypeInternal;
-extern Definition_EzTypedArgDefaultTypeInternal _Definition_EzTypedArg_default_instance_;
+class Definition_EzTypedParam;
+struct Definition_EzTypedParamDefaultTypeInternal;
+extern Definition_EzTypedParamDefaultTypeInternal _Definition_EzTypedParam_default_instance_;
 class Expr;
 struct ExprDefaultTypeInternal;
 extern ExprDefaultTypeInternal _Expr_default_instance_;
-class Expr_Assign;
-struct Expr_AssignDefaultTypeInternal;
-extern Expr_AssignDefaultTypeInternal _Expr_Assign_default_instance_;
 class Expr_Binary;
 struct Expr_BinaryDefaultTypeInternal;
 extern Expr_BinaryDefaultTypeInternal _Expr_Binary_default_instance_;
 class Expr_Call;
 struct Expr_CallDefaultTypeInternal;
 extern Expr_CallDefaultTypeInternal _Expr_Call_default_instance_;
-class Expr_Unary;
-struct Expr_UnaryDefaultTypeInternal;
-extern Expr_UnaryDefaultTypeInternal _Expr_Unary_default_instance_;
 class EzType;
 struct EzTypeDefaultTypeInternal;
 extern EzTypeDefaultTypeInternal _EzType_default_instance_;
@@ -81,21 +76,27 @@ extern ProgramDefaultTypeInternal _Program_default_instance_;
 class Statement;
 struct StatementDefaultTypeInternal;
 extern StatementDefaultTypeInternal _Statement_default_instance_;
+class Statement_Assign;
+struct Statement_AssignDefaultTypeInternal;
+extern Statement_AssignDefaultTypeInternal _Statement_Assign_default_instance_;
 class Statement_Block;
 struct Statement_BlockDefaultTypeInternal;
 extern Statement_BlockDefaultTypeInternal _Statement_Block_default_instance_;
 class Statement_Declaration;
 struct Statement_DeclarationDefaultTypeInternal;
 extern Statement_DeclarationDefaultTypeInternal _Statement_Declaration_default_instance_;
-class Statement_For;
-struct Statement_ForDefaultTypeInternal;
-extern Statement_ForDefaultTypeInternal _Statement_For_default_instance_;
 class Statement_If;
 struct Statement_IfDefaultTypeInternal;
 extern Statement_IfDefaultTypeInternal _Statement_If_default_instance_;
+class Statement_While;
+struct Statement_WhileDefaultTypeInternal;
+extern Statement_WhileDefaultTypeInternal _Statement_While_default_instance_;
 class Value;
 struct ValueDefaultTypeInternal;
 extern ValueDefaultTypeInternal _Value_default_instance_;
+class Value_Unit;
+struct Value_UnitDefaultTypeInternal;
+extern Value_UnitDefaultTypeInternal _Value_Unit_default_instance_;
 }  // namespace ez_proto
 namespace google {
 namespace protobuf {
@@ -104,7 +105,7 @@ namespace protobuf {
 
 namespace ez_proto {
 enum EzType_NonPtr : int {
-  EzType_NonPtr_VOID = 0,
+  EzType_NonPtr_UNIT = 0,
   EzType_NonPtr_I64 = 1,
   EzType_NonPtr_STR = 2,
   EzType_NonPtr_F64 = 3,
@@ -175,59 +176,28 @@ inline bool Expr_Binary_BinOp_Parse(absl::string_view name, Expr_Binary_BinOp* v
   return ::google::protobuf::internal::ParseNamedEnum<Expr_Binary_BinOp>(
       Expr_Binary_BinOp_descriptor(), name, value);
 }
-enum Expr_Unary_UnOp : int {
-  Expr_Unary_UnOp_NOT = 0,
-  Expr_Unary_UnOp_REF = 1,
-  Expr_Unary_UnOp_DEREF = 2,
-};
-
-bool Expr_Unary_UnOp_IsValid(int value);
-extern const uint32_t Expr_Unary_UnOp_internal_data_[];
-constexpr Expr_Unary_UnOp Expr_Unary_UnOp_UnOp_MIN = static_cast<Expr_Unary_UnOp>(0);
-constexpr Expr_Unary_UnOp Expr_Unary_UnOp_UnOp_MAX = static_cast<Expr_Unary_UnOp>(2);
-constexpr int Expr_Unary_UnOp_UnOp_ARRAYSIZE = 2 + 1;
-const ::google::protobuf::EnumDescriptor*
-Expr_Unary_UnOp_descriptor();
-template <typename T>
-const std::string& Expr_Unary_UnOp_Name(T value) {
-  static_assert(std::is_same<T, Expr_Unary_UnOp>::value ||
-                    std::is_integral<T>::value,
-                "Incorrect type passed to UnOp_Name().");
-  return Expr_Unary_UnOp_Name(static_cast<Expr_Unary_UnOp>(value));
-}
-template <>
-inline const std::string& Expr_Unary_UnOp_Name(Expr_Unary_UnOp value) {
-  return ::google::protobuf::internal::NameOfDenseEnum<Expr_Unary_UnOp_descriptor,
-                                                 0, 2>(
-      static_cast<int>(value));
-}
-inline bool Expr_Unary_UnOp_Parse(absl::string_view name, Expr_Unary_UnOp* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Expr_Unary_UnOp>(
-      Expr_Unary_UnOp_descriptor(), name, value);
-}
 
 // ===================================================================
 
 
 // -------------------------------------------------------------------
 
-class Value final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ez_proto.Value) */ {
+class Value_Unit final : public ::google::protobuf::internal::ZeroFieldsBase
+/* @@protoc_insertion_point(class_definition:ez_proto.Value.Unit) */ {
  public:
-  inline Value() : Value(nullptr) {}
-  ~Value() PROTOBUF_FINAL;
+  inline Value_Unit() : Value_Unit(nullptr) {}
   template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Value(
+  explicit PROTOBUF_CONSTEXPR Value_Unit(
       ::google::protobuf::internal::ConstantInitialized);
 
-  inline Value(const Value& from) : Value(nullptr, from) {}
-  inline Value(Value&& from) noexcept
-      : Value(nullptr, std::move(from)) {}
-  inline Value& operator=(const Value& from) {
+  inline Value_Unit(const Value_Unit& from) : Value_Unit(nullptr, from) {}
+  inline Value_Unit(Value_Unit&& from) noexcept
+      : Value_Unit(nullptr, std::move(from)) {}
+  inline Value_Unit& operator=(const Value_Unit& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Value& operator=(Value&& from) noexcept {
+  inline Value_Unit& operator=(Value_Unit&& from) noexcept {
     if (this == &from) return *this;
     if (GetArena() == from.GetArena()
 #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -259,23 +229,16 @@ class Value final : public ::google::protobuf::Message
   static const ::google::protobuf::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const Value& default_instance() {
+  static const Value_Unit& default_instance() {
     return *internal_default_instance();
   }
-  enum KindCase {
-    kI64Val = 1,
-    kStrVal = 2,
-    kF64Val = 3,
-    kBoolVal = 4,
-    KIND_NOT_SET = 0,
-  };
-  static inline const Value* internal_default_instance() {
-    return reinterpret_cast<const Value*>(
-        &_Value_default_instance_);
+  static inline const Value_Unit* internal_default_instance() {
+    return reinterpret_cast<const Value_Unit*>(
+        &_Value_Unit_default_instance_);
   }
   static constexpr int kIndexInFileMessages = 1;
-  friend void swap(Value& a, Value& b) { a.Swap(&b); }
-  inline void Swap(Value* other) {
+  friend void swap(Value_Unit& a, Value_Unit& b) { a.Swap(&b); }
+  inline void Swap(Value_Unit* other) {
     if (other == this) return;
 #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetArena() != nullptr && GetArena() == other->GetArena()) {
@@ -287,7 +250,7 @@ class Value final : public ::google::protobuf::Message
       ::google::protobuf::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(Value* other) {
+  void UnsafeArenaSwap(Value_Unit* other) {
     if (other == this) return;
     ABSL_DCHECK(GetArena() == other->GetArena());
     InternalSwap(other);
@@ -295,144 +258,52 @@ class Value final : public ::google::protobuf::Message
 
   // implements Message ----------------------------------------------
 
-  Value* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
-    return ::google::protobuf::Message::DefaultConstruct<Value>(arena);
+  Value_Unit* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
+    return ::google::protobuf::internal::ZeroFieldsBase::DefaultConstruct<Value_Unit>(arena);
   }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Value& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Value& from) { Value::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
+  using ::google::protobuf::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const Value_Unit& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::google::protobuf::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const Value_Unit& from) {
+    ::google::protobuf::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
 
   public:
   bool IsInitialized() const {
     return true;
   }
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Value* other);
  private:
   friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "ez_proto.Value"; }
+  static ::absl::string_view FullMessageName() { return "ez_proto.Value.Unit"; }
 
  protected:
-  explicit Value(::google::protobuf::Arena* arena);
-  Value(::google::protobuf::Arena* arena, const Value& from);
-  Value(::google::protobuf::Arena* arena, Value&& from) noexcept
-      : Value(arena) {
+  explicit Value_Unit(::google::protobuf::Arena* arena);
+  Value_Unit(::google::protobuf::Arena* arena, const Value_Unit& from);
+  Value_Unit(::google::protobuf::Arena* arena, Value_Unit&& from) noexcept
+      : Value_Unit(arena) {
     *this = ::std::move(from);
   }
-  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static const ::google::protobuf::Message::ClassDataFull _class_data_;
+  const ::google::protobuf::internal::ZeroFieldsBase::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static const ::google::protobuf::internal::ZeroFieldsBase::ClassDataFull _class_data_;
 
  public:
   ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
-  enum : int {
-    kI64ValFieldNumber = 1,
-    kStrValFieldNumber = 2,
-    kF64ValFieldNumber = 3,
-    kBoolValFieldNumber = 4,
-  };
-  // int64 i64_val = 1;
-  bool has_i64_val() const;
-  void clear_i64_val() ;
-  ::int64_t i64_val() const;
-  void set_i64_val(::int64_t value);
-
-  private:
-  ::int64_t _internal_i64_val() const;
-  void _internal_set_i64_val(::int64_t value);
-
-  public:
-  // string str_val = 2;
-  bool has_str_val() const;
-  void clear_str_val() ;
-  const std::string& str_val() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_str_val(Arg_&& arg, Args_... args);
-  std::string* mutable_str_val();
-  PROTOBUF_NODISCARD std::string* release_str_val();
-  void set_allocated_str_val(std::string* value);
-
-  private:
-  const std::string& _internal_str_val() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_str_val(
-      const std::string& value);
-  std::string* _internal_mutable_str_val();
-
-  public:
-  // double f64_val = 3;
-  bool has_f64_val() const;
-  void clear_f64_val() ;
-  double f64_val() const;
-  void set_f64_val(double value);
-
-  private:
-  double _internal_f64_val() const;
-  void _internal_set_f64_val(double value);
-
-  public:
-  // bool bool_val = 4;
-  bool has_bool_val() const;
-  void clear_bool_val() ;
-  bool bool_val() const;
-  void set_bool_val(bool value);
-
-  private:
-  bool _internal_bool_val() const;
-  void _internal_set_bool_val(bool value);
-
-  public:
-  void clear_kind();
-  KindCase kind_case() const;
-  // @@protoc_insertion_point(class_scope:ez_proto.Value)
+  // @@protoc_insertion_point(class_scope:ez_proto.Value.Unit)
  private:
   class _Internal;
-  void set_has_i64_val();
-  void set_has_str_val();
-  void set_has_f64_val();
-  void set_has_bool_val();
-  inline bool has_kind() const;
-  inline void clear_has_kind();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 4, 0,
-      30, 2>
+      0, 0, 0,
+      0, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
-      &_Value_default_instance_;
+      &_Value_Unit_default_instance_;
 
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -447,20 +318,9 @@ class Value final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Value& from_msg);
-    union KindUnion {
-      constexpr KindUnion() : _constinit_{} {}
-      ::google::protobuf::internal::ConstantInitialized _constinit_;
-      ::int64_t i64_val_;
-      ::google::protobuf::internal::ArenaStringPtr str_val_;
-      double f64_val_;
-      bool bool_val_;
-    } kind_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::uint32_t _oneof_case_[1];
+                          const Value_Unit& from_msg);
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
-  union { Impl_ _impl_; };
   friend struct ::TableStruct_ez_5fir_2eproto;
 };
 // -------------------------------------------------------------------
@@ -609,7 +469,7 @@ class EzType final : public ::google::protobuf::Message
   ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
   using NonPtr = EzType_NonPtr;
-  static constexpr NonPtr VOID = EzType_NonPtr_VOID;
+  static constexpr NonPtr UNIT = EzType_NonPtr_UNIT;
   static constexpr NonPtr I64 = EzType_NonPtr_I64;
   static constexpr NonPtr STR = EzType_NonPtr_STR;
   static constexpr NonPtr F64 = EzType_NonPtr_F64;
@@ -713,6 +573,502 @@ class EzType final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class Value final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ez_proto.Value) */ {
+ public:
+  inline Value() : Value(nullptr) {}
+  ~Value() PROTOBUF_FINAL;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Value(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Value(const Value& from) : Value(nullptr, from) {}
+  inline Value(Value&& from) noexcept
+      : Value(nullptr, std::move(from)) {}
+  inline Value& operator=(const Value& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Value& operator=(Value&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Value& default_instance() {
+    return *internal_default_instance();
+  }
+  enum KindCase {
+    kUnitVal = 1,
+    kI64Val = 2,
+    kStrVal = 3,
+    kF64Val = 4,
+    kBoolVal = 5,
+    KIND_NOT_SET = 0,
+  };
+  static inline const Value* internal_default_instance() {
+    return reinterpret_cast<const Value*>(
+        &_Value_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 2;
+  friend void swap(Value& a, Value& b) { a.Swap(&b); }
+  inline void Swap(Value* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Value* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Value* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
+    return ::google::protobuf::Message::DefaultConstruct<Value>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Value& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Value& from) { Value::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return true;
+  }
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Value* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "ez_proto.Value"; }
+
+ protected:
+  explicit Value(::google::protobuf::Arena* arena);
+  Value(::google::protobuf::Arena* arena, const Value& from);
+  Value(::google::protobuf::Arena* arena, Value&& from) noexcept
+      : Value(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static const ::google::protobuf::Message::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+  using Unit = Value_Unit;
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kUnitValFieldNumber = 1,
+    kI64ValFieldNumber = 2,
+    kStrValFieldNumber = 3,
+    kF64ValFieldNumber = 4,
+    kBoolValFieldNumber = 5,
+  };
+  // .ez_proto.Value.Unit unit_val = 1;
+  bool has_unit_val() const;
+  private:
+  bool _internal_has_unit_val() const;
+
+  public:
+  void clear_unit_val() ;
+  const ::ez_proto::Value_Unit& unit_val() const;
+  PROTOBUF_NODISCARD ::ez_proto::Value_Unit* release_unit_val();
+  ::ez_proto::Value_Unit* mutable_unit_val();
+  void set_allocated_unit_val(::ez_proto::Value_Unit* value);
+  void unsafe_arena_set_allocated_unit_val(::ez_proto::Value_Unit* value);
+  ::ez_proto::Value_Unit* unsafe_arena_release_unit_val();
+
+  private:
+  const ::ez_proto::Value_Unit& _internal_unit_val() const;
+  ::ez_proto::Value_Unit* _internal_mutable_unit_val();
+
+  public:
+  // int64 i64_val = 2;
+  bool has_i64_val() const;
+  void clear_i64_val() ;
+  ::int64_t i64_val() const;
+  void set_i64_val(::int64_t value);
+
+  private:
+  ::int64_t _internal_i64_val() const;
+  void _internal_set_i64_val(::int64_t value);
+
+  public:
+  // string str_val = 3;
+  bool has_str_val() const;
+  void clear_str_val() ;
+  const std::string& str_val() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_str_val(Arg_&& arg, Args_... args);
+  std::string* mutable_str_val();
+  PROTOBUF_NODISCARD std::string* release_str_val();
+  void set_allocated_str_val(std::string* value);
+
+  private:
+  const std::string& _internal_str_val() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_str_val(
+      const std::string& value);
+  std::string* _internal_mutable_str_val();
+
+  public:
+  // double f64_val = 4;
+  bool has_f64_val() const;
+  void clear_f64_val() ;
+  double f64_val() const;
+  void set_f64_val(double value);
+
+  private:
+  double _internal_f64_val() const;
+  void _internal_set_f64_val(double value);
+
+  public:
+  // bool bool_val = 5;
+  bool has_bool_val() const;
+  void clear_bool_val() ;
+  bool bool_val() const;
+  void set_bool_val(bool value);
+
+  private:
+  bool _internal_bool_val() const;
+  void _internal_set_bool_val(bool value);
+
+  public:
+  void clear_kind();
+  KindCase kind_case() const;
+  // @@protoc_insertion_point(class_scope:ez_proto.Value)
+ private:
+  class _Internal;
+  void set_has_unit_val();
+  void set_has_i64_val();
+  void set_has_str_val();
+  void set_has_f64_val();
+  void set_has_bool_val();
+  inline bool has_kind() const;
+  inline void clear_has_kind();
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      0, 5, 1,
+      30, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Value_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Value& from_msg);
+    union KindUnion {
+      constexpr KindUnion() : _constinit_{} {}
+      ::google::protobuf::internal::ConstantInitialized _constinit_;
+      ::ez_proto::Value_Unit* unit_val_;
+      ::int64_t i64_val_;
+      ::google::protobuf::internal::ArenaStringPtr str_val_;
+      double f64_val_;
+      bool bool_val_;
+    } kind_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::uint32_t _oneof_case_[1];
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ez_5fir_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Definition_EzTypedParam final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ez_proto.Definition.EzTypedParam) */ {
+ public:
+  inline Definition_EzTypedParam() : Definition_EzTypedParam(nullptr) {}
+  ~Definition_EzTypedParam() PROTOBUF_FINAL;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Definition_EzTypedParam(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Definition_EzTypedParam(const Definition_EzTypedParam& from) : Definition_EzTypedParam(nullptr, from) {}
+  inline Definition_EzTypedParam(Definition_EzTypedParam&& from) noexcept
+      : Definition_EzTypedParam(nullptr, std::move(from)) {}
+  inline Definition_EzTypedParam& operator=(const Definition_EzTypedParam& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Definition_EzTypedParam& operator=(Definition_EzTypedParam&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Definition_EzTypedParam& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Definition_EzTypedParam* internal_default_instance() {
+    return reinterpret_cast<const Definition_EzTypedParam*>(
+        &_Definition_EzTypedParam_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 12;
+  friend void swap(Definition_EzTypedParam& a, Definition_EzTypedParam& b) { a.Swap(&b); }
+  inline void Swap(Definition_EzTypedParam* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Definition_EzTypedParam* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Definition_EzTypedParam* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
+    return ::google::protobuf::Message::DefaultConstruct<Definition_EzTypedParam>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Definition_EzTypedParam& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Definition_EzTypedParam& from) { Definition_EzTypedParam::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return IsInitializedImpl(*this);
+  }
+
+  private:
+  static bool IsInitializedImpl(const MessageLite& msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Definition_EzTypedParam* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "ez_proto.Definition.EzTypedParam"; }
+
+ protected:
+  explicit Definition_EzTypedParam(::google::protobuf::Arena* arena);
+  Definition_EzTypedParam(::google::protobuf::Arena* arena, const Definition_EzTypedParam& from);
+  Definition_EzTypedParam(::google::protobuf::Arena* arena, Definition_EzTypedParam&& from) noexcept
+      : Definition_EzTypedParam(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static const ::google::protobuf::Message::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 2,
+    kParamTypeFieldNumber = 1,
+  };
+  // required string name = 2;
+  bool has_name() const;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
+
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
+      const std::string& value);
+  std::string* _internal_mutable_name();
+
+  public:
+  // required .ez_proto.EzType param_type = 1;
+  bool has_param_type() const;
+  void clear_param_type() ;
+  const ::ez_proto::EzType& param_type() const;
+  PROTOBUF_NODISCARD ::ez_proto::EzType* release_param_type();
+  ::ez_proto::EzType* mutable_param_type();
+  void set_allocated_param_type(::ez_proto::EzType* value);
+  void unsafe_arena_set_allocated_param_type(::ez_proto::EzType* value);
+  ::ez_proto::EzType* unsafe_arena_release_param_type();
+
+  private:
+  const ::ez_proto::EzType& _internal_param_type() const;
+  ::ez_proto::EzType* _internal_mutable_param_type();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ez_proto.Definition.EzTypedParam)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 1,
+      45, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Definition_EzTypedParam_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Definition_EzTypedParam& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::ez_proto::EzType* param_type_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ez_5fir_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Expr final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ez_proto.Expr) */ {
  public:
@@ -765,19 +1121,17 @@ class Expr final : public ::google::protobuf::Message
     return *internal_default_instance();
   }
   enum KindCase {
-    kAssign = 1,
-    kBinary = 2,
-    kUnary = 3,
-    kValue = 4,
-    kVariable = 5,
-    kCall = 6,
+    kBinary = 1,
+    kValue = 2,
+    kVariable = 3,
+    kCall = 4,
     KIND_NOT_SET = 0,
   };
   static inline const Expr* internal_default_instance() {
     return reinterpret_cast<const Expr*>(
         &_Expr_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 6;
+  static constexpr int kIndexInFileMessages = 5;
   friend void swap(Expr& a, Expr& b) { a.Swap(&b); }
   inline void Swap(Expr* other) {
     if (other == this) return;
@@ -865,20 +1219,16 @@ class Expr final : public ::google::protobuf::Message
  public:
   ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
-  using Assign = Expr_Assign;
   using Binary = Expr_Binary;
-  using Unary = Expr_Unary;
   using Call = Expr_Call;
 
   // accessors -------------------------------------------------------
   enum : int {
     kExprTypeFieldNumber = 7,
-    kAssignFieldNumber = 1,
-    kBinaryFieldNumber = 2,
-    kUnaryFieldNumber = 3,
-    kValueFieldNumber = 4,
-    kVariableFieldNumber = 5,
-    kCallFieldNumber = 6,
+    kBinaryFieldNumber = 1,
+    kValueFieldNumber = 2,
+    kVariableFieldNumber = 3,
+    kCallFieldNumber = 4,
   };
   // required .ez_proto.EzType expr_type = 7;
   bool has_expr_type() const;
@@ -895,26 +1245,7 @@ class Expr final : public ::google::protobuf::Message
   ::ez_proto::EzType* _internal_mutable_expr_type();
 
   public:
-  // .ez_proto.Expr.Assign assign = 1;
-  bool has_assign() const;
-  private:
-  bool _internal_has_assign() const;
-
-  public:
-  void clear_assign() ;
-  const ::ez_proto::Expr_Assign& assign() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr_Assign* release_assign();
-  ::ez_proto::Expr_Assign* mutable_assign();
-  void set_allocated_assign(::ez_proto::Expr_Assign* value);
-  void unsafe_arena_set_allocated_assign(::ez_proto::Expr_Assign* value);
-  ::ez_proto::Expr_Assign* unsafe_arena_release_assign();
-
-  private:
-  const ::ez_proto::Expr_Assign& _internal_assign() const;
-  ::ez_proto::Expr_Assign* _internal_mutable_assign();
-
-  public:
-  // .ez_proto.Expr.Binary binary = 2;
+  // .ez_proto.Expr.Binary binary = 1;
   bool has_binary() const;
   private:
   bool _internal_has_binary() const;
@@ -933,26 +1264,7 @@ class Expr final : public ::google::protobuf::Message
   ::ez_proto::Expr_Binary* _internal_mutable_binary();
 
   public:
-  // .ez_proto.Expr.Unary unary = 3;
-  bool has_unary() const;
-  private:
-  bool _internal_has_unary() const;
-
-  public:
-  void clear_unary() ;
-  const ::ez_proto::Expr_Unary& unary() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr_Unary* release_unary();
-  ::ez_proto::Expr_Unary* mutable_unary();
-  void set_allocated_unary(::ez_proto::Expr_Unary* value);
-  void unsafe_arena_set_allocated_unary(::ez_proto::Expr_Unary* value);
-  ::ez_proto::Expr_Unary* unsafe_arena_release_unary();
-
-  private:
-  const ::ez_proto::Expr_Unary& _internal_unary() const;
-  ::ez_proto::Expr_Unary* _internal_mutable_unary();
-
-  public:
-  // .ez_proto.Value value = 4;
+  // .ez_proto.Value value = 2;
   bool has_value() const;
   private:
   bool _internal_has_value() const;
@@ -971,7 +1283,7 @@ class Expr final : public ::google::protobuf::Message
   ::ez_proto::Value* _internal_mutable_value();
 
   public:
-  // string variable = 5;
+  // string variable = 3;
   bool has_variable() const;
   void clear_variable() ;
   const std::string& variable() const;
@@ -988,7 +1300,7 @@ class Expr final : public ::google::protobuf::Message
   std::string* _internal_mutable_variable();
 
   public:
-  // .ez_proto.Expr.Call call = 6;
+  // .ez_proto.Expr.Call call = 4;
   bool has_call() const;
   private:
   bool _internal_has_call() const;
@@ -1012,9 +1324,7 @@ class Expr final : public ::google::protobuf::Message
   // @@protoc_insertion_point(class_scope:ez_proto.Expr)
  private:
   class _Internal;
-  void set_has_assign();
   void set_has_binary();
-  void set_has_unary();
   void set_has_value();
   void set_has_variable();
   void set_has_call();
@@ -1022,7 +1332,7 @@ class Expr final : public ::google::protobuf::Message
   inline void clear_has_kind();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 7, 6,
+      0, 5, 4,
       30, 2>
       _table_;
 
@@ -1049,232 +1359,12 @@ class Expr final : public ::google::protobuf::Message
     union KindUnion {
       constexpr KindUnion() : _constinit_{} {}
       ::google::protobuf::internal::ConstantInitialized _constinit_;
-      ::ez_proto::Expr_Assign* assign_;
       ::ez_proto::Expr_Binary* binary_;
-      ::ez_proto::Expr_Unary* unary_;
       ::ez_proto::Value* value_;
       ::google::protobuf::internal::ArenaStringPtr variable_;
       ::ez_proto::Expr_Call* call_;
     } kind_;
     ::uint32_t _oneof_case_[1];
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ez_5fir_2eproto;
-};
-// -------------------------------------------------------------------
-
-class Expr_Assign final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ez_proto.Expr.Assign) */ {
- public:
-  inline Expr_Assign() : Expr_Assign(nullptr) {}
-  ~Expr_Assign() PROTOBUF_FINAL;
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Expr_Assign(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Expr_Assign(const Expr_Assign& from) : Expr_Assign(nullptr, from) {}
-  inline Expr_Assign(Expr_Assign&& from) noexcept
-      : Expr_Assign(nullptr, std::move(from)) {}
-  inline Expr_Assign& operator=(const Expr_Assign& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Expr_Assign& operator=(Expr_Assign&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetArena() == from.GetArena()
-#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetArena() != nullptr
-#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Expr_Assign& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Expr_Assign* internal_default_instance() {
-    return reinterpret_cast<const Expr_Assign*>(
-        &_Expr_Assign_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 2;
-  friend void swap(Expr_Assign& a, Expr_Assign& b) { a.Swap(&b); }
-  inline void Swap(Expr_Assign* other) {
-    if (other == this) return;
-#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
-#else   // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() == other->GetArena()) {
-#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Expr_Assign* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Expr_Assign* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
-    return ::google::protobuf::Message::DefaultConstruct<Expr_Assign>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Expr_Assign& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Expr_Assign& from) { Expr_Assign::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return IsInitializedImpl(*this);
-  }
-
-  private:
-  static bool IsInitializedImpl(const MessageLite& msg);
-
-  public:
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Expr_Assign* other);
- private:
-  friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "ez_proto.Expr.Assign"; }
-
- protected:
-  explicit Expr_Assign(::google::protobuf::Arena* arena);
-  Expr_Assign(::google::protobuf::Arena* arena, const Expr_Assign& from);
-  Expr_Assign(::google::protobuf::Arena* arena, Expr_Assign&& from) noexcept
-      : Expr_Assign(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static const ::google::protobuf::Message::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kNameFieldNumber = 1,
-    kRhsFieldNumber = 2,
-  };
-  // required string name = 1;
-  bool has_name() const;
-  void clear_name() ;
-  const std::string& name() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_name(Arg_&& arg, Args_... args);
-  std::string* mutable_name();
-  PROTOBUF_NODISCARD std::string* release_name();
-  void set_allocated_name(std::string* value);
-
-  private:
-  const std::string& _internal_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
-      const std::string& value);
-  std::string* _internal_mutable_name();
-
-  public:
-  // required .ez_proto.Expr rhs = 2;
-  bool has_rhs() const;
-  void clear_rhs() ;
-  const ::ez_proto::Expr& rhs() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr* release_rhs();
-  ::ez_proto::Expr* mutable_rhs();
-  void set_allocated_rhs(::ez_proto::Expr* value);
-  void unsafe_arena_set_allocated_rhs(::ez_proto::Expr* value);
-  ::ez_proto::Expr* unsafe_arena_release_rhs();
-
-  private:
-  const ::ez_proto::Expr& _internal_rhs() const;
-  ::ez_proto::Expr* _internal_mutable_rhs();
-
-  public:
-  // @@protoc_insertion_point(class_scope:ez_proto.Expr.Assign)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
-      33, 2>
-      _table_;
-
-  static constexpr const void* _raw_default_instance_ =
-      &_Expr_Assign_default_instance_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Expr_Assign& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr name_;
-    ::ez_proto::Expr* rhs_;
     PROTOBUF_TSAN_DECLARE_MEMBER
   };
   union { Impl_ _impl_; };
@@ -1596,7 +1686,7 @@ class Expr_Call final : public ::google::protobuf::Message
     return reinterpret_cast<const Expr_Call*>(
         &_Expr_Call_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 5;
+  static constexpr int kIndexInFileMessages = 4;
   friend void swap(Expr_Call& a, Expr_Call& b) { a.Swap(&b); }
   inline void Swap(Expr_Call* other) {
     if (other == this) return;
@@ -1761,456 +1851,6 @@ class Expr_Call final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Expr_Unary final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ez_proto.Expr.Unary) */ {
- public:
-  inline Expr_Unary() : Expr_Unary(nullptr) {}
-  ~Expr_Unary() PROTOBUF_FINAL;
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Expr_Unary(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Expr_Unary(const Expr_Unary& from) : Expr_Unary(nullptr, from) {}
-  inline Expr_Unary(Expr_Unary&& from) noexcept
-      : Expr_Unary(nullptr, std::move(from)) {}
-  inline Expr_Unary& operator=(const Expr_Unary& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Expr_Unary& operator=(Expr_Unary&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetArena() == from.GetArena()
-#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetArena() != nullptr
-#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Expr_Unary& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Expr_Unary* internal_default_instance() {
-    return reinterpret_cast<const Expr_Unary*>(
-        &_Expr_Unary_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 4;
-  friend void swap(Expr_Unary& a, Expr_Unary& b) { a.Swap(&b); }
-  inline void Swap(Expr_Unary* other) {
-    if (other == this) return;
-#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
-#else   // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() == other->GetArena()) {
-#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Expr_Unary* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Expr_Unary* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
-    return ::google::protobuf::Message::DefaultConstruct<Expr_Unary>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Expr_Unary& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Expr_Unary& from) { Expr_Unary::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return IsInitializedImpl(*this);
-  }
-
-  private:
-  static bool IsInitializedImpl(const MessageLite& msg);
-
-  public:
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Expr_Unary* other);
- private:
-  friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "ez_proto.Expr.Unary"; }
-
- protected:
-  explicit Expr_Unary(::google::protobuf::Arena* arena);
-  Expr_Unary(::google::protobuf::Arena* arena, const Expr_Unary& from);
-  Expr_Unary(::google::protobuf::Arena* arena, Expr_Unary&& from) noexcept
-      : Expr_Unary(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static const ::google::protobuf::Message::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-  using UnOp = Expr_Unary_UnOp;
-  static constexpr UnOp NOT = Expr_Unary_UnOp_NOT;
-  static constexpr UnOp REF = Expr_Unary_UnOp_REF;
-  static constexpr UnOp DEREF = Expr_Unary_UnOp_DEREF;
-  static inline bool UnOp_IsValid(int value) {
-    return Expr_Unary_UnOp_IsValid(value);
-  }
-  static constexpr UnOp UnOp_MIN = Expr_Unary_UnOp_UnOp_MIN;
-  static constexpr UnOp UnOp_MAX = Expr_Unary_UnOp_UnOp_MAX;
-  static constexpr int UnOp_ARRAYSIZE = Expr_Unary_UnOp_UnOp_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor* UnOp_descriptor() {
-    return Expr_Unary_UnOp_descriptor();
-  }
-  template <typename T>
-  static inline const std::string& UnOp_Name(T value) {
-    return Expr_Unary_UnOp_Name(value);
-  }
-  static inline bool UnOp_Parse(absl::string_view name, UnOp* value) {
-    return Expr_Unary_UnOp_Parse(name, value);
-  }
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kInnerFieldNumber = 2,
-    kOpFieldNumber = 1,
-  };
-  // required .ez_proto.Expr inner = 2;
-  bool has_inner() const;
-  void clear_inner() ;
-  const ::ez_proto::Expr& inner() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr* release_inner();
-  ::ez_proto::Expr* mutable_inner();
-  void set_allocated_inner(::ez_proto::Expr* value);
-  void unsafe_arena_set_allocated_inner(::ez_proto::Expr* value);
-  ::ez_proto::Expr* unsafe_arena_release_inner();
-
-  private:
-  const ::ez_proto::Expr& _internal_inner() const;
-  ::ez_proto::Expr* _internal_mutable_inner();
-
-  public:
-  // required .ez_proto.Expr.Unary.UnOp op = 1;
-  bool has_op() const;
-  void clear_op() ;
-  ::ez_proto::Expr_Unary_UnOp op() const;
-  void set_op(::ez_proto::Expr_Unary_UnOp value);
-
-  private:
-  ::ez_proto::Expr_Unary_UnOp _internal_op() const;
-  void _internal_set_op(::ez_proto::Expr_Unary_UnOp value);
-
-  public:
-  // @@protoc_insertion_point(class_scope:ez_proto.Expr.Unary)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 2,
-      0, 2>
-      _table_;
-
-  static constexpr const void* _raw_default_instance_ =
-      &_Expr_Unary_default_instance_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Expr_Unary& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::ez_proto::Expr* inner_;
-    int op_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ez_5fir_2eproto;
-};
-// -------------------------------------------------------------------
-
-class Definition_EzTypedArg final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ez_proto.Definition.EzTypedArg) */ {
- public:
-  inline Definition_EzTypedArg() : Definition_EzTypedArg(nullptr) {}
-  ~Definition_EzTypedArg() PROTOBUF_FINAL;
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Definition_EzTypedArg(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Definition_EzTypedArg(const Definition_EzTypedArg& from) : Definition_EzTypedArg(nullptr, from) {}
-  inline Definition_EzTypedArg(Definition_EzTypedArg&& from) noexcept
-      : Definition_EzTypedArg(nullptr, std::move(from)) {}
-  inline Definition_EzTypedArg& operator=(const Definition_EzTypedArg& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Definition_EzTypedArg& operator=(Definition_EzTypedArg&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetArena() == from.GetArena()
-#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetArena() != nullptr
-#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Definition_EzTypedArg& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Definition_EzTypedArg* internal_default_instance() {
-    return reinterpret_cast<const Definition_EzTypedArg*>(
-        &_Definition_EzTypedArg_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 12;
-  friend void swap(Definition_EzTypedArg& a, Definition_EzTypedArg& b) { a.Swap(&b); }
-  inline void Swap(Definition_EzTypedArg* other) {
-    if (other == this) return;
-#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
-#else   // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() == other->GetArena()) {
-#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Definition_EzTypedArg* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Definition_EzTypedArg* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
-    return ::google::protobuf::Message::DefaultConstruct<Definition_EzTypedArg>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Definition_EzTypedArg& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Definition_EzTypedArg& from) { Definition_EzTypedArg::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return IsInitializedImpl(*this);
-  }
-
-  private:
-  static bool IsInitializedImpl(const MessageLite& msg);
-
-  public:
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Definition_EzTypedArg* other);
- private:
-  friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "ez_proto.Definition.EzTypedArg"; }
-
- protected:
-  explicit Definition_EzTypedArg(::google::protobuf::Arena* arena);
-  Definition_EzTypedArg(::google::protobuf::Arena* arena, const Definition_EzTypedArg& from);
-  Definition_EzTypedArg(::google::protobuf::Arena* arena, Definition_EzTypedArg&& from) noexcept
-      : Definition_EzTypedArg(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static const ::google::protobuf::Message::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kNameFieldNumber = 2,
-    kArgTypeFieldNumber = 1,
-  };
-  // required string name = 2;
-  bool has_name() const;
-  void clear_name() ;
-  const std::string& name() const;
-  template <typename Arg_ = const std::string&, typename... Args_>
-  void set_name(Arg_&& arg, Args_... args);
-  std::string* mutable_name();
-  PROTOBUF_NODISCARD std::string* release_name();
-  void set_allocated_name(std::string* value);
-
-  private:
-  const std::string& _internal_name() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
-      const std::string& value);
-  std::string* _internal_mutable_name();
-
-  public:
-  // required .ez_proto.EzType arg_type = 1;
-  bool has_arg_type() const;
-  void clear_arg_type() ;
-  const ::ez_proto::EzType& arg_type() const;
-  PROTOBUF_NODISCARD ::ez_proto::EzType* release_arg_type();
-  ::ez_proto::EzType* mutable_arg_type();
-  void set_allocated_arg_type(::ez_proto::EzType* value);
-  void unsafe_arena_set_allocated_arg_type(::ez_proto::EzType* value);
-  ::ez_proto::EzType* unsafe_arena_release_arg_type();
-
-  private:
-  const ::ez_proto::EzType& _internal_arg_type() const;
-  ::ez_proto::EzType* _internal_mutable_arg_type();
-
-  public:
-  // @@protoc_insertion_point(class_scope:ez_proto.Definition.EzTypedArg)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      1, 2, 1,
-      43, 2>
-      _table_;
-
-  static constexpr const void* _raw_default_instance_ =
-      &_Definition_EzTypedArg_default_instance_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Definition_EzTypedArg& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::internal::ArenaStringPtr name_;
-    ::ez_proto::EzType* arg_type_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ez_5fir_2eproto;
-};
-// -------------------------------------------------------------------
-
 class Statement_Declaration final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ez_proto.Statement.Declaration) */ {
  public:
@@ -2266,7 +1906,7 @@ class Statement_Declaration final : public ::google::protobuf::Message
     return reinterpret_cast<const Statement_Declaration*>(
         &_Statement_Declaration_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 7;
+  static constexpr int kIndexInFileMessages = 6;
   friend void swap(Statement_Declaration& a, Statement_Declaration& b) { a.Swap(&b); }
   inline void Swap(Statement_Declaration* other) {
     if (other == this) return;
@@ -2358,6 +1998,241 @@ class Statement_Declaration final : public ::google::protobuf::Message
   // accessors -------------------------------------------------------
   enum : int {
     kNameFieldNumber = 1,
+    kTypeFieldNumber = 2,
+    kRhsFieldNumber = 3,
+  };
+  // required string name = 1;
+  bool has_name() const;
+  void clear_name() ;
+  const std::string& name() const;
+  template <typename Arg_ = const std::string&, typename... Args_>
+  void set_name(Arg_&& arg, Args_... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* value);
+
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(
+      const std::string& value);
+  std::string* _internal_mutable_name();
+
+  public:
+  // required .ez_proto.EzType type = 2;
+  bool has_type() const;
+  void clear_type() ;
+  const ::ez_proto::EzType& type() const;
+  PROTOBUF_NODISCARD ::ez_proto::EzType* release_type();
+  ::ez_proto::EzType* mutable_type();
+  void set_allocated_type(::ez_proto::EzType* value);
+  void unsafe_arena_set_allocated_type(::ez_proto::EzType* value);
+  ::ez_proto::EzType* unsafe_arena_release_type();
+
+  private:
+  const ::ez_proto::EzType& _internal_type() const;
+  ::ez_proto::EzType* _internal_mutable_type();
+
+  public:
+  // required .ez_proto.Expr rhs = 3;
+  bool has_rhs() const;
+  void clear_rhs() ;
+  const ::ez_proto::Expr& rhs() const;
+  PROTOBUF_NODISCARD ::ez_proto::Expr* release_rhs();
+  ::ez_proto::Expr* mutable_rhs();
+  void set_allocated_rhs(::ez_proto::Expr* value);
+  void unsafe_arena_set_allocated_rhs(::ez_proto::Expr* value);
+  ::ez_proto::Expr* unsafe_arena_release_rhs();
+
+  private:
+  const ::ez_proto::Expr& _internal_rhs() const;
+  ::ez_proto::Expr* _internal_mutable_rhs();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ez_proto.Statement.Declaration)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      2, 3, 2,
+      43, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Statement_Declaration_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Statement_Declaration& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::google::protobuf::internal::ArenaStringPtr name_;
+    ::ez_proto::EzType* type_;
+    ::ez_proto::Expr* rhs_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ez_5fir_2eproto;
+};
+// -------------------------------------------------------------------
+
+class Statement_Assign final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ez_proto.Statement.Assign) */ {
+ public:
+  inline Statement_Assign() : Statement_Assign(nullptr) {}
+  ~Statement_Assign() PROTOBUF_FINAL;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Statement_Assign(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Statement_Assign(const Statement_Assign& from) : Statement_Assign(nullptr, from) {}
+  inline Statement_Assign(Statement_Assign&& from) noexcept
+      : Statement_Assign(nullptr, std::move(from)) {}
+  inline Statement_Assign& operator=(const Statement_Assign& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Statement_Assign& operator=(Statement_Assign&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Statement_Assign& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Statement_Assign* internal_default_instance() {
+    return reinterpret_cast<const Statement_Assign*>(
+        &_Statement_Assign_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 10;
+  friend void swap(Statement_Assign& a, Statement_Assign& b) { a.Swap(&b); }
+  inline void Swap(Statement_Assign* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Statement_Assign* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Statement_Assign* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
+    return ::google::protobuf::Message::DefaultConstruct<Statement_Assign>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Statement_Assign& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Statement_Assign& from) { Statement_Assign::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return IsInitializedImpl(*this);
+  }
+
+  private:
+  static bool IsInitializedImpl(const MessageLite& msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Statement_Assign* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "ez_proto.Statement.Assign"; }
+
+ protected:
+  explicit Statement_Assign(::google::protobuf::Arena* arena);
+  Statement_Assign(::google::protobuf::Arena* arena, const Statement_Assign& from);
+  Statement_Assign(::google::protobuf::Arena* arena, Statement_Assign&& from) noexcept
+      : Statement_Assign(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static const ::google::protobuf::Message::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kNameFieldNumber = 1,
     kRhsFieldNumber = 2,
   };
   // required string name = 1;
@@ -2392,17 +2267,17 @@ class Statement_Declaration final : public ::google::protobuf::Message
   ::ez_proto::Expr* _internal_mutable_rhs();
 
   public:
-  // @@protoc_insertion_point(class_scope:ez_proto.Statement.Declaration)
+  // @@protoc_insertion_point(class_scope:ez_proto.Statement.Assign)
  private:
   class _Internal;
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
       1, 2, 1,
-      43, 2>
+      38, 2>
       _table_;
 
   static constexpr const void* _raw_default_instance_ =
-      &_Statement_Declaration_default_instance_;
+      &_Statement_Assign_default_instance_;
 
   friend class ::google::protobuf::MessageLite;
   friend class ::google::protobuf::Arena;
@@ -2417,7 +2292,7 @@ class Statement_Declaration final : public ::google::protobuf::Message
                           ::google::protobuf::Arena* arena);
     inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
                           ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Statement_Declaration& from_msg);
+                          const Statement_Assign& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     ::google::protobuf::internal::ArenaStringPtr name_;
@@ -2485,8 +2360,9 @@ class Statement final : public ::google::protobuf::Message
     kDeclaration = 2,
     kIf = 3,
     kBlock = 4,
-    kFor = 5,
+    kWhile = 5,
     kReturn = 6,
+    kAssign = 7,
     KIND_NOT_SET = 0,
   };
   static inline const Statement* internal_default_instance() {
@@ -2584,7 +2460,8 @@ class Statement final : public ::google::protobuf::Message
   using Declaration = Statement_Declaration;
   using If = Statement_If;
   using Block = Statement_Block;
-  using For = Statement_For;
+  using While = Statement_While;
+  using Assign = Statement_Assign;
 
   // accessors -------------------------------------------------------
   enum : int {
@@ -2592,8 +2469,9 @@ class Statement final : public ::google::protobuf::Message
     kDeclarationFieldNumber = 2,
     kIfFieldNumber = 3,
     kBlockFieldNumber = 4,
-    kForFieldNumber = 5,
+    kWhileFieldNumber = 5,
     kReturnFieldNumber = 6,
+    kAssignFieldNumber = 7,
   };
   // .ez_proto.Expr expr = 1;
   bool has_expr() const;
@@ -2671,23 +2549,23 @@ class Statement final : public ::google::protobuf::Message
   ::ez_proto::Statement_Block* _internal_mutable_block();
 
   public:
-  // .ez_proto.Statement.For for = 5;
-  bool has_for_() const;
+  // .ez_proto.Statement.While while = 5;
+  bool has_while_() const;
   private:
-  bool _internal_has_for_() const;
+  bool _internal_has_while_() const;
 
   public:
-  void clear_for_() ;
-  const ::ez_proto::Statement_For& for_() const;
-  PROTOBUF_NODISCARD ::ez_proto::Statement_For* release_for_();
-  ::ez_proto::Statement_For* mutable_for_();
-  void set_allocated_for_(::ez_proto::Statement_For* value);
-  void unsafe_arena_set_allocated_for_(::ez_proto::Statement_For* value);
-  ::ez_proto::Statement_For* unsafe_arena_release_for_();
+  void clear_while_() ;
+  const ::ez_proto::Statement_While& while_() const;
+  PROTOBUF_NODISCARD ::ez_proto::Statement_While* release_while_();
+  ::ez_proto::Statement_While* mutable_while_();
+  void set_allocated_while_(::ez_proto::Statement_While* value);
+  void unsafe_arena_set_allocated_while_(::ez_proto::Statement_While* value);
+  ::ez_proto::Statement_While* unsafe_arena_release_while_();
 
   private:
-  const ::ez_proto::Statement_For& _internal_for_() const;
-  ::ez_proto::Statement_For* _internal_mutable_for_();
+  const ::ez_proto::Statement_While& _internal_while_() const;
+  ::ez_proto::Statement_While* _internal_mutable_while_();
 
   public:
   // .ez_proto.Expr return = 6;
@@ -2709,6 +2587,25 @@ class Statement final : public ::google::protobuf::Message
   ::ez_proto::Expr* _internal_mutable_return_();
 
   public:
+  // .ez_proto.Statement.Assign assign = 7;
+  bool has_assign() const;
+  private:
+  bool _internal_has_assign() const;
+
+  public:
+  void clear_assign() ;
+  const ::ez_proto::Statement_Assign& assign() const;
+  PROTOBUF_NODISCARD ::ez_proto::Statement_Assign* release_assign();
+  ::ez_proto::Statement_Assign* mutable_assign();
+  void set_allocated_assign(::ez_proto::Statement_Assign* value);
+  void unsafe_arena_set_allocated_assign(::ez_proto::Statement_Assign* value);
+  ::ez_proto::Statement_Assign* unsafe_arena_release_assign();
+
+  private:
+  const ::ez_proto::Statement_Assign& _internal_assign() const;
+  ::ez_proto::Statement_Assign* _internal_mutable_assign();
+
+  public:
   void clear_kind();
   KindCase kind_case() const;
   // @@protoc_insertion_point(class_scope:ez_proto.Statement)
@@ -2718,13 +2615,14 @@ class Statement final : public ::google::protobuf::Message
   void set_has_declaration();
   void set_has_if_();
   void set_has_block();
-  void set_has_for_();
+  void set_has_while_();
   void set_has_return_();
+  void set_has_assign();
   inline bool has_kind() const;
   inline void clear_has_kind();
   friend class ::google::protobuf::internal::TcParser;
   static const ::google::protobuf::internal::TcParseTable<
-      0, 6, 6,
+      0, 7, 7,
       0, 2>
       _table_;
 
@@ -2752,8 +2650,9 @@ class Statement final : public ::google::protobuf::Message
       ::ez_proto::Statement_Declaration* declaration_;
       ::ez_proto::Statement_If* if__;
       ::ez_proto::Statement_Block* block_;
-      ::ez_proto::Statement_For* for__;
+      ::ez_proto::Statement_While* while__;
       ::ez_proto::Expr* return__;
+      ::ez_proto::Statement_Assign* assign_;
     } kind_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
     ::uint32_t _oneof_case_[1];
@@ -2819,7 +2718,7 @@ class Statement_Block final : public ::google::protobuf::Message
     return reinterpret_cast<const Statement_Block*>(
         &_Statement_Block_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 9;
+  static constexpr int kIndexInFileMessages = 8;
   friend void swap(Statement_Block& a, Statement_Block& b) { a.Swap(&b); }
   inline void Swap(Statement_Block* other) {
     if (other == this) return;
@@ -2964,256 +2863,6 @@ class Statement_Block final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
-class Statement_For final : public ::google::protobuf::Message
-/* @@protoc_insertion_point(class_definition:ez_proto.Statement.For) */ {
- public:
-  inline Statement_For() : Statement_For(nullptr) {}
-  ~Statement_For() PROTOBUF_FINAL;
-  template <typename = void>
-  explicit PROTOBUF_CONSTEXPR Statement_For(
-      ::google::protobuf::internal::ConstantInitialized);
-
-  inline Statement_For(const Statement_For& from) : Statement_For(nullptr, from) {}
-  inline Statement_For(Statement_For&& from) noexcept
-      : Statement_For(nullptr, std::move(from)) {}
-  inline Statement_For& operator=(const Statement_For& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Statement_For& operator=(Statement_For&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetArena() == from.GetArena()
-#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
-        && GetArena() != nullptr
-#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
-    ) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
-  }
-  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
-      ABSL_ATTRIBUTE_LIFETIME_BOUND {
-    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::google::protobuf::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::google::protobuf::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const Statement_For& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const Statement_For* internal_default_instance() {
-    return reinterpret_cast<const Statement_For*>(
-        &_Statement_For_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages = 10;
-  friend void swap(Statement_For& a, Statement_For& b) { a.Swap(&b); }
-  inline void Swap(Statement_For* other) {
-    if (other == this) return;
-#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
-#else   // PROTOBUF_FORCE_COPY_IN_SWAP
-    if (GetArena() == other->GetArena()) {
-#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
-      InternalSwap(other);
-    } else {
-      ::google::protobuf::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(Statement_For* other) {
-    if (other == this) return;
-    ABSL_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  Statement_For* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
-    return ::google::protobuf::Message::DefaultConstruct<Statement_For>(arena);
-  }
-  using ::google::protobuf::Message::CopyFrom;
-  void CopyFrom(const Statement_For& from);
-  using ::google::protobuf::Message::MergeFrom;
-  void MergeFrom(const Statement_For& from) { Statement_For::MergeImpl(*this, from); }
-
-  private:
-  static void MergeImpl(
-      ::google::protobuf::MessageLite& to_msg,
-      const ::google::protobuf::MessageLite& from_msg);
-
-  public:
-  bool IsInitialized() const {
-    return IsInitializedImpl(*this);
-  }
-
-  private:
-  static bool IsInitializedImpl(const MessageLite& msg);
-
-  public:
-  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
-  #if defined(PROTOBUF_CUSTOM_VTABLE)
-  private:
-  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
-  static ::uint8_t* _InternalSerialize(
-      const MessageLite& msg, ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream);
-
-  public:
-  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-    return _InternalSerialize(*this, target, stream);
-  }
-  #else   // PROTOBUF_CUSTOM_VTABLE
-  ::size_t ByteSizeLong() const final;
-  ::uint8_t* _InternalSerialize(
-      ::uint8_t* target,
-      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
-  #endif  // PROTOBUF_CUSTOM_VTABLE
-  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
-
-  private:
-  void SharedCtor(::google::protobuf::Arena* arena);
-  void SharedDtor();
-  void InternalSwap(Statement_For* other);
- private:
-  friend class ::google::protobuf::internal::AnyMetadata;
-  static ::absl::string_view FullMessageName() { return "ez_proto.Statement.For"; }
-
- protected:
-  explicit Statement_For(::google::protobuf::Arena* arena);
-  Statement_For(::google::protobuf::Arena* arena, const Statement_For& from);
-  Statement_For(::google::protobuf::Arena* arena, Statement_For&& from) noexcept
-      : Statement_For(arena) {
-    *this = ::std::move(from);
-  }
-  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
-  static const ::google::protobuf::Message::ClassDataFull _class_data_;
-
- public:
-  ::google::protobuf::Metadata GetMetadata() const;
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-  enum : int {
-    kInitializerFieldNumber = 1,
-    kConditionFieldNumber = 2,
-    kIncrementFieldNumber = 3,
-    kBodyFieldNumber = 4,
-  };
-  // required .ez_proto.Expr initializer = 1;
-  bool has_initializer() const;
-  void clear_initializer() ;
-  const ::ez_proto::Expr& initializer() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr* release_initializer();
-  ::ez_proto::Expr* mutable_initializer();
-  void set_allocated_initializer(::ez_proto::Expr* value);
-  void unsafe_arena_set_allocated_initializer(::ez_proto::Expr* value);
-  ::ez_proto::Expr* unsafe_arena_release_initializer();
-
-  private:
-  const ::ez_proto::Expr& _internal_initializer() const;
-  ::ez_proto::Expr* _internal_mutable_initializer();
-
-  public:
-  // required .ez_proto.Expr condition = 2;
-  bool has_condition() const;
-  void clear_condition() ;
-  const ::ez_proto::Expr& condition() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr* release_condition();
-  ::ez_proto::Expr* mutable_condition();
-  void set_allocated_condition(::ez_proto::Expr* value);
-  void unsafe_arena_set_allocated_condition(::ez_proto::Expr* value);
-  ::ez_proto::Expr* unsafe_arena_release_condition();
-
-  private:
-  const ::ez_proto::Expr& _internal_condition() const;
-  ::ez_proto::Expr* _internal_mutable_condition();
-
-  public:
-  // required .ez_proto.Expr increment = 3;
-  bool has_increment() const;
-  void clear_increment() ;
-  const ::ez_proto::Expr& increment() const;
-  PROTOBUF_NODISCARD ::ez_proto::Expr* release_increment();
-  ::ez_proto::Expr* mutable_increment();
-  void set_allocated_increment(::ez_proto::Expr* value);
-  void unsafe_arena_set_allocated_increment(::ez_proto::Expr* value);
-  ::ez_proto::Expr* unsafe_arena_release_increment();
-
-  private:
-  const ::ez_proto::Expr& _internal_increment() const;
-  ::ez_proto::Expr* _internal_mutable_increment();
-
-  public:
-  // required .ez_proto.Statement body = 4;
-  bool has_body() const;
-  void clear_body() ;
-  const ::ez_proto::Statement& body() const;
-  PROTOBUF_NODISCARD ::ez_proto::Statement* release_body();
-  ::ez_proto::Statement* mutable_body();
-  void set_allocated_body(::ez_proto::Statement* value);
-  void unsafe_arena_set_allocated_body(::ez_proto::Statement* value);
-  ::ez_proto::Statement* unsafe_arena_release_body();
-
-  private:
-  const ::ez_proto::Statement& _internal_body() const;
-  ::ez_proto::Statement* _internal_mutable_body();
-
-  public:
-  // @@protoc_insertion_point(class_scope:ez_proto.Statement.For)
- private:
-  class _Internal;
-  friend class ::google::protobuf::internal::TcParser;
-  static const ::google::protobuf::internal::TcParseTable<
-      2, 4, 4,
-      0, 2>
-      _table_;
-
-  static constexpr const void* _raw_default_instance_ =
-      &_Statement_For_default_instance_;
-
-  friend class ::google::protobuf::MessageLite;
-  friend class ::google::protobuf::Arena;
-  template <typename T>
-  friend class ::google::protobuf::Arena::InternalHelper;
-  using InternalArenaConstructable_ = void;
-  using DestructorSkippable_ = void;
-  struct Impl_ {
-    inline explicit constexpr Impl_(
-        ::google::protobuf::internal::ConstantInitialized) noexcept;
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena);
-    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
-                          ::google::protobuf::Arena* arena, const Impl_& from,
-                          const Statement_For& from_msg);
-    ::google::protobuf::internal::HasBits<1> _has_bits_;
-    mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::ez_proto::Expr* initializer_;
-    ::ez_proto::Expr* condition_;
-    ::ez_proto::Expr* increment_;
-    ::ez_proto::Statement* body_;
-    PROTOBUF_TSAN_DECLARE_MEMBER
-  };
-  union { Impl_ _impl_; };
-  friend struct ::TableStruct_ez_5fir_2eproto;
-};
-// -------------------------------------------------------------------
-
 class Statement_If final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ez_proto.Statement.If) */ {
  public:
@@ -3269,7 +2918,7 @@ class Statement_If final : public ::google::protobuf::Message
     return reinterpret_cast<const Statement_If*>(
         &_Statement_If_default_instance_);
   }
-  static constexpr int kIndexInFileMessages = 8;
+  static constexpr int kIndexInFileMessages = 7;
   friend void swap(Statement_If& a, Statement_If& b) { a.Swap(&b); }
   inline void Swap(Statement_If* other) {
     if (other == this) return;
@@ -3447,6 +3096,222 @@ class Statement_If final : public ::google::protobuf::Message
 };
 // -------------------------------------------------------------------
 
+class Statement_While final : public ::google::protobuf::Message
+/* @@protoc_insertion_point(class_definition:ez_proto.Statement.While) */ {
+ public:
+  inline Statement_While() : Statement_While(nullptr) {}
+  ~Statement_While() PROTOBUF_FINAL;
+  template <typename = void>
+  explicit PROTOBUF_CONSTEXPR Statement_While(
+      ::google::protobuf::internal::ConstantInitialized);
+
+  inline Statement_While(const Statement_While& from) : Statement_While(nullptr, from) {}
+  inline Statement_While(Statement_While&& from) noexcept
+      : Statement_While(nullptr, std::move(from)) {}
+  inline Statement_While& operator=(const Statement_While& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Statement_While& operator=(Statement_While&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetArena() == from.GetArena()
+#ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetArena() != nullptr
+#endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance);
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields()
+      ABSL_ATTRIBUTE_LIFETIME_BOUND {
+    return _internal_metadata_.mutable_unknown_fields<::google::protobuf::UnknownFieldSet>();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::google::protobuf::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::google::protobuf::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Statement_While& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Statement_While* internal_default_instance() {
+    return reinterpret_cast<const Statement_While*>(
+        &_Statement_While_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages = 9;
+  friend void swap(Statement_While& a, Statement_While& b) { a.Swap(&b); }
+  inline void Swap(Statement_While* other) {
+    if (other == this) return;
+#ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() != nullptr && GetArena() == other->GetArena()) {
+#else   // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetArena() == other->GetArena()) {
+#endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::google::protobuf::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Statement_While* other) {
+    if (other == this) return;
+    ABSL_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Statement_While* New(::google::protobuf::Arena* arena = nullptr) const PROTOBUF_FINAL {
+    return ::google::protobuf::Message::DefaultConstruct<Statement_While>(arena);
+  }
+  using ::google::protobuf::Message::CopyFrom;
+  void CopyFrom(const Statement_While& from);
+  using ::google::protobuf::Message::MergeFrom;
+  void MergeFrom(const Statement_While& from) { Statement_While::MergeImpl(*this, from); }
+
+  private:
+  static void MergeImpl(
+      ::google::protobuf::MessageLite& to_msg,
+      const ::google::protobuf::MessageLite& from_msg);
+
+  public:
+  bool IsInitialized() const {
+    return IsInitializedImpl(*this);
+  }
+
+  private:
+  static bool IsInitializedImpl(const MessageLite& msg);
+
+  public:
+  ABSL_ATTRIBUTE_REINITIALIZES void Clear() PROTOBUF_FINAL;
+  #if defined(PROTOBUF_CUSTOM_VTABLE)
+  private:
+  static ::size_t ByteSizeLong(const ::google::protobuf::MessageLite& msg);
+  static ::uint8_t* _InternalSerialize(
+      const MessageLite& msg, ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream);
+
+  public:
+  ::size_t ByteSizeLong() const { return ByteSizeLong(*this); }
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+    return _InternalSerialize(*this, target, stream);
+  }
+  #else   // PROTOBUF_CUSTOM_VTABLE
+  ::size_t ByteSizeLong() const final;
+  ::uint8_t* _InternalSerialize(
+      ::uint8_t* target,
+      ::google::protobuf::io::EpsCopyOutputStream* stream) const final;
+  #endif  // PROTOBUF_CUSTOM_VTABLE
+  int GetCachedSize() const { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::google::protobuf::Arena* arena);
+  void SharedDtor();
+  void InternalSwap(Statement_While* other);
+ private:
+  friend class ::google::protobuf::internal::AnyMetadata;
+  static ::absl::string_view FullMessageName() { return "ez_proto.Statement.While"; }
+
+ protected:
+  explicit Statement_While(::google::protobuf::Arena* arena);
+  Statement_While(::google::protobuf::Arena* arena, const Statement_While& from);
+  Statement_While(::google::protobuf::Arena* arena, Statement_While&& from) noexcept
+      : Statement_While(arena) {
+    *this = ::std::move(from);
+  }
+  const ::google::protobuf::Message::ClassData* GetClassData() const PROTOBUF_FINAL;
+  static const ::google::protobuf::Message::ClassDataFull _class_data_;
+
+ public:
+  ::google::protobuf::Metadata GetMetadata() const;
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+  enum : int {
+    kConditionFieldNumber = 1,
+    kBodyFieldNumber = 2,
+  };
+  // required .ez_proto.Expr condition = 1;
+  bool has_condition() const;
+  void clear_condition() ;
+  const ::ez_proto::Expr& condition() const;
+  PROTOBUF_NODISCARD ::ez_proto::Expr* release_condition();
+  ::ez_proto::Expr* mutable_condition();
+  void set_allocated_condition(::ez_proto::Expr* value);
+  void unsafe_arena_set_allocated_condition(::ez_proto::Expr* value);
+  ::ez_proto::Expr* unsafe_arena_release_condition();
+
+  private:
+  const ::ez_proto::Expr& _internal_condition() const;
+  ::ez_proto::Expr* _internal_mutable_condition();
+
+  public:
+  // required .ez_proto.Statement body = 2;
+  bool has_body() const;
+  void clear_body() ;
+  const ::ez_proto::Statement& body() const;
+  PROTOBUF_NODISCARD ::ez_proto::Statement* release_body();
+  ::ez_proto::Statement* mutable_body();
+  void set_allocated_body(::ez_proto::Statement* value);
+  void unsafe_arena_set_allocated_body(::ez_proto::Statement* value);
+  ::ez_proto::Statement* unsafe_arena_release_body();
+
+  private:
+  const ::ez_proto::Statement& _internal_body() const;
+  ::ez_proto::Statement* _internal_mutable_body();
+
+  public:
+  // @@protoc_insertion_point(class_scope:ez_proto.Statement.While)
+ private:
+  class _Internal;
+  friend class ::google::protobuf::internal::TcParser;
+  static const ::google::protobuf::internal::TcParseTable<
+      1, 2, 2,
+      0, 2>
+      _table_;
+
+  static constexpr const void* _raw_default_instance_ =
+      &_Statement_While_default_instance_;
+
+  friend class ::google::protobuf::MessageLite;
+  friend class ::google::protobuf::Arena;
+  template <typename T>
+  friend class ::google::protobuf::Arena::InternalHelper;
+  using InternalArenaConstructable_ = void;
+  using DestructorSkippable_ = void;
+  struct Impl_ {
+    inline explicit constexpr Impl_(
+        ::google::protobuf::internal::ConstantInitialized) noexcept;
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena);
+    inline explicit Impl_(::google::protobuf::internal::InternalVisibility visibility,
+                          ::google::protobuf::Arena* arena, const Impl_& from,
+                          const Statement_While& from_msg);
+    ::google::protobuf::internal::HasBits<1> _has_bits_;
+    mutable ::google::protobuf::internal::CachedSize _cached_size_;
+    ::ez_proto::Expr* condition_;
+    ::ez_proto::Statement* body_;
+    PROTOBUF_TSAN_DECLARE_MEMBER
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_ez_5fir_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Definition final : public ::google::protobuf::Message
 /* @@protoc_insertion_point(class_definition:ez_proto.Definition) */ {
  public:
@@ -3590,32 +3455,32 @@ class Definition final : public ::google::protobuf::Message
  public:
   ::google::protobuf::Metadata GetMetadata() const;
   // nested types ----------------------------------------------------
-  using EzTypedArg = Definition_EzTypedArg;
+  using EzTypedParam = Definition_EzTypedParam;
 
   // accessors -------------------------------------------------------
   enum : int {
-    kArgsFieldNumber = 3,
+    kParamsFieldNumber = 3,
     kNameFieldNumber = 2,
     kReturnTypeFieldNumber = 1,
     kBodyFieldNumber = 4,
   };
-  // repeated .ez_proto.Definition.EzTypedArg args = 3;
-  int args_size() const;
+  // repeated .ez_proto.Definition.EzTypedParam params = 3;
+  int params_size() const;
   private:
-  int _internal_args_size() const;
+  int _internal_params_size() const;
 
   public:
-  void clear_args() ;
-  ::ez_proto::Definition_EzTypedArg* mutable_args(int index);
-  ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>* mutable_args();
+  void clear_params() ;
+  ::ez_proto::Definition_EzTypedParam* mutable_params(int index);
+  ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>* mutable_params();
 
   private:
-  const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>& _internal_args() const;
-  ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>* _internal_mutable_args();
+  const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>& _internal_params() const;
+  ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>* _internal_mutable_params();
   public:
-  const ::ez_proto::Definition_EzTypedArg& args(int index) const;
-  ::ez_proto::Definition_EzTypedArg* add_args();
-  const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>& args() const;
+  const ::ez_proto::Definition_EzTypedParam& params(int index) const;
+  ::ez_proto::Definition_EzTypedParam* add_params();
+  const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>& params() const;
   // required string name = 2;
   bool has_name() const;
   void clear_name() ;
@@ -3691,7 +3556,7 @@ class Definition final : public ::google::protobuf::Message
                           const Definition& from_msg);
     ::google::protobuf::internal::HasBits<1> _has_bits_;
     mutable ::google::protobuf::internal::CachedSize _cached_size_;
-    ::google::protobuf::RepeatedPtrField< ::ez_proto::Definition_EzTypedArg > args_;
+    ::google::protobuf::RepeatedPtrField< ::ez_proto::Definition_EzTypedParam > params_;
     ::google::protobuf::internal::ArenaStringPtr name_;
     ::ez_proto::EzType* return_type_;
     ::ez_proto::Statement* body_;
@@ -4041,9 +3906,92 @@ inline EzType::KindCase EzType::kind_case() const {
 }
 // -------------------------------------------------------------------
 
+// Value_Unit
+
+// -------------------------------------------------------------------
+
 // Value
 
-// int64 i64_val = 1;
+// .ez_proto.Value.Unit unit_val = 1;
+inline bool Value::has_unit_val() const {
+  return kind_case() == kUnitVal;
+}
+inline bool Value::_internal_has_unit_val() const {
+  return kind_case() == kUnitVal;
+}
+inline void Value::set_has_unit_val() {
+  _impl_._oneof_case_[0] = kUnitVal;
+}
+inline void Value::clear_unit_val() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (kind_case() == kUnitVal) {
+    if (GetArena() == nullptr) {
+      delete _impl_.kind_.unit_val_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.unit_val_);
+    }
+    clear_has_kind();
+  }
+}
+inline ::ez_proto::Value_Unit* Value::release_unit_val() {
+  // @@protoc_insertion_point(field_release:ez_proto.Value.unit_val)
+  if (kind_case() == kUnitVal) {
+    clear_has_kind();
+    auto* temp = _impl_.kind_.unit_val_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.kind_.unit_val_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ez_proto::Value_Unit& Value::_internal_unit_val() const {
+  return kind_case() == kUnitVal ? *_impl_.kind_.unit_val_ : reinterpret_cast<::ez_proto::Value_Unit&>(::ez_proto::_Value_Unit_default_instance_);
+}
+inline const ::ez_proto::Value_Unit& Value::unit_val() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Value.unit_val)
+  return _internal_unit_val();
+}
+inline ::ez_proto::Value_Unit* Value::unsafe_arena_release_unit_val() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Value.unit_val)
+  if (kind_case() == kUnitVal) {
+    clear_has_kind();
+    auto* temp = _impl_.kind_.unit_val_;
+    _impl_.kind_.unit_val_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Value::unsafe_arena_set_allocated_unit_val(::ez_proto::Value_Unit* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_kind();
+  if (value) {
+    set_has_unit_val();
+    _impl_.kind_.unit_val_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Value.unit_val)
+}
+inline ::ez_proto::Value_Unit* Value::_internal_mutable_unit_val() {
+  if (kind_case() != kUnitVal) {
+    clear_kind();
+    set_has_unit_val();
+    _impl_.kind_.unit_val_ =
+        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Value_Unit>(GetArena());
+  }
+  return _impl_.kind_.unit_val_;
+}
+inline ::ez_proto::Value_Unit* Value::mutable_unit_val() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::ez_proto::Value_Unit* _msg = _internal_mutable_unit_val();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Value.unit_val)
+  return _msg;
+}
+
+// int64 i64_val = 2;
 inline bool Value::has_i64_val() const {
   return kind_case() == kI64Val;
 }
@@ -4076,7 +4024,7 @@ inline ::int64_t Value::_internal_i64_val() const {
   return ::int64_t{0};
 }
 
-// string str_val = 2;
+// string str_val = 3;
 inline bool Value::has_str_val() const {
   return kind_case() == kStrVal;
 }
@@ -4161,7 +4109,7 @@ inline void Value::set_allocated_str_val(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:ez_proto.Value.str_val)
 }
 
-// double f64_val = 3;
+// double f64_val = 4;
 inline bool Value::has_f64_val() const {
   return kind_case() == kF64Val;
 }
@@ -4194,7 +4142,7 @@ inline double Value::_internal_f64_val() const {
   return 0;
 }
 
-// bool bool_val = 4;
+// bool bool_val = 5;
 inline bool Value::has_bool_val() const {
   return kind_case() == kBoolVal;
 }
@@ -4236,177 +4184,6 @@ inline void Value::clear_has_kind() {
 inline Value::KindCase Value::kind_case() const {
   return Value::KindCase(_impl_._oneof_case_[0]);
 }
-// -------------------------------------------------------------------
-
-// Expr_Assign
-
-// required string name = 1;
-inline bool Expr_Assign::has_name() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline void Expr_Assign::clear_name() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.name_.ClearToEmpty();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& Expr_Assign::name() const
-    ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.Assign.name)
-  return _internal_name();
-}
-template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void Expr_Assign::set_name(Arg_&& arg,
-                                                     Args_... args) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:ez_proto.Expr.Assign.name)
-}
-inline std::string* Expr_Assign::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Expr.Assign.name)
-  return _s;
-}
-inline const std::string& Expr_Assign::_internal_name() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.name_.Get();
-}
-inline void Expr_Assign::_internal_set_name(const std::string& value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  _impl_.name_.Set(value, GetArena());
-}
-inline std::string* Expr_Assign::_internal_mutable_name() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_._has_bits_[0] |= 0x00000001u;
-  return _impl_.name_.Mutable( GetArena());
-}
-inline std::string* Expr_Assign::release_name() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Expr.Assign.name)
-  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
-    return nullptr;
-  }
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  auto* released = _impl_.name_.Release();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.name_.Set("", GetArena());
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  return released;
-}
-inline void Expr_Assign::set_allocated_name(std::string* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  _impl_.name_.SetAllocated(value, GetArena());
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-        if (_impl_.name_.IsDefault()) {
-          _impl_.name_.Set("", GetArena());
-        }
-  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Expr.Assign.name)
-}
-
-// required .ez_proto.Expr rhs = 2;
-inline bool Expr_Assign::has_rhs() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.rhs_ != nullptr);
-  return value;
-}
-inline void Expr_Assign::clear_rhs() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.rhs_ != nullptr) _impl_.rhs_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline const ::ez_proto::Expr& Expr_Assign::_internal_rhs() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ez_proto::Expr* p = _impl_.rhs_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
-}
-inline const ::ez_proto::Expr& Expr_Assign::rhs() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.Assign.rhs)
-  return _internal_rhs();
-}
-inline void Expr_Assign::unsafe_arena_set_allocated_rhs(::ez_proto::Expr* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.rhs_);
-  }
-  _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Expr.Assign.rhs)
-}
-inline ::ez_proto::Expr* Expr_Assign::release_rhs() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::ez_proto::Expr* released = _impl_.rhs_;
-  _impl_.rhs_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
-  }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
-}
-inline ::ez_proto::Expr* Expr_Assign::unsafe_arena_release_rhs() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Expr.Assign.rhs)
-
-  _impl_._has_bits_[0] &= ~0x00000002u;
-  ::ez_proto::Expr* temp = _impl_.rhs_;
-  _impl_.rhs_ = nullptr;
-  return temp;
-}
-inline ::ez_proto::Expr* Expr_Assign::_internal_mutable_rhs() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.rhs_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
-    _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(p);
-  }
-  return _impl_.rhs_;
-}
-inline ::ez_proto::Expr* Expr_Assign::mutable_rhs() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000002u;
-  ::ez_proto::Expr* _msg = _internal_mutable_rhs();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Expr.Assign.rhs)
-  return _msg;
-}
-inline void Expr_Assign::set_allocated_rhs(::ez_proto::Expr* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.rhs_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000002u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
-  }
-
-  _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Expr.Assign.rhs)
-}
-
 // -------------------------------------------------------------------
 
 // Expr_Binary
@@ -4634,135 +4411,6 @@ inline void Expr_Binary::set_allocated_rhs(::ez_proto::Expr* value) {
 
 // -------------------------------------------------------------------
 
-// Expr_Unary
-
-// required .ez_proto.Expr.Unary.UnOp op = 1;
-inline bool Expr_Unary::has_op() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline void Expr_Unary::clear_op() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.op_ = 0;
-  _impl_._has_bits_[0] &= ~0x00000002u;
-}
-inline ::ez_proto::Expr_Unary_UnOp Expr_Unary::op() const {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.Unary.op)
-  return _internal_op();
-}
-inline void Expr_Unary::set_op(::ez_proto::Expr_Unary_UnOp value) {
-  _internal_set_op(value);
-  _impl_._has_bits_[0] |= 0x00000002u;
-  // @@protoc_insertion_point(field_set:ez_proto.Expr.Unary.op)
-}
-inline ::ez_proto::Expr_Unary_UnOp Expr_Unary::_internal_op() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  return static_cast<::ez_proto::Expr_Unary_UnOp>(_impl_.op_);
-}
-inline void Expr_Unary::_internal_set_op(::ez_proto::Expr_Unary_UnOp value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  assert(::ez_proto::Expr_Unary_UnOp_IsValid(value));
-  _impl_.op_ = value;
-}
-
-// required .ez_proto.Expr inner = 2;
-inline bool Expr_Unary::has_inner() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.inner_ != nullptr);
-  return value;
-}
-inline void Expr_Unary::clear_inner() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.inner_ != nullptr) _impl_.inner_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::ez_proto::Expr& Expr_Unary::_internal_inner() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ez_proto::Expr* p = _impl_.inner_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
-}
-inline const ::ez_proto::Expr& Expr_Unary::inner() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.Unary.inner)
-  return _internal_inner();
-}
-inline void Expr_Unary::unsafe_arena_set_allocated_inner(::ez_proto::Expr* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.inner_);
-  }
-  _impl_.inner_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Expr.Unary.inner)
-}
-inline ::ez_proto::Expr* Expr_Unary::release_inner() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::ez_proto::Expr* released = _impl_.inner_;
-  _impl_.inner_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
-  }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
-}
-inline ::ez_proto::Expr* Expr_Unary::unsafe_arena_release_inner() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Expr.Unary.inner)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::ez_proto::Expr* temp = _impl_.inner_;
-  _impl_.inner_ = nullptr;
-  return temp;
-}
-inline ::ez_proto::Expr* Expr_Unary::_internal_mutable_inner() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.inner_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
-    _impl_.inner_ = reinterpret_cast<::ez_proto::Expr*>(p);
-  }
-  return _impl_.inner_;
-}
-inline ::ez_proto::Expr* Expr_Unary::mutable_inner() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::ez_proto::Expr* _msg = _internal_mutable_inner();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Expr.Unary.inner)
-  return _msg;
-}
-inline void Expr_Unary::set_allocated_inner(::ez_proto::Expr* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.inner_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-
-  _impl_.inner_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Expr.Unary.inner)
-}
-
-// -------------------------------------------------------------------
-
 // Expr_Call
 
 // required string callee = 1;
@@ -4889,86 +4537,7 @@ Expr_Call::_internal_mutable_args() {
 
 // Expr
 
-// .ez_proto.Expr.Assign assign = 1;
-inline bool Expr::has_assign() const {
-  return kind_case() == kAssign;
-}
-inline bool Expr::_internal_has_assign() const {
-  return kind_case() == kAssign;
-}
-inline void Expr::set_has_assign() {
-  _impl_._oneof_case_[0] = kAssign;
-}
-inline void Expr::clear_assign() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (kind_case() == kAssign) {
-    if (GetArena() == nullptr) {
-      delete _impl_.kind_.assign_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.assign_);
-    }
-    clear_has_kind();
-  }
-}
-inline ::ez_proto::Expr_Assign* Expr::release_assign() {
-  // @@protoc_insertion_point(field_release:ez_proto.Expr.assign)
-  if (kind_case() == kAssign) {
-    clear_has_kind();
-    auto* temp = _impl_.kind_.assign_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.kind_.assign_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::ez_proto::Expr_Assign& Expr::_internal_assign() const {
-  return kind_case() == kAssign ? *_impl_.kind_.assign_ : reinterpret_cast<::ez_proto::Expr_Assign&>(::ez_proto::_Expr_Assign_default_instance_);
-}
-inline const ::ez_proto::Expr_Assign& Expr::assign() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.assign)
-  return _internal_assign();
-}
-inline ::ez_proto::Expr_Assign* Expr::unsafe_arena_release_assign() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Expr.assign)
-  if (kind_case() == kAssign) {
-    clear_has_kind();
-    auto* temp = _impl_.kind_.assign_;
-    _impl_.kind_.assign_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Expr::unsafe_arena_set_allocated_assign(::ez_proto::Expr_Assign* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_kind();
-  if (value) {
-    set_has_assign();
-    _impl_.kind_.assign_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Expr.assign)
-}
-inline ::ez_proto::Expr_Assign* Expr::_internal_mutable_assign() {
-  if (kind_case() != kAssign) {
-    clear_kind();
-    set_has_assign();
-    _impl_.kind_.assign_ =
-        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr_Assign>(GetArena());
-  }
-  return _impl_.kind_.assign_;
-}
-inline ::ez_proto::Expr_Assign* Expr::mutable_assign() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::ez_proto::Expr_Assign* _msg = _internal_mutable_assign();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Expr.assign)
-  return _msg;
-}
-
-// .ez_proto.Expr.Binary binary = 2;
+// .ez_proto.Expr.Binary binary = 1;
 inline bool Expr::has_binary() const {
   return kind_case() == kBinary;
 }
@@ -5047,86 +4616,7 @@ inline ::ez_proto::Expr_Binary* Expr::mutable_binary() ABSL_ATTRIBUTE_LIFETIME_B
   return _msg;
 }
 
-// .ez_proto.Expr.Unary unary = 3;
-inline bool Expr::has_unary() const {
-  return kind_case() == kUnary;
-}
-inline bool Expr::_internal_has_unary() const {
-  return kind_case() == kUnary;
-}
-inline void Expr::set_has_unary() {
-  _impl_._oneof_case_[0] = kUnary;
-}
-inline void Expr::clear_unary() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (kind_case() == kUnary) {
-    if (GetArena() == nullptr) {
-      delete _impl_.kind_.unary_;
-    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.unary_);
-    }
-    clear_has_kind();
-  }
-}
-inline ::ez_proto::Expr_Unary* Expr::release_unary() {
-  // @@protoc_insertion_point(field_release:ez_proto.Expr.unary)
-  if (kind_case() == kUnary) {
-    clear_has_kind();
-    auto* temp = _impl_.kind_.unary_;
-    if (GetArena() != nullptr) {
-      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
-    }
-    _impl_.kind_.unary_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline const ::ez_proto::Expr_Unary& Expr::_internal_unary() const {
-  return kind_case() == kUnary ? *_impl_.kind_.unary_ : reinterpret_cast<::ez_proto::Expr_Unary&>(::ez_proto::_Expr_Unary_default_instance_);
-}
-inline const ::ez_proto::Expr_Unary& Expr::unary() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Expr.unary)
-  return _internal_unary();
-}
-inline ::ez_proto::Expr_Unary* Expr::unsafe_arena_release_unary() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Expr.unary)
-  if (kind_case() == kUnary) {
-    clear_has_kind();
-    auto* temp = _impl_.kind_.unary_;
-    _impl_.kind_.unary_ = nullptr;
-    return temp;
-  } else {
-    return nullptr;
-  }
-}
-inline void Expr::unsafe_arena_set_allocated_unary(::ez_proto::Expr_Unary* value) {
-  // We rely on the oneof clear method to free the earlier contents
-  // of this oneof. We can directly use the pointer we're given to
-  // set the new value.
-  clear_kind();
-  if (value) {
-    set_has_unary();
-    _impl_.kind_.unary_ = value;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Expr.unary)
-}
-inline ::ez_proto::Expr_Unary* Expr::_internal_mutable_unary() {
-  if (kind_case() != kUnary) {
-    clear_kind();
-    set_has_unary();
-    _impl_.kind_.unary_ =
-        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr_Unary>(GetArena());
-  }
-  return _impl_.kind_.unary_;
-}
-inline ::ez_proto::Expr_Unary* Expr::mutable_unary() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::ez_proto::Expr_Unary* _msg = _internal_mutable_unary();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Expr.unary)
-  return _msg;
-}
-
-// .ez_proto.Value value = 4;
+// .ez_proto.Value value = 2;
 inline bool Expr::has_value() const {
   return kind_case() == kValue;
 }
@@ -5205,7 +4695,7 @@ inline ::ez_proto::Value* Expr::mutable_value() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   return _msg;
 }
 
-// string variable = 5;
+// string variable = 3;
 inline bool Expr::has_variable() const {
   return kind_case() == kVariable;
 }
@@ -5290,7 +4780,7 @@ inline void Expr::set_allocated_variable(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:ez_proto.Expr.variable)
 }
 
-// .ez_proto.Expr.Call call = 6;
+// .ez_proto.Expr.Call call = 4;
 inline bool Expr::has_call() const {
   return kind_case() == kCall;
 }
@@ -5549,16 +5039,112 @@ inline void Statement_Declaration::set_allocated_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.Declaration.name)
 }
 
-// required .ez_proto.Expr rhs = 2;
-inline bool Statement_Declaration::has_rhs() const {
+// required .ez_proto.EzType type = 2;
+inline bool Statement_Declaration::has_type() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.type_ != nullptr);
+  return value;
+}
+inline void Statement_Declaration::clear_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.type_ != nullptr) _impl_.type_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ez_proto::EzType& Statement_Declaration::_internal_type() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ez_proto::EzType* p = _impl_.type_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::EzType&>(::ez_proto::_EzType_default_instance_);
+}
+inline const ::ez_proto::EzType& Statement_Declaration::type() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.Declaration.type)
+  return _internal_type();
+}
+inline void Statement_Declaration::unsafe_arena_set_allocated_type(::ez_proto::EzType* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.type_);
+  }
+  _impl_.type_ = reinterpret_cast<::ez_proto::EzType*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.Declaration.type)
+}
+inline ::ez_proto::EzType* Statement_Declaration::release_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ez_proto::EzType* released = _impl_.type_;
+  _impl_.type_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::ez_proto::EzType* Statement_Declaration::unsafe_arena_release_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.Declaration.type)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ez_proto::EzType* temp = _impl_.type_;
+  _impl_.type_ = nullptr;
+  return temp;
+}
+inline ::ez_proto::EzType* Statement_Declaration::_internal_mutable_type() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.type_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::EzType>(GetArena());
+    _impl_.type_ = reinterpret_cast<::ez_proto::EzType*>(p);
+  }
+  return _impl_.type_;
+}
+inline ::ez_proto::EzType* Statement_Declaration::mutable_type() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ez_proto::EzType* _msg = _internal_mutable_type();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.Declaration.type)
+  return _msg;
+}
+inline void Statement_Declaration::set_allocated_type(::ez_proto::EzType* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.type_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.type_ = reinterpret_cast<::ez_proto::EzType*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.Declaration.type)
+}
+
+// required .ez_proto.Expr rhs = 3;
+inline bool Statement_Declaration::has_rhs() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.rhs_ != nullptr);
   return value;
 }
 inline void Statement_Declaration::clear_rhs() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.rhs_ != nullptr) _impl_.rhs_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
 }
 inline const ::ez_proto::Expr& Statement_Declaration::_internal_rhs() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
@@ -5576,16 +5162,16 @@ inline void Statement_Declaration::unsafe_arena_set_allocated_rhs(::ez_proto::Ex
   }
   _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_._has_bits_[0] |= 0x00000004u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_._has_bits_[0] &= ~0x00000004u;
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.Declaration.rhs)
 }
 inline ::ez_proto::Expr* Statement_Declaration::release_rhs() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
   ::ez_proto::Expr* released = _impl_.rhs_;
   _impl_.rhs_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
@@ -5605,7 +5191,7 @@ inline ::ez_proto::Expr* Statement_Declaration::unsafe_arena_release_rhs() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   // @@protoc_insertion_point(field_release:ez_proto.Statement.Declaration.rhs)
 
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000004u;
   ::ez_proto::Expr* temp = _impl_.rhs_;
   _impl_.rhs_ = nullptr;
   return temp;
@@ -5619,7 +5205,7 @@ inline ::ez_proto::Expr* Statement_Declaration::_internal_mutable_rhs() {
   return _impl_.rhs_;
 }
 inline ::ez_proto::Expr* Statement_Declaration::mutable_rhs() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000002u;
+  _impl_._has_bits_[0] |= 0x00000004u;
   ::ez_proto::Expr* _msg = _internal_mutable_rhs();
   // @@protoc_insertion_point(field_mutable:ez_proto.Statement.Declaration.rhs)
   return _msg;
@@ -5636,9 +5222,9 @@ inline void Statement_Declaration::set_allocated_rhs(::ez_proto::Expr* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_._has_bits_[0] |= 0x00000004u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_._has_bits_[0] &= ~0x00000004u;
   }
 
   _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
@@ -5992,141 +5578,45 @@ Statement_Block::_internal_mutable_statements() {
 
 // -------------------------------------------------------------------
 
-// Statement_For
+// Statement_While
 
-// required .ez_proto.Expr initializer = 1;
-inline bool Statement_For::has_initializer() const {
+// required .ez_proto.Expr condition = 1;
+inline bool Statement_While::has_condition() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.initializer_ != nullptr);
-  return value;
-}
-inline void Statement_For::clear_initializer() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.initializer_ != nullptr) _impl_.initializer_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000001u;
-}
-inline const ::ez_proto::Expr& Statement_For::_internal_initializer() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ez_proto::Expr* p = _impl_.initializer_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
-}
-inline const ::ez_proto::Expr& Statement_For::initializer() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Statement.For.initializer)
-  return _internal_initializer();
-}
-inline void Statement_For::unsafe_arena_set_allocated_initializer(::ez_proto::Expr* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.initializer_);
-  }
-  _impl_.initializer_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.For.initializer)
-}
-inline ::ez_proto::Expr* Statement_For::release_initializer() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::ez_proto::Expr* released = _impl_.initializer_;
-  _impl_.initializer_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
-  }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
-}
-inline ::ez_proto::Expr* Statement_For::unsafe_arena_release_initializer() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Statement.For.initializer)
-
-  _impl_._has_bits_[0] &= ~0x00000001u;
-  ::ez_proto::Expr* temp = _impl_.initializer_;
-  _impl_.initializer_ = nullptr;
-  return temp;
-}
-inline ::ez_proto::Expr* Statement_For::_internal_mutable_initializer() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.initializer_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
-    _impl_.initializer_ = reinterpret_cast<::ez_proto::Expr*>(p);
-  }
-  return _impl_.initializer_;
-}
-inline ::ez_proto::Expr* Statement_For::mutable_initializer() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000001u;
-  ::ez_proto::Expr* _msg = _internal_mutable_initializer();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.For.initializer)
-  return _msg;
-}
-inline void Statement_For::set_allocated_initializer(::ez_proto::Expr* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.initializer_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000001u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000001u;
-  }
-
-  _impl_.initializer_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.For.initializer)
-}
-
-// required .ez_proto.Expr condition = 2;
-inline bool Statement_For::has_condition() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.condition_ != nullptr);
   return value;
 }
-inline void Statement_For::clear_condition() {
+inline void Statement_While::clear_condition() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.condition_ != nullptr) _impl_.condition_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const ::ez_proto::Expr& Statement_For::_internal_condition() const {
+inline const ::ez_proto::Expr& Statement_While::_internal_condition() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::ez_proto::Expr* p = _impl_.condition_;
   return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
 }
-inline const ::ez_proto::Expr& Statement_For::condition() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Statement.For.condition)
+inline const ::ez_proto::Expr& Statement_While::condition() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.While.condition)
   return _internal_condition();
 }
-inline void Statement_For::unsafe_arena_set_allocated_condition(::ez_proto::Expr* value) {
+inline void Statement_While::unsafe_arena_set_allocated_condition(::ez_proto::Expr* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.condition_);
   }
   _impl_.condition_ = reinterpret_cast<::ez_proto::Expr*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_._has_bits_[0] |= 0x00000001u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_._has_bits_[0] &= ~0x00000001u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.For.condition)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.While.condition)
 }
-inline ::ez_proto::Expr* Statement_For::release_condition() {
+inline ::ez_proto::Expr* Statement_While::release_condition() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
   ::ez_proto::Expr* released = _impl_.condition_;
   _impl_.condition_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
@@ -6142,16 +5632,16 @@ inline ::ez_proto::Expr* Statement_For::release_condition() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return released;
 }
-inline ::ez_proto::Expr* Statement_For::unsafe_arena_release_condition() {
+inline ::ez_proto::Expr* Statement_While::unsafe_arena_release_condition() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Statement.For.condition)
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.While.condition)
 
-  _impl_._has_bits_[0] &= ~0x00000002u;
+  _impl_._has_bits_[0] &= ~0x00000001u;
   ::ez_proto::Expr* temp = _impl_.condition_;
   _impl_.condition_ = nullptr;
   return temp;
 }
-inline ::ez_proto::Expr* Statement_For::_internal_mutable_condition() {
+inline ::ez_proto::Expr* Statement_While::_internal_mutable_condition() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.condition_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
@@ -6159,13 +5649,13 @@ inline ::ez_proto::Expr* Statement_For::_internal_mutable_condition() {
   }
   return _impl_.condition_;
 }
-inline ::ez_proto::Expr* Statement_For::mutable_condition() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000002u;
+inline ::ez_proto::Expr* Statement_While::mutable_condition() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000001u;
   ::ez_proto::Expr* _msg = _internal_mutable_condition();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.For.condition)
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.While.condition)
   return _msg;
 }
-inline void Statement_For::set_allocated_condition(::ez_proto::Expr* value) {
+inline void Statement_While::set_allocated_condition(::ez_proto::Expr* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -6177,148 +5667,52 @@ inline void Statement_For::set_allocated_condition(::ez_proto::Expr* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00000002u;
+    _impl_._has_bits_[0] |= 0x00000001u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000002u;
+    _impl_._has_bits_[0] &= ~0x00000001u;
   }
 
   _impl_.condition_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.For.condition)
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.While.condition)
 }
 
-// required .ez_proto.Expr increment = 3;
-inline bool Statement_For::has_increment() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000004u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.increment_ != nullptr);
-  return value;
-}
-inline void Statement_For::clear_increment() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.increment_ != nullptr) _impl_.increment_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000004u;
-}
-inline const ::ez_proto::Expr& Statement_For::_internal_increment() const {
-  ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ez_proto::Expr* p = _impl_.increment_;
-  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
-}
-inline const ::ez_proto::Expr& Statement_For::increment() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Statement.For.increment)
-  return _internal_increment();
-}
-inline void Statement_For::unsafe_arena_set_allocated_increment(::ez_proto::Expr* value) {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.increment_);
-  }
-  _impl_.increment_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000004u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.For.increment)
-}
-inline ::ez_proto::Expr* Statement_For::release_increment() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-
-  _impl_._has_bits_[0] &= ~0x00000004u;
-  ::ez_proto::Expr* released = _impl_.increment_;
-  _impl_.increment_ = nullptr;
-#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
-  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
-  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  if (GetArena() == nullptr) {
-    delete old;
-  }
-#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
-  if (GetArena() != nullptr) {
-    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
-  }
-#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
-  return released;
-}
-inline ::ez_proto::Expr* Statement_For::unsafe_arena_release_increment() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Statement.For.increment)
-
-  _impl_._has_bits_[0] &= ~0x00000004u;
-  ::ez_proto::Expr* temp = _impl_.increment_;
-  _impl_.increment_ = nullptr;
-  return temp;
-}
-inline ::ez_proto::Expr* Statement_For::_internal_mutable_increment() {
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.increment_ == nullptr) {
-    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
-    _impl_.increment_ = reinterpret_cast<::ez_proto::Expr*>(p);
-  }
-  return _impl_.increment_;
-}
-inline ::ez_proto::Expr* Statement_For::mutable_increment() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000004u;
-  ::ez_proto::Expr* _msg = _internal_mutable_increment();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.For.increment)
-  return _msg;
-}
-inline void Statement_For::set_allocated_increment(::ez_proto::Expr* value) {
-  ::google::protobuf::Arena* message_arena = GetArena();
-  ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (message_arena == nullptr) {
-    delete (_impl_.increment_);
-  }
-
-  if (value != nullptr) {
-    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
-    if (message_arena != submessage_arena) {
-      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
-    }
-    _impl_._has_bits_[0] |= 0x00000004u;
-  } else {
-    _impl_._has_bits_[0] &= ~0x00000004u;
-  }
-
-  _impl_.increment_ = reinterpret_cast<::ez_proto::Expr*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.For.increment)
-}
-
-// required .ez_proto.Statement body = 4;
-inline bool Statement_For::has_body() const {
-  bool value = (_impl_._has_bits_[0] & 0x00000008u) != 0;
+// required .ez_proto.Statement body = 2;
+inline bool Statement_While::has_body() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
   PROTOBUF_ASSUME(!value || _impl_.body_ != nullptr);
   return value;
 }
-inline void Statement_For::clear_body() {
+inline void Statement_While::clear_body() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.body_ != nullptr) _impl_.body_->Clear();
-  _impl_._has_bits_[0] &= ~0x00000008u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::ez_proto::Statement& Statement_For::_internal_body() const {
+inline const ::ez_proto::Statement& Statement_While::_internal_body() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   const ::ez_proto::Statement* p = _impl_.body_;
   return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Statement&>(::ez_proto::_Statement_default_instance_);
 }
-inline const ::ez_proto::Statement& Statement_For::body() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Statement.For.body)
+inline const ::ez_proto::Statement& Statement_While::body() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.While.body)
   return _internal_body();
 }
-inline void Statement_For::unsafe_arena_set_allocated_body(::ez_proto::Statement* value) {
+inline void Statement_While::unsafe_arena_set_allocated_body(::ez_proto::Statement* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
     delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.body_);
   }
   _impl_.body_ = reinterpret_cast<::ez_proto::Statement*>(value);
   if (value != nullptr) {
-    _impl_._has_bits_[0] |= 0x00000008u;
+    _impl_._has_bits_[0] |= 0x00000002u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000008u;
+    _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.For.body)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.While.body)
 }
-inline ::ez_proto::Statement* Statement_For::release_body() {
+inline ::ez_proto::Statement* Statement_While::release_body() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
-  _impl_._has_bits_[0] &= ~0x00000008u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
   ::ez_proto::Statement* released = _impl_.body_;
   _impl_.body_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
@@ -6334,16 +5728,16 @@ inline ::ez_proto::Statement* Statement_For::release_body() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return released;
 }
-inline ::ez_proto::Statement* Statement_For::unsafe_arena_release_body() {
+inline ::ez_proto::Statement* Statement_While::unsafe_arena_release_body() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Statement.For.body)
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.While.body)
 
-  _impl_._has_bits_[0] &= ~0x00000008u;
+  _impl_._has_bits_[0] &= ~0x00000002u;
   ::ez_proto::Statement* temp = _impl_.body_;
   _impl_.body_ = nullptr;
   return temp;
 }
-inline ::ez_proto::Statement* Statement_For::_internal_mutable_body() {
+inline ::ez_proto::Statement* Statement_While::_internal_mutable_body() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (_impl_.body_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Statement>(GetArena());
@@ -6351,13 +5745,13 @@ inline ::ez_proto::Statement* Statement_For::_internal_mutable_body() {
   }
   return _impl_.body_;
 }
-inline ::ez_proto::Statement* Statement_For::mutable_body() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  _impl_._has_bits_[0] |= 0x00000008u;
+inline ::ez_proto::Statement* Statement_While::mutable_body() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
   ::ez_proto::Statement* _msg = _internal_mutable_body();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.For.body)
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.While.body)
   return _msg;
 }
-inline void Statement_For::set_allocated_body(::ez_proto::Statement* value) {
+inline void Statement_While::set_allocated_body(::ez_proto::Statement* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
@@ -6369,13 +5763,184 @@ inline void Statement_For::set_allocated_body(::ez_proto::Statement* value) {
     if (message_arena != submessage_arena) {
       value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
     }
-    _impl_._has_bits_[0] |= 0x00000008u;
+    _impl_._has_bits_[0] |= 0x00000002u;
   } else {
-    _impl_._has_bits_[0] &= ~0x00000008u;
+    _impl_._has_bits_[0] &= ~0x00000002u;
   }
 
   _impl_.body_ = reinterpret_cast<::ez_proto::Statement*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.For.body)
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.While.body)
+}
+
+// -------------------------------------------------------------------
+
+// Statement_Assign
+
+// required string name = 1;
+inline bool Statement_Assign::has_name() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline void Statement_Assign::clear_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_.name_.ClearToEmpty();
+  _impl_._has_bits_[0] &= ~0x00000001u;
+}
+inline const std::string& Statement_Assign::name() const
+    ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.Assign.name)
+  return _internal_name();
+}
+template <typename Arg_, typename... Args_>
+inline PROTOBUF_ALWAYS_INLINE void Statement_Assign::set_name(Arg_&& arg,
+                                                     Args_... args) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
+  // @@protoc_insertion_point(field_set:ez_proto.Statement.Assign.name)
+}
+inline std::string* Statement_Assign::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.Assign.name)
+  return _s;
+}
+inline const std::string& Statement_Assign::_internal_name() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  return _impl_.name_.Get();
+}
+inline void Statement_Assign::_internal_set_name(const std::string& value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  _impl_.name_.Set(value, GetArena());
+}
+inline std::string* Statement_Assign::_internal_mutable_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  _impl_._has_bits_[0] |= 0x00000001u;
+  return _impl_.name_.Mutable( GetArena());
+}
+inline std::string* Statement_Assign::release_name() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.Assign.name)
+  if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
+    return nullptr;
+  }
+  _impl_._has_bits_[0] &= ~0x00000001u;
+  auto* released = _impl_.name_.Release();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.name_.Set("", GetArena());
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  return released;
+}
+inline void Statement_Assign::set_allocated_name(std::string* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000001u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000001u;
+  }
+  _impl_.name_.SetAllocated(value, GetArena());
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+        if (_impl_.name_.IsDefault()) {
+          _impl_.name_.Set("", GetArena());
+        }
+  #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.Assign.name)
+}
+
+// required .ez_proto.Expr rhs = 2;
+inline bool Statement_Assign::has_rhs() const {
+  bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
+  PROTOBUF_ASSUME(!value || _impl_.rhs_ != nullptr);
+  return value;
+}
+inline void Statement_Assign::clear_rhs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.rhs_ != nullptr) _impl_.rhs_->Clear();
+  _impl_._has_bits_[0] &= ~0x00000002u;
+}
+inline const ::ez_proto::Expr& Statement_Assign::_internal_rhs() const {
+  ::google::protobuf::internal::TSanRead(&_impl_);
+  const ::ez_proto::Expr* p = _impl_.rhs_;
+  return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::Expr&>(::ez_proto::_Expr_default_instance_);
+}
+inline const ::ez_proto::Expr& Statement_Assign::rhs() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.Assign.rhs)
+  return _internal_rhs();
+}
+inline void Statement_Assign::unsafe_arena_set_allocated_rhs(::ez_proto::Expr* value) {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (GetArena() == nullptr) {
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.rhs_);
+  }
+  _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
+  if (value != nullptr) {
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.Assign.rhs)
+}
+inline ::ez_proto::Expr* Statement_Assign::release_rhs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ez_proto::Expr* released = _impl_.rhs_;
+  _impl_.rhs_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
+  released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  if (GetArena() == nullptr) {
+    delete old;
+  }
+#else   // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArena() != nullptr) {
+    released = ::google::protobuf::internal::DuplicateIfNonNull(released);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return released;
+}
+inline ::ez_proto::Expr* Statement_Assign::unsafe_arena_release_rhs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.Assign.rhs)
+
+  _impl_._has_bits_[0] &= ~0x00000002u;
+  ::ez_proto::Expr* temp = _impl_.rhs_;
+  _impl_.rhs_ = nullptr;
+  return temp;
+}
+inline ::ez_proto::Expr* Statement_Assign::_internal_mutable_rhs() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (_impl_.rhs_ == nullptr) {
+    auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::Expr>(GetArena());
+    _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(p);
+  }
+  return _impl_.rhs_;
+}
+inline ::ez_proto::Expr* Statement_Assign::mutable_rhs() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  _impl_._has_bits_[0] |= 0x00000002u;
+  ::ez_proto::Expr* _msg = _internal_mutable_rhs();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.Assign.rhs)
+  return _msg;
+}
+inline void Statement_Assign::set_allocated_rhs(::ez_proto::Expr* value) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (message_arena == nullptr) {
+    delete (_impl_.rhs_);
+  }
+
+  if (value != nullptr) {
+    ::google::protobuf::Arena* submessage_arena = (value)->GetArena();
+    if (message_arena != submessage_arena) {
+      value = ::google::protobuf::internal::GetOwnedMessage(message_arena, value, submessage_arena);
+    }
+    _impl_._has_bits_[0] |= 0x00000002u;
+  } else {
+    _impl_._has_bits_[0] &= ~0x00000002u;
+  }
+
+  _impl_.rhs_ = reinterpret_cast<::ez_proto::Expr*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Statement.Assign.rhs)
 }
 
 // -------------------------------------------------------------------
@@ -6698,82 +6263,82 @@ inline ::ez_proto::Statement_Block* Statement::mutable_block() ABSL_ATTRIBUTE_LI
   return _msg;
 }
 
-// .ez_proto.Statement.For for = 5;
-inline bool Statement::has_for_() const {
-  return kind_case() == kFor;
+// .ez_proto.Statement.While while = 5;
+inline bool Statement::has_while_() const {
+  return kind_case() == kWhile;
 }
-inline bool Statement::_internal_has_for_() const {
-  return kind_case() == kFor;
+inline bool Statement::_internal_has_while_() const {
+  return kind_case() == kWhile;
 }
-inline void Statement::set_has_for_() {
-  _impl_._oneof_case_[0] = kFor;
+inline void Statement::set_has_while_() {
+  _impl_._oneof_case_[0] = kWhile;
 }
-inline void Statement::clear_for_() {
+inline void Statement::clear_while_() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (kind_case() == kFor) {
+  if (kind_case() == kWhile) {
     if (GetArena() == nullptr) {
-      delete _impl_.kind_.for__;
+      delete _impl_.kind_.while__;
     } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
-      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.for__);
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.while__);
     }
     clear_has_kind();
   }
 }
-inline ::ez_proto::Statement_For* Statement::release_for_() {
-  // @@protoc_insertion_point(field_release:ez_proto.Statement.for)
-  if (kind_case() == kFor) {
+inline ::ez_proto::Statement_While* Statement::release_while_() {
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.while)
+  if (kind_case() == kWhile) {
     clear_has_kind();
-    auto* temp = _impl_.kind_.for__;
+    auto* temp = _impl_.kind_.while__;
     if (GetArena() != nullptr) {
       temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
     }
-    _impl_.kind_.for__ = nullptr;
+    _impl_.kind_.while__ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline const ::ez_proto::Statement_For& Statement::_internal_for_() const {
-  return kind_case() == kFor ? *_impl_.kind_.for__ : reinterpret_cast<::ez_proto::Statement_For&>(::ez_proto::_Statement_For_default_instance_);
+inline const ::ez_proto::Statement_While& Statement::_internal_while_() const {
+  return kind_case() == kWhile ? *_impl_.kind_.while__ : reinterpret_cast<::ez_proto::Statement_While&>(::ez_proto::_Statement_While_default_instance_);
 }
-inline const ::ez_proto::Statement_For& Statement::for_() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Statement.for)
-  return _internal_for_();
+inline const ::ez_proto::Statement_While& Statement::while_() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.while)
+  return _internal_while_();
 }
-inline ::ez_proto::Statement_For* Statement::unsafe_arena_release_for_() {
-  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Statement.for)
-  if (kind_case() == kFor) {
+inline ::ez_proto::Statement_While* Statement::unsafe_arena_release_while_() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Statement.while)
+  if (kind_case() == kWhile) {
     clear_has_kind();
-    auto* temp = _impl_.kind_.for__;
-    _impl_.kind_.for__ = nullptr;
+    auto* temp = _impl_.kind_.while__;
+    _impl_.kind_.while__ = nullptr;
     return temp;
   } else {
     return nullptr;
   }
 }
-inline void Statement::unsafe_arena_set_allocated_for_(::ez_proto::Statement_For* value) {
+inline void Statement::unsafe_arena_set_allocated_while_(::ez_proto::Statement_While* value) {
   // We rely on the oneof clear method to free the earlier contents
   // of this oneof. We can directly use the pointer we're given to
   // set the new value.
   clear_kind();
   if (value) {
-    set_has_for_();
-    _impl_.kind_.for__ = value;
+    set_has_while_();
+    _impl_.kind_.while__ = value;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.for)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.while)
 }
-inline ::ez_proto::Statement_For* Statement::_internal_mutable_for_() {
-  if (kind_case() != kFor) {
+inline ::ez_proto::Statement_While* Statement::_internal_mutable_while_() {
+  if (kind_case() != kWhile) {
     clear_kind();
-    set_has_for_();
-    _impl_.kind_.for__ =
-        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Statement_For>(GetArena());
+    set_has_while_();
+    _impl_.kind_.while__ =
+        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Statement_While>(GetArena());
   }
-  return _impl_.kind_.for__;
+  return _impl_.kind_.while__;
 }
-inline ::ez_proto::Statement_For* Statement::mutable_for_() ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  ::ez_proto::Statement_For* _msg = _internal_mutable_for_();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.for)
+inline ::ez_proto::Statement_While* Statement::mutable_while_() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::ez_proto::Statement_While* _msg = _internal_mutable_while_();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.while)
   return _msg;
 }
 
@@ -6856,6 +6421,85 @@ inline ::ez_proto::Expr* Statement::mutable_return_() ABSL_ATTRIBUTE_LIFETIME_BO
   return _msg;
 }
 
+// .ez_proto.Statement.Assign assign = 7;
+inline bool Statement::has_assign() const {
+  return kind_case() == kAssign;
+}
+inline bool Statement::_internal_has_assign() const {
+  return kind_case() == kAssign;
+}
+inline void Statement::set_has_assign() {
+  _impl_._oneof_case_[0] = kAssign;
+}
+inline void Statement::clear_assign() {
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  if (kind_case() == kAssign) {
+    if (GetArena() == nullptr) {
+      delete _impl_.kind_.assign_;
+    } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+      ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.assign_);
+    }
+    clear_has_kind();
+  }
+}
+inline ::ez_proto::Statement_Assign* Statement::release_assign() {
+  // @@protoc_insertion_point(field_release:ez_proto.Statement.assign)
+  if (kind_case() == kAssign) {
+    clear_has_kind();
+    auto* temp = _impl_.kind_.assign_;
+    if (GetArena() != nullptr) {
+      temp = ::google::protobuf::internal::DuplicateIfNonNull(temp);
+    }
+    _impl_.kind_.assign_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline const ::ez_proto::Statement_Assign& Statement::_internal_assign() const {
+  return kind_case() == kAssign ? *_impl_.kind_.assign_ : reinterpret_cast<::ez_proto::Statement_Assign&>(::ez_proto::_Statement_Assign_default_instance_);
+}
+inline const ::ez_proto::Statement_Assign& Statement::assign() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Statement.assign)
+  return _internal_assign();
+}
+inline ::ez_proto::Statement_Assign* Statement::unsafe_arena_release_assign() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:ez_proto.Statement.assign)
+  if (kind_case() == kAssign) {
+    clear_has_kind();
+    auto* temp = _impl_.kind_.assign_;
+    _impl_.kind_.assign_ = nullptr;
+    return temp;
+  } else {
+    return nullptr;
+  }
+}
+inline void Statement::unsafe_arena_set_allocated_assign(::ez_proto::Statement_Assign* value) {
+  // We rely on the oneof clear method to free the earlier contents
+  // of this oneof. We can directly use the pointer we're given to
+  // set the new value.
+  clear_kind();
+  if (value) {
+    set_has_assign();
+    _impl_.kind_.assign_ = value;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Statement.assign)
+}
+inline ::ez_proto::Statement_Assign* Statement::_internal_mutable_assign() {
+  if (kind_case() != kAssign) {
+    clear_kind();
+    set_has_assign();
+    _impl_.kind_.assign_ =
+        ::google::protobuf::Message::DefaultConstruct<::ez_proto::Statement_Assign>(GetArena());
+  }
+  return _impl_.kind_.assign_;
+}
+inline ::ez_proto::Statement_Assign* Statement::mutable_assign() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  ::ez_proto::Statement_Assign* _msg = _internal_mutable_assign();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Statement.assign)
+  return _msg;
+}
+
 inline bool Statement::has_kind() const {
   return kind_case() != KIND_NOT_SET;
 }
@@ -6867,47 +6511,47 @@ inline Statement::KindCase Statement::kind_case() const {
 }
 // -------------------------------------------------------------------
 
-// Definition_EzTypedArg
+// Definition_EzTypedParam
 
-// required .ez_proto.EzType arg_type = 1;
-inline bool Definition_EzTypedArg::has_arg_type() const {
+// required .ez_proto.EzType param_type = 1;
+inline bool Definition_EzTypedParam::has_param_type() const {
   bool value = (_impl_._has_bits_[0] & 0x00000002u) != 0;
-  PROTOBUF_ASSUME(!value || _impl_.arg_type_ != nullptr);
+  PROTOBUF_ASSUME(!value || _impl_.param_type_ != nullptr);
   return value;
 }
-inline void Definition_EzTypedArg::clear_arg_type() {
+inline void Definition_EzTypedParam::clear_param_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.arg_type_ != nullptr) _impl_.arg_type_->Clear();
+  if (_impl_.param_type_ != nullptr) _impl_.param_type_->Clear();
   _impl_._has_bits_[0] &= ~0x00000002u;
 }
-inline const ::ez_proto::EzType& Definition_EzTypedArg::_internal_arg_type() const {
+inline const ::ez_proto::EzType& Definition_EzTypedParam::_internal_param_type() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  const ::ez_proto::EzType* p = _impl_.arg_type_;
+  const ::ez_proto::EzType* p = _impl_.param_type_;
   return p != nullptr ? *p : reinterpret_cast<const ::ez_proto::EzType&>(::ez_proto::_EzType_default_instance_);
 }
-inline const ::ez_proto::EzType& Definition_EzTypedArg::arg_type() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Definition.EzTypedArg.arg_type)
-  return _internal_arg_type();
+inline const ::ez_proto::EzType& Definition_EzTypedParam::param_type() const ABSL_ATTRIBUTE_LIFETIME_BOUND {
+  // @@protoc_insertion_point(field_get:ez_proto.Definition.EzTypedParam.param_type)
+  return _internal_param_type();
 }
-inline void Definition_EzTypedArg::unsafe_arena_set_allocated_arg_type(::ez_proto::EzType* value) {
+inline void Definition_EzTypedParam::unsafe_arena_set_allocated_param_type(::ez_proto::EzType* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (GetArena() == nullptr) {
-    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.arg_type_);
+    delete reinterpret_cast<::google::protobuf::MessageLite*>(_impl_.param_type_);
   }
-  _impl_.arg_type_ = reinterpret_cast<::ez_proto::EzType*>(value);
+  _impl_.param_type_ = reinterpret_cast<::ez_proto::EzType*>(value);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000002u;
   } else {
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Definition.EzTypedArg.arg_type)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:ez_proto.Definition.EzTypedParam.param_type)
 }
-inline ::ez_proto::EzType* Definition_EzTypedArg::release_arg_type() {
+inline ::ez_proto::EzType* Definition_EzTypedParam::release_param_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::ez_proto::EzType* released = _impl_.arg_type_;
-  _impl_.arg_type_ = nullptr;
+  ::ez_proto::EzType* released = _impl_.param_type_;
+  _impl_.param_type_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old = reinterpret_cast<::google::protobuf::MessageLite*>(released);
   released = ::google::protobuf::internal::DuplicateIfNonNull(released);
@@ -6921,34 +6565,34 @@ inline ::ez_proto::EzType* Definition_EzTypedArg::release_arg_type() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return released;
 }
-inline ::ez_proto::EzType* Definition_EzTypedArg::unsafe_arena_release_arg_type() {
+inline ::ez_proto::EzType* Definition_EzTypedParam::unsafe_arena_release_param_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Definition.EzTypedArg.arg_type)
+  // @@protoc_insertion_point(field_release:ez_proto.Definition.EzTypedParam.param_type)
 
   _impl_._has_bits_[0] &= ~0x00000002u;
-  ::ez_proto::EzType* temp = _impl_.arg_type_;
-  _impl_.arg_type_ = nullptr;
+  ::ez_proto::EzType* temp = _impl_.param_type_;
+  _impl_.param_type_ = nullptr;
   return temp;
 }
-inline ::ez_proto::EzType* Definition_EzTypedArg::_internal_mutable_arg_type() {
+inline ::ez_proto::EzType* Definition_EzTypedParam::_internal_mutable_param_type() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  if (_impl_.arg_type_ == nullptr) {
+  if (_impl_.param_type_ == nullptr) {
     auto* p = ::google::protobuf::Message::DefaultConstruct<::ez_proto::EzType>(GetArena());
-    _impl_.arg_type_ = reinterpret_cast<::ez_proto::EzType*>(p);
+    _impl_.param_type_ = reinterpret_cast<::ez_proto::EzType*>(p);
   }
-  return _impl_.arg_type_;
+  return _impl_.param_type_;
 }
-inline ::ez_proto::EzType* Definition_EzTypedArg::mutable_arg_type() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::ez_proto::EzType* Definition_EzTypedParam::mutable_param_type() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   _impl_._has_bits_[0] |= 0x00000002u;
-  ::ez_proto::EzType* _msg = _internal_mutable_arg_type();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.EzTypedArg.arg_type)
+  ::ez_proto::EzType* _msg = _internal_mutable_param_type();
+  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.EzTypedParam.param_type)
   return _msg;
 }
-inline void Definition_EzTypedArg::set_allocated_arg_type(::ez_proto::EzType* value) {
+inline void Definition_EzTypedParam::set_allocated_param_type(::ez_proto::EzType* value) {
   ::google::protobuf::Arena* message_arena = GetArena();
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (message_arena == nullptr) {
-    delete (_impl_.arg_type_);
+    delete (_impl_.param_type_);
   }
 
   if (value != nullptr) {
@@ -6961,55 +6605,55 @@ inline void Definition_EzTypedArg::set_allocated_arg_type(::ez_proto::EzType* va
     _impl_._has_bits_[0] &= ~0x00000002u;
   }
 
-  _impl_.arg_type_ = reinterpret_cast<::ez_proto::EzType*>(value);
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.EzTypedArg.arg_type)
+  _impl_.param_type_ = reinterpret_cast<::ez_proto::EzType*>(value);
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.EzTypedParam.param_type)
 }
 
 // required string name = 2;
-inline bool Definition_EzTypedArg::has_name() const {
+inline bool Definition_EzTypedParam::has_name() const {
   bool value = (_impl_._has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
-inline void Definition_EzTypedArg::clear_name() {
+inline void Definition_EzTypedParam::clear_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_.name_.ClearToEmpty();
   _impl_._has_bits_[0] &= ~0x00000001u;
 }
-inline const std::string& Definition_EzTypedArg::name() const
+inline const std::string& Definition_EzTypedParam::name() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Definition.EzTypedArg.name)
+  // @@protoc_insertion_point(field_get:ez_proto.Definition.EzTypedParam.name)
   return _internal_name();
 }
 template <typename Arg_, typename... Args_>
-inline PROTOBUF_ALWAYS_INLINE void Definition_EzTypedArg::set_name(Arg_&& arg,
+inline PROTOBUF_ALWAYS_INLINE void Definition_EzTypedParam::set_name(Arg_&& arg,
                                                      Args_... args) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.name_.Set(static_cast<Arg_&&>(arg), args..., GetArena());
-  // @@protoc_insertion_point(field_set:ez_proto.Definition.EzTypedArg.name)
+  // @@protoc_insertion_point(field_set:ez_proto.Definition.EzTypedParam.name)
 }
-inline std::string* Definition_EzTypedArg::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline std::string* Definition_EzTypedParam::mutable_name() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   std::string* _s = _internal_mutable_name();
-  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.EzTypedArg.name)
+  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.EzTypedParam.name)
   return _s;
 }
-inline const std::string& Definition_EzTypedArg::_internal_name() const {
+inline const std::string& Definition_EzTypedParam::_internal_name() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
   return _impl_.name_.Get();
 }
-inline void Definition_EzTypedArg::_internal_set_name(const std::string& value) {
+inline void Definition_EzTypedParam::_internal_set_name(const std::string& value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   _impl_.name_.Set(value, GetArena());
 }
-inline std::string* Definition_EzTypedArg::_internal_mutable_name() {
+inline std::string* Definition_EzTypedParam::_internal_mutable_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   _impl_._has_bits_[0] |= 0x00000001u;
   return _impl_.name_.Mutable( GetArena());
 }
-inline std::string* Definition_EzTypedArg::release_name() {
+inline std::string* Definition_EzTypedParam::release_name() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  // @@protoc_insertion_point(field_release:ez_proto.Definition.EzTypedArg.name)
+  // @@protoc_insertion_point(field_release:ez_proto.Definition.EzTypedParam.name)
   if ((_impl_._has_bits_[0] & 0x00000001u) == 0) {
     return nullptr;
   }
@@ -7020,7 +6664,7 @@ inline std::string* Definition_EzTypedArg::release_name() {
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   return released;
 }
-inline void Definition_EzTypedArg::set_allocated_name(std::string* value) {
+inline void Definition_EzTypedParam::set_allocated_name(std::string* value) {
   ::google::protobuf::internal::TSanWrite(&_impl_);
   if (value != nullptr) {
     _impl_._has_bits_[0] |= 0x00000001u;
@@ -7033,7 +6677,7 @@ inline void Definition_EzTypedArg::set_allocated_name(std::string* value) {
           _impl_.name_.Set("", GetArena());
         }
   #endif  // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.EzTypedArg.name)
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.EzTypedParam.name)
 }
 
 // -------------------------------------------------------------------
@@ -7207,53 +6851,53 @@ inline void Definition::set_allocated_name(std::string* value) {
   // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.name)
 }
 
-// repeated .ez_proto.Definition.EzTypedArg args = 3;
-inline int Definition::_internal_args_size() const {
-  return _internal_args().size();
+// repeated .ez_proto.Definition.EzTypedParam params = 3;
+inline int Definition::_internal_params_size() const {
+  return _internal_params().size();
 }
-inline int Definition::args_size() const {
-  return _internal_args_size();
+inline int Definition::params_size() const {
+  return _internal_params_size();
 }
-inline void Definition::clear_args() {
+inline void Definition::clear_params() {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  _impl_.args_.Clear();
+  _impl_.params_.Clear();
 }
-inline ::ez_proto::Definition_EzTypedArg* Definition::mutable_args(int index)
+inline ::ez_proto::Definition_EzTypedParam* Definition::mutable_params(int index)
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.args)
-  return _internal_mutable_args()->Mutable(index);
+  // @@protoc_insertion_point(field_mutable:ez_proto.Definition.params)
+  return _internal_mutable_params()->Mutable(index);
 }
-inline ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>* Definition::mutable_args()
+inline ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>* Definition::mutable_params()
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_mutable_list:ez_proto.Definition.args)
+  // @@protoc_insertion_point(field_mutable_list:ez_proto.Definition.params)
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  return _internal_mutable_args();
+  return _internal_mutable_params();
 }
-inline const ::ez_proto::Definition_EzTypedArg& Definition::args(int index) const
+inline const ::ez_proto::Definition_EzTypedParam& Definition::params(int index) const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_get:ez_proto.Definition.args)
-  return _internal_args().Get(index);
+  // @@protoc_insertion_point(field_get:ez_proto.Definition.params)
+  return _internal_params().Get(index);
 }
-inline ::ez_proto::Definition_EzTypedArg* Definition::add_args() ABSL_ATTRIBUTE_LIFETIME_BOUND {
+inline ::ez_proto::Definition_EzTypedParam* Definition::add_params() ABSL_ATTRIBUTE_LIFETIME_BOUND {
   ::google::protobuf::internal::TSanWrite(&_impl_);
-  ::ez_proto::Definition_EzTypedArg* _add = _internal_mutable_args()->Add();
-  // @@protoc_insertion_point(field_add:ez_proto.Definition.args)
+  ::ez_proto::Definition_EzTypedParam* _add = _internal_mutable_params()->Add();
+  // @@protoc_insertion_point(field_add:ez_proto.Definition.params)
   return _add;
 }
-inline const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>& Definition::args() const
+inline const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>& Definition::params() const
     ABSL_ATTRIBUTE_LIFETIME_BOUND {
-  // @@protoc_insertion_point(field_list:ez_proto.Definition.args)
-  return _internal_args();
+  // @@protoc_insertion_point(field_list:ez_proto.Definition.params)
+  return _internal_params();
 }
-inline const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>&
-Definition::_internal_args() const {
+inline const ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>&
+Definition::_internal_params() const {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return _impl_.args_;
+  return _impl_.params_;
 }
-inline ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedArg>*
-Definition::_internal_mutable_args() {
+inline ::google::protobuf::RepeatedPtrField<::ez_proto::Definition_EzTypedParam>*
+Definition::_internal_mutable_params() {
   ::google::protobuf::internal::TSanRead(&_impl_);
-  return &_impl_.args_;
+  return &_impl_.params_;
 }
 
 // required .ez_proto.Statement body = 4;
@@ -7427,12 +7071,6 @@ struct is_proto_enum<::ez_proto::Expr_Binary_BinOp> : std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor<::ez_proto::Expr_Binary_BinOp>() {
   return ::ez_proto::Expr_Binary_BinOp_descriptor();
-}
-template <>
-struct is_proto_enum<::ez_proto::Expr_Unary_UnOp> : std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor<::ez_proto::Expr_Unary_UnOp>() {
-  return ::ez_proto::Expr_Unary_UnOp_descriptor();
 }
 
 }  // namespace protobuf

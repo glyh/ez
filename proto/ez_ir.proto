@@ -4,7 +4,7 @@ package ez_proto;
 
 message EzType {
   enum NonPtr {
-    VOID = 0;
+    UNIT = 0;
     I64 = 1;
     STR = 2;
     F64 = 3;
@@ -18,20 +18,18 @@ message EzType {
 }
 
 message Value {
+  message Unit {}
+
   oneof kind {
-    int64 i64_val = 1;
-    string str_val = 2;
-    double f64_val = 3;
-    bool bool_val = 4;
+    Unit unit_val = 1;
+    int64 i64_val = 2;
+    string str_val = 3;
+    double f64_val = 4;
+    bool bool_val = 5;
   }
 }
 
 message Expr {
-
-  message Assign {
-    required string name = 1;
-    required Expr rhs = 2;
-  }
 
   message Binary {
     enum BinOp {
@@ -55,28 +53,15 @@ message Expr {
     required Expr rhs = 3;
   }
 
-  message Unary {
-    enum UnOp {
-      NOT = 0;
-      REF = 1;
-      DEREF = 2;
-    }
-
-    required UnOp op = 1;
-    required Expr inner = 2;
-  }
-
   message Call {
     required string callee = 1;
     repeated Expr args = 2;
   }
   oneof kind {
-    Assign assign = 1;
-    Binary binary = 2;
-    Unary unary = 3;
-    Value value = 4;
-    string variable = 5;
-    Call call = 6;
+    Binary binary = 1;
+    Value value = 2;
+    string variable = 3;
+    Call call = 4;
   }
   required EzType expr_type = 7;
 }
@@ -84,7 +69,8 @@ message Expr {
 message Statement {
   message Declaration {
     required string name = 1;
-    required Expr rhs = 2;
+    required EzType type = 2;
+    required Expr rhs = 3;
   }
 
   message If {
@@ -95,11 +81,14 @@ message Statement {
 
   message Block { repeated Statement statements = 1; }
 
-  message For {
-    required Expr initializer = 1;
-    required Expr condition = 2;
-    required Expr increment = 3;
-    required Statement body = 4;
+  message While {
+    required Expr condition = 1;
+    required Statement body = 2;
+  }
+
+  message Assign {
+    required string name = 1;
+    required Expr rhs = 2;
   }
 
   oneof kind {
@@ -107,19 +96,20 @@ message Statement {
     Declaration declaration = 2;
     If if = 3;
     Block block = 4;
-    For for = 5;
+    While while = 5;
     Expr return = 6;
+    Assign assign = 7;
   }
 }
 
 message Definition {
-  message EzTypedArg {
-    required EzType arg_type = 1;
+  message EzTypedParam {
+    required EzType param_type = 1;
     required string name = 2;
   }
   required EzType return_type = 1;
   required string name = 2;
-  repeated EzTypedArg args = 3;
+  repeated EzTypedParam params = 3;
   required Statement body = 4;
 }
 

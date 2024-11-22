@@ -10,12 +10,12 @@ type function_type = ez_type list * ez_type
 
 let rec type_to_string (t : ez_type) : string =
   match t with
-  | Non_ptr Void -> "()"
+  | Non_ptr Unit -> "()"
   | Non_ptr I64 -> "i64"
   | Non_ptr Str -> "string"
   | Non_ptr F64 -> "f64"
   | Non_ptr Bool -> "bool"
-  | Ptr inner -> "*" ^ type_to_string inner
+  | Ptr inner -> "ptr[" ^ type_to_string inner ^ "]"
 
 let dump_type_chain (params_ty : ez_type list) : string =
   match params_ty with
@@ -32,7 +32,7 @@ let dump_function_sig (fsig : identifier * function_type) : string =
 
 let definiton_to_function_type (return_type, name, args, _) :
     string * (ez_type list * ez_type) =
-  (name, (args |> List.map (fun { arg_type; _ } -> arg_type), return_type))
+  (name, (args |> List.map (fun { param_type; _ } -> param_type), return_type))
 
 module StrMap = Map.Make (String)
 
@@ -49,13 +49,6 @@ let collect_function_signatures (p : prog0) : funcsig_map =
 let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
     expr =
   match e with
-  | Assign (name, rhs) ->
-      let typed_rhs = check_expression sigs locals rhs in
-      let rhs_type = typed_rhs.expr_type in
-      let var_type = StrMap.find name locals in
-      if 0 != compare rhs_type var_type then
-        raise (TypeMismatch (rhs_type, var_type))
-      else { expr_type = Non_ptr Void; kind = Assign { name; rhs = typed_rhs } }
   | BinOp (((Add | Sub | Mul | Div | Mod) as op), lhs, rhs) -> (
       let typed_rhs = check_expression sigs locals rhs in
       let rhs_type = typed_rhs.expr_type in
@@ -113,36 +106,11 @@ let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
             kind = Binary { op; lhs = typed_lhs; rhs = typed_rhs };
           }
       | _ -> raise (BinTypeMismatch (op, lhs_type, rhs_type)))
-  | UnOp (Not, inner) ->
-      let typed_inner = check_expression sigs locals inner in
-      let inner_type = typed_inner.expr_type in
-      if 0 != compare inner_type (Non_ptr Bool) then
-        raise (TypeMismatch (Non_ptr Bool, inner_type))
-      else
-        {
-          expr_type = Non_ptr Bool;
-          kind = Unary { op = Not; inner = typed_inner };
-        }
-  | UnOp (Ref, inner) ->
-      let typed_inner = check_expression sigs locals inner in
-      let inner_type = typed_inner.expr_type in
-      {
-        expr_type = Ptr inner_type;
-        kind = Unary { op = Ref; inner = typed_inner };
-      }
-  | UnOp (Deref, inner) -> (
-      let typed_inner = check_expression sigs locals inner in
-      match typed_inner.expr_type with
-      | Ptr referenced ->
-          {
-            expr_type = referenced;
-            kind = Unary { op = Deref; inner = typed_inner };
-          }
-      | ty -> raise (DerefernencingNonPointer ty))
   | Val (I64_val i) -> { expr_type = Non_ptr I64; kind = Value (I64_val i) }
   | Val (Str_val s) -> { expr_type = Non_ptr Str; kind = Value (Str_val s) }
   | Val (F64_val f) -> { expr_type = Non_ptr F64; kind = Value (F64_val f) }
   | Val (Bool_val b) -> { expr_type = Non_ptr Bool; kind = Value (Bool_val b) }
+  | Val Unit_val -> { expr_type = Non_ptr Unit; kind = Value Unit_val }
   | Call (callee, exps) ->
       let exps_checked =
         List.map (fun e -> check_expression sigs locals e) exps
@@ -159,6 +127,13 @@ let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
 let rec check_statement (return_ty : ez_type) (sigs : funcsig_map)
     (locals : local_map) (stmt : stmt0) : local_map * statement =
   match stmt with
+  | Assign (name, rhs) ->
+      let typed_rhs = check_expression sigs locals rhs in
+      let rhs_type = typed_rhs.expr_type in
+      let var_type = StrMap.find name locals in
+      if 0 != compare rhs_type var_type then
+        raise (TypeMismatch (rhs_type, var_type))
+      else (locals, Assign { name; rhs = typed_rhs })
   | Expr exp -> (locals, Expr (check_expression sigs locals exp))
   | Declaration (decl_type, name, exp) ->
       let typed_rhs = check_expression sigs locals exp in
@@ -166,7 +141,8 @@ let rec check_statement (return_ty : ez_type) (sigs : funcsig_map)
       if 0 != compare rhs_type decl_type then
         raise (TypeMismatch (rhs_type, decl_type))
       else
-        (StrMap.add name decl_type locals, Declaration { name; rhs = typed_rhs })
+        ( StrMap.add name decl_type locals,
+          Declaration { name; rhs = typed_rhs; type_ = rhs_type } )
   | If (cond, then_clause, else_clause) ->
       let typed_cond = check_expression sigs locals cond in
       let _, then_clause_typed =
@@ -185,19 +161,10 @@ let rec check_statement (return_ty : ez_type) (sigs : funcsig_map)
   | Block stmts -> (
       match check_statements return_ty sigs locals stmts with
       | locals, stmts -> (locals, Block { statements = stmts }))
-  | For (init, cond, step, inner) ->
-      let init_checked = check_expression sigs locals init in
+  | While (cond, body) ->
       let cond_checked = check_expression sigs locals cond in
-      let step_checked = check_expression sigs locals step in
-      let _, inner_checked = check_statement return_ty sigs locals inner in
-      ( locals,
-        For
-          {
-            initializer_ = init_checked;
-            condition = cond_checked;
-            increment = step_checked;
-            body = inner_checked;
-          } )
+      let _, body_checked = check_statement return_ty sigs locals body in
+      (locals, While { condition = cond_checked; body = body_checked })
   | Return exp ->
       let typed_return_value = check_expression sigs locals exp in
       let return_type_inferred = typed_return_value.expr_type in
@@ -219,16 +186,16 @@ and check_statements (return_ty : ez_type) (sigs : funcsig_map)
       (locals_final, stmt_checked :: rest_checked)
 
 let check_definitons (sigs : funcsig_map)
-    ((return_type, name, args, body) : def0) : definition =
+    ((return_type, name, params, body) : def0) : definition =
   let initial_params =
-    args
-    |> List.map (fun { arg_type; name } -> (name, arg_type))
+    params
+    |> List.map (fun { param_type; name } -> (name, param_type))
     |> StrMap.of_list
   in
   let _, statement_checked =
     check_statement return_type sigs initial_params body
   in
-  { return_type; name; args; body = statement_checked }
+  { return_type; name; params; body = statement_checked }
 
 let typecheck (p : prog0) : program =
   let function_sigs = collect_function_signatures p in

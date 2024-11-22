@@ -22,8 +22,7 @@ opam install --switch=. -y ocamlformat ocaml-lsp-server utop ocaml-protoc
 ```bash
 eval $(opam env)
 ```
-- Build and run the package
+- Build both frontend and backend with
 ```sh
-dune exec ez
+make
 ```
-Write proper `ez` program and press Ctrl+D to serve a EOF.

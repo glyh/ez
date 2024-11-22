@@ -1,4 +1,5 @@
 #include "ez_ir.pb.h"
+#include "ir_visitor.hpp"
 #include <cstdio>
 #include <fstream>
 #include <ios>
@@ -17,6 +18,12 @@ int main(int argc, char **argv) {
     if (!program.ParseFromIstream(&input)) {
       printf("Failed to parse IRPB file.");
       return -1;
+    }
+    CodegenVisitor visitor("JIT");
+    for (auto def : program.definitions()) {
+      Function *cur_fn = visitor.codegen(def);
+      cur_fn->print(errs());
+      fprintf(stderr, "\n");
     }
   }
 

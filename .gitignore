@@ -31,3 +31,5 @@ _opam/
 # For Cmake
 _build_cmake/
 .cache
+
+/tmp
