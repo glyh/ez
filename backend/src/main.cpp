@@ -5,14 +5,14 @@
 
 #include "ez_ir.pb.h"
 #include "ir_visitor.hpp"
-
+#include "objgen.hpp"
 #include "optimizer.hpp"
 
 int main(int argc, char **argv) {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
-  if (argc != 2) {
-    printf("Usage: %s [*.irpb]", argv[0]);
+  if (argc != 3) {
+    printf("Usage: %s [*.irpb] [*.o]", argv[0]);
     return -1;
   }
 
@@ -35,6 +35,7 @@ int main(int argc, char **argv) {
       Optimizer optimizer(ctx, mod);
       optimizer.run_on_function(cur_fn);
     }
-    mod->print(llvm::outs(), nullptr);
+    Objgen objgen(mod);
+    return objgen.generate_object(argv[2]);
   }
 }

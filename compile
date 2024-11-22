@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -x
+
+BASENAME=`basename -s .ez $1`
+WORK_DIR=`mktemp -d "/tmp/${BASENAME}_XXXXXX"`
+echo Working Directory: $WORK_DIR
+
+./_build/default/bin/ezfront.exe $1 $WORK_DIR/$BASENAME.irpb
+./_build_cmake/ezback $WORK_DIR/$BASENAME.irpb $WORK_DIR/$BASENAME.o

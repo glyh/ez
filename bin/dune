@@ -1,4 +1,4 @@
 (executable
  (public_name ez)
- (name main)
+ (name ezfront)
  (libraries ez_lib))

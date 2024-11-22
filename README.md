@@ -31,8 +31,5 @@ make
 ### Running
 
 ```sh
-# Generate protobuf IR with frontend
-./_build/default/bin/main.exe ./examples/fib.ez /tmp/fib.irpb
-# Generate LLVM IR with backend
-./_build_cmake/ezback /tmp/fib.irpb > /tmp/fib.ll
+./compile ./examples/fib.ez
 ```
