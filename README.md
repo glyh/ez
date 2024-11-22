@@ -5,6 +5,7 @@ An ez language implemented with OCaml, Cpp and LLVM.
 ### Requirements
 - LLVM 17
 - opam
+- protoc
 
 ### Building
 
@@ -25,4 +26,13 @@ eval $(opam env)
 - Build both frontend and backend with
 ```sh
 make
+```
+
+### Running
+
+```sh
+# Generate protobuf IR with frontend
+./_build/default/bin/main.exe ./examples/fib.ez /tmp/fib.irpb
+# Generate LLVM IR with backend
+./_build_cmake/ezback /tmp/fib.irpb > /tmp/fib.ll
 ```
