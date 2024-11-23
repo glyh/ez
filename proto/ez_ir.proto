@@ -102,15 +102,29 @@ message Statement {
   }
 }
 
-message Definition {
-  message EzTypedParam {
-    required EzType param_type = 1;
-    required string name = 2;
-  }
+message EzTypedParam {
+  required EzType param_type = 1;
+  required string name = 2;
+}
+
+message Function {
   required EzType return_type = 1;
   required string name = 2;
   repeated EzTypedParam params = 3;
   required Statement body = 4;
+}
+
+message Extern {
+  required EzType return_type = 1;
+  required string name = 2;
+  repeated EzTypedParam params = 3;
+}
+
+message Definition {
+  oneof kind {
+    Function func = 1;
+    Extern extern = 2;
+  }
 }
 
 message Program { repeated Definition definitions = 1; }

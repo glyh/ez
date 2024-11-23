@@ -92,17 +92,27 @@ and statement_while = {
   body : statement;
 }
 
-type definition_ez_typed_param = {
+type ez_typed_param = {
   param_type : ez_type;
   name : string;
 }
 
-type definition = {
+type function_ = {
   return_type : ez_type;
   name : string;
-  params : definition_ez_typed_param list;
+  params : ez_typed_param list;
   body : statement;
 }
+
+type extern = {
+  return_type : ez_type;
+  name : string;
+  params : ez_typed_param list;
+}
+
+type definition =
+  | Func of function_
+  | Extern of extern
 
 type program = {
   definitions : definition list;
@@ -190,25 +200,37 @@ and default_statement_while
   body;
 }
 
-let rec default_definition_ez_typed_param 
+let rec default_ez_typed_param 
   ?param_type:((param_type:ez_type) = default_ez_type ())
   ?name:((name:string) = "")
-  () : definition_ez_typed_param  = {
+  () : ez_typed_param  = {
   param_type;
   name;
 }
 
-let rec default_definition 
+let rec default_function_ 
   ?return_type:((return_type:ez_type) = default_ez_type ())
   ?name:((name:string) = "")
-  ?params:((params:definition_ez_typed_param list) = [])
+  ?params:((params:ez_typed_param list) = [])
   ?body:((body:statement) = default_statement ())
-  () : definition  = {
+  () : function_  = {
   return_type;
   name;
   params;
   body;
 }
+
+let rec default_extern 
+  ?return_type:((return_type:ez_type) = default_ez_type ())
+  ?name:((name:string) = "")
+  ?params:((params:ez_typed_param list) = [])
+  () : extern  = {
+  return_type;
+  name;
+  params;
+}
+
+let rec default_definition () : definition = Func (default_function_ ())
 
 let rec default_program 
   ?definitions:((definitions:definition list) = [])
@@ -300,28 +322,40 @@ let default_statement_while_mutable () : statement_while_mutable = {
   body = default_statement ();
 }
 
-type definition_ez_typed_param_mutable = {
+type ez_typed_param_mutable = {
   mutable param_type : ez_type;
   mutable name : string;
 }
 
-let default_definition_ez_typed_param_mutable () : definition_ez_typed_param_mutable = {
+let default_ez_typed_param_mutable () : ez_typed_param_mutable = {
   param_type = default_ez_type ();
   name = "";
 }
 
-type definition_mutable = {
+type function__mutable = {
   mutable return_type : ez_type;
   mutable name : string;
-  mutable params : definition_ez_typed_param list;
+  mutable params : ez_typed_param list;
   mutable body : statement;
 }
 
-let default_definition_mutable () : definition_mutable = {
+let default_function__mutable () : function__mutable = {
   return_type = default_ez_type ();
   name = "";
   params = [];
   body = default_statement ();
+}
+
+type extern_mutable = {
+  mutable return_type : ez_type;
+  mutable name : string;
+  mutable params : ez_typed_param list;
+}
+
+let default_extern_mutable () : extern_mutable = {
+  return_type = default_ez_type ();
+  name = "";
+  params = [];
 }
 
 type program_mutable = {
@@ -509,25 +543,46 @@ and encode_pb_statement_while (v:statement_while) encoder =
   Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   ()
 
-let rec encode_pb_definition_ez_typed_param (v:definition_ez_typed_param) encoder = 
+let rec encode_pb_ez_typed_param (v:ez_typed_param) encoder = 
   Pbrt.Encoder.nested encode_pb_ez_type v.param_type encoder;
   Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
   Pbrt.Encoder.string v.name encoder;
   Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   ()
 
-let rec encode_pb_definition (v:definition) encoder = 
+let rec encode_pb_function_ (v:function_) encoder = 
   Pbrt.Encoder.nested encode_pb_ez_type v.return_type encoder;
   Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
   Pbrt.Encoder.string v.name encoder;
   Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
   Pbrt.List_util.rev_iter_with (fun x encoder -> 
-    Pbrt.Encoder.nested encode_pb_definition_ez_typed_param x encoder;
+    Pbrt.Encoder.nested encode_pb_ez_typed_param x encoder;
     Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
   ) v.params encoder;
   Pbrt.Encoder.nested encode_pb_statement v.body encoder;
   Pbrt.Encoder.key 4 Pbrt.Bytes encoder; 
   ()
+
+let rec encode_pb_extern (v:extern) encoder = 
+  Pbrt.Encoder.nested encode_pb_ez_type v.return_type encoder;
+  Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+  Pbrt.Encoder.string v.name encoder;
+  Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+  Pbrt.List_util.rev_iter_with (fun x encoder -> 
+    Pbrt.Encoder.nested encode_pb_ez_typed_param x encoder;
+    Pbrt.Encoder.key 3 Pbrt.Bytes encoder; 
+  ) v.params encoder;
+  ()
+
+let rec encode_pb_definition (v:definition) encoder = 
+  begin match v with
+  | Func x ->
+    Pbrt.Encoder.nested encode_pb_function_ x encoder;
+    Pbrt.Encoder.key 1 Pbrt.Bytes encoder; 
+  | Extern x ->
+    Pbrt.Encoder.nested encode_pb_extern x encoder;
+    Pbrt.Encoder.key 2 Pbrt.Bytes encoder; 
+  end
 
 let rec encode_pb_program (v:program) encoder = 
   Pbrt.List_util.rev_iter_with (fun x encoder -> 
@@ -896,8 +951,8 @@ and decode_pb_statement_while d =
     body = v.body;
   } : statement_while)
 
-let rec decode_pb_definition_ez_typed_param d =
-  let v = default_definition_ez_typed_param_mutable () in
+let rec decode_pb_ez_typed_param d =
+  let v = default_ez_typed_param_mutable () in
   let continue__= ref true in
   let name_is_set = ref false in
   let param_type_is_set = ref false in
@@ -909,12 +964,12 @@ let rec decode_pb_definition_ez_typed_param d =
       v.param_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); param_type_is_set := true;
     end
     | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_param), field(1)" pk
+      Pbrt.Decoder.unexpected_payload "Message(ez_typed_param), field(1)" pk
     | Some (2, Pbrt.Bytes) -> begin
       v.name <- Pbrt.Decoder.string d; name_is_set := true;
     end
     | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition_ez_typed_param), field(2)" pk
+      Pbrt.Decoder.unexpected_payload "Message(ez_typed_param), field(2)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
   begin if not !name_is_set then Pbrt.Decoder.missing_field "name" end;
@@ -922,10 +977,10 @@ let rec decode_pb_definition_ez_typed_param d =
   ({
     param_type = v.param_type;
     name = v.name;
-  } : definition_ez_typed_param)
+  } : ez_typed_param)
 
-let rec decode_pb_definition d =
-  let v = default_definition_mutable () in
+let rec decode_pb_function_ d =
+  let v = default_function__mutable () in
   let continue__= ref true in
   let body_is_set = ref false in
   let name_is_set = ref false in
@@ -939,22 +994,22 @@ let rec decode_pb_definition d =
       v.return_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); return_type_is_set := true;
     end
     | Some (1, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition), field(1)" pk
+      Pbrt.Decoder.unexpected_payload "Message(function_), field(1)" pk
     | Some (2, Pbrt.Bytes) -> begin
       v.name <- Pbrt.Decoder.string d; name_is_set := true;
     end
     | Some (2, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition), field(2)" pk
+      Pbrt.Decoder.unexpected_payload "Message(function_), field(2)" pk
     | Some (3, Pbrt.Bytes) -> begin
-      v.params <- (decode_pb_definition_ez_typed_param (Pbrt.Decoder.nested d)) :: v.params;
+      v.params <- (decode_pb_ez_typed_param (Pbrt.Decoder.nested d)) :: v.params;
     end
     | Some (3, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition), field(3)" pk
+      Pbrt.Decoder.unexpected_payload "Message(function_), field(3)" pk
     | Some (4, Pbrt.Bytes) -> begin
       v.body <- decode_pb_statement (Pbrt.Decoder.nested d); body_is_set := true;
     end
     | Some (4, pk) -> 
-      Pbrt.Decoder.unexpected_payload "Message(definition), field(4)" pk
+      Pbrt.Decoder.unexpected_payload "Message(function_), field(4)" pk
     | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
   done;
   begin if not !body_is_set then Pbrt.Decoder.missing_field "body" end;
@@ -965,7 +1020,57 @@ let rec decode_pb_definition d =
     name = v.name;
     params = v.params;
     body = v.body;
-  } : definition)
+  } : function_)
+
+let rec decode_pb_extern d =
+  let v = default_extern_mutable () in
+  let continue__= ref true in
+  let name_is_set = ref false in
+  let return_type_is_set = ref false in
+  while !continue__ do
+    match Pbrt.Decoder.key d with
+    | None -> (
+      v.params <- List.rev v.params;
+    ); continue__ := false
+    | Some (1, Pbrt.Bytes) -> begin
+      v.return_type <- decode_pb_ez_type (Pbrt.Decoder.nested d); return_type_is_set := true;
+    end
+    | Some (1, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(extern), field(1)" pk
+    | Some (2, Pbrt.Bytes) -> begin
+      v.name <- Pbrt.Decoder.string d; name_is_set := true;
+    end
+    | Some (2, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(extern), field(2)" pk
+    | Some (3, Pbrt.Bytes) -> begin
+      v.params <- (decode_pb_ez_typed_param (Pbrt.Decoder.nested d)) :: v.params;
+    end
+    | Some (3, pk) -> 
+      Pbrt.Decoder.unexpected_payload "Message(extern), field(3)" pk
+    | Some (_, payload_kind) -> Pbrt.Decoder.skip d payload_kind
+  done;
+  begin if not !name_is_set then Pbrt.Decoder.missing_field "name" end;
+  begin if not !return_type_is_set then Pbrt.Decoder.missing_field "return_type" end;
+  ({
+    return_type = v.return_type;
+    name = v.name;
+    params = v.params;
+  } : extern)
+
+let rec decode_pb_definition d = 
+  let rec loop () = 
+    let ret:definition = match Pbrt.Decoder.key d with
+      | None -> Pbrt.Decoder.malformed_variant "definition"
+      | Some (1, _) -> (Func (decode_pb_function_ (Pbrt.Decoder.nested d)) : definition) 
+      | Some (2, _) -> (Extern (decode_pb_extern (Pbrt.Decoder.nested d)) : definition) 
+      | Some (n, payload_kind) -> (
+        Pbrt.Decoder.skip d payload_kind; 
+        loop () 
+      )
+    in
+    ret
+  in
+  loop ()
 
 let rec decode_pb_program d =
   let v = default_program_mutable () in

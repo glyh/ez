@@ -17,9 +17,12 @@ using namespace llvm;
 struct CodegenVisitor {
   CodegenVisitor(std::shared_ptr<LLVMContext>, std::shared_ptr<Module>);
 
-  Value *generate_unit();
   Type *generate_type(const ez_proto::EzType &);
-  FunctionType *generate_function_type(const ez_proto::Definition &);
+  Type *generate_extern_type(const ez_proto::EzType &);
+  Value *generate_unit();
+
+  FunctionType *generate_function_type(const ez_proto::Function &);
+  FunctionType *generate_function_type(const ez_proto::Extern &);
   AllocaInst *create_entry_block_alloca(Function *, const std::string &,
                                         Type *);
 
@@ -27,7 +30,8 @@ struct CodegenVisitor {
   Value *codegen(const ez_proto::Expr &);
   Value *codegen(const ez_proto::Expr_Binary &);
   void codegen(const ez_proto::Statement &);
-  Function *codegen(const ez_proto::Definition &);
+  Function *codegen(const ez_proto::Function &);
+  Function *codegen(const ez_proto::Extern &);
   void sanitize_function(Function &);
 
   std::shared_ptr<LLVMContext> context;

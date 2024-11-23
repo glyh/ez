@@ -30,9 +30,12 @@ let dump_function_sig (fsig : identifier * function_type) : string =
   let fname, ty = fsig in
   fname ^ ": " ^ dump_funtion_type ty
 
-let definiton_to_function_type (return_type, name, args, _) :
-    string * (ez_type list * ez_type) =
-  (name, (args |> List.map (fun { param_type; _ } -> param_type), return_type))
+let definiton_to_function_type (def : def0) : string * (ez_type list * ez_type)
+    =
+  match def with
+  | Function (return_type, name, args, _) | Extern (return_type, name, args) ->
+      ( name,
+        (args |> List.map (fun { param_type; _ } -> param_type), return_type) )
 
 module StrMap = Map.Make (String)
 
@@ -185,17 +188,19 @@ and check_statements (return_ty : ez_type) (sigs : funcsig_map)
       in
       (locals_final, stmt_checked :: rest_checked)
 
-let check_definitons (sigs : funcsig_map)
-    ((return_type, name, params, body) : def0) : definition =
-  let initial_params =
-    params
-    |> List.map (fun { param_type; name } -> (name, param_type))
-    |> StrMap.of_list
-  in
-  let _, statement_checked =
-    check_statement return_type sigs initial_params body
-  in
-  { return_type; name; params; body = statement_checked }
+let check_definitons (sigs : funcsig_map) (def0_to_check : def0) : definition =
+  match def0_to_check with
+  | Extern (return_type, name, params) -> Extern { return_type; name; params }
+  | Function (return_type, name, params, body) ->
+      let initial_params =
+        params
+        |> List.map (fun { param_type; name } -> (name, param_type))
+        |> StrMap.of_list
+      in
+      let _, statement_checked =
+        check_statement return_type sigs initial_params body
+      in
+      Func { return_type; name; params; body = statement_checked }
 
 let typecheck (p : prog0) : program =
   let function_sigs = collect_function_signatures p in

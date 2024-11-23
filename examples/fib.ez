@@ -1,3 +1,5 @@
+extern unit print_int(i64 num);
+
 i64 fib(i64 n) {
   if(n == 0) {
     return 0;
@@ -9,5 +11,6 @@ i64 fib(i64 n) {
 }
 
 i64 main() {
-  return fib(7);
+  print_int(fib(7));
+  return 0;
 }

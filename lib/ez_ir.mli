@@ -99,17 +99,27 @@ and statement_while = {
   body : statement;
 }
 
-type definition_ez_typed_param = {
+type ez_typed_param = {
   param_type : ez_type;
   name : string;
 }
 
-type definition = {
+type function_ = {
   return_type : ez_type;
   name : string;
-  params : definition_ez_typed_param list;
+  params : ez_typed_param list;
   body : statement;
 }
+
+type extern = {
+  return_type : ez_type;
+  name : string;
+  params : ez_typed_param list;
+}
+
+type definition =
+  | Func of function_
+  | Extern of extern
 
 type program = {
   definitions : definition list;
@@ -197,20 +207,31 @@ val default_statement_while :
   statement_while
 (** [default_statement_while ()] is the default value for type [statement_while] *)
 
-val default_definition_ez_typed_param : 
+val default_ez_typed_param : 
   ?param_type:ez_type ->
   ?name:string ->
   unit ->
-  definition_ez_typed_param
-(** [default_definition_ez_typed_param ()] is the default value for type [definition_ez_typed_param] *)
+  ez_typed_param
+(** [default_ez_typed_param ()] is the default value for type [ez_typed_param] *)
 
-val default_definition : 
+val default_function_ : 
   ?return_type:ez_type ->
   ?name:string ->
-  ?params:definition_ez_typed_param list ->
+  ?params:ez_typed_param list ->
   ?body:statement ->
   unit ->
-  definition
+  function_
+(** [default_function_ ()] is the default value for type [function_] *)
+
+val default_extern : 
+  ?return_type:ez_type ->
+  ?name:string ->
+  ?params:ez_typed_param list ->
+  unit ->
+  extern
+(** [default_extern ()] is the default value for type [extern] *)
+
+val default_definition : unit -> definition
 (** [default_definition ()] is the default value for type [definition] *)
 
 val default_program : 
@@ -267,8 +288,14 @@ val encode_pb_statement_block : statement_block -> Pbrt.Encoder.t -> unit
 val encode_pb_statement_while : statement_while -> Pbrt.Encoder.t -> unit
 (** [encode_pb_statement_while v encoder] encodes [v] with the given [encoder] *)
 
-val encode_pb_definition_ez_typed_param : definition_ez_typed_param -> Pbrt.Encoder.t -> unit
-(** [encode_pb_definition_ez_typed_param v encoder] encodes [v] with the given [encoder] *)
+val encode_pb_ez_typed_param : ez_typed_param -> Pbrt.Encoder.t -> unit
+(** [encode_pb_ez_typed_param v encoder] encodes [v] with the given [encoder] *)
+
+val encode_pb_function_ : function_ -> Pbrt.Encoder.t -> unit
+(** [encode_pb_function_ v encoder] encodes [v] with the given [encoder] *)
+
+val encode_pb_extern : extern -> Pbrt.Encoder.t -> unit
+(** [encode_pb_extern v encoder] encodes [v] with the given [encoder] *)
 
 val encode_pb_definition : definition -> Pbrt.Encoder.t -> unit
 (** [encode_pb_definition v encoder] encodes [v] with the given [encoder] *)
@@ -324,8 +351,14 @@ val decode_pb_statement_block : Pbrt.Decoder.t -> statement_block
 val decode_pb_statement_while : Pbrt.Decoder.t -> statement_while
 (** [decode_pb_statement_while decoder] decodes a [statement_while] binary value from [decoder] *)
 
-val decode_pb_definition_ez_typed_param : Pbrt.Decoder.t -> definition_ez_typed_param
-(** [decode_pb_definition_ez_typed_param decoder] decodes a [definition_ez_typed_param] binary value from [decoder] *)
+val decode_pb_ez_typed_param : Pbrt.Decoder.t -> ez_typed_param
+(** [decode_pb_ez_typed_param decoder] decodes a [ez_typed_param] binary value from [decoder] *)
+
+val decode_pb_function_ : Pbrt.Decoder.t -> function_
+(** [decode_pb_function_ decoder] decodes a [function_] binary value from [decoder] *)
+
+val decode_pb_extern : Pbrt.Decoder.t -> extern
+(** [decode_pb_extern decoder] decodes a [extern] binary value from [decoder] *)
 
 val decode_pb_definition : Pbrt.Decoder.t -> definition
 (** [decode_pb_definition decoder] decodes a [definition] binary value from [decoder] *)

@@ -95,7 +95,7 @@ struct ValueDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ValueDefaultTypeInternal _Value_default_instance_;
 
-inline constexpr Definition_EzTypedParam::Impl_::Impl_(
+inline constexpr EzTypedParam::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         name_(
@@ -104,7 +104,7 @@ inline constexpr Definition_EzTypedParam::Impl_::Impl_(
         param_type_{nullptr} {}
 
 template <typename>
-PROTOBUF_CONSTEXPR Definition_EzTypedParam::Definition_EzTypedParam(::_pbi::ConstantInitialized)
+PROTOBUF_CONSTEXPR EzTypedParam::EzTypedParam(::_pbi::ConstantInitialized)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(_class_data_.base()),
 #else   // PROTOBUF_CUSTOM_VTABLE
@@ -112,16 +112,45 @@ PROTOBUF_CONSTEXPR Definition_EzTypedParam::Definition_EzTypedParam(::_pbi::Cons
 #endif  // PROTOBUF_CUSTOM_VTABLE
       _impl_(::_pbi::ConstantInitialized()) {
 }
-struct Definition_EzTypedParamDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR Definition_EzTypedParamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
-  ~Definition_EzTypedParamDefaultTypeInternal() {}
+struct EzTypedParamDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EzTypedParamDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EzTypedParamDefaultTypeInternal() {}
   union {
-    Definition_EzTypedParam _instance;
+    EzTypedParam _instance;
   };
 };
 
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
-    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Definition_EzTypedParamDefaultTypeInternal _Definition_EzTypedParam_default_instance_;
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EzTypedParamDefaultTypeInternal _EzTypedParam_default_instance_;
+
+inline constexpr Extern::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : _cached_size_{0},
+        params_{},
+        name_(
+            &::google::protobuf::internal::fixed_address_empty_string,
+            ::_pbi::ConstantInitialized()),
+        return_type_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Extern::Extern(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct ExternDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ExternDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ExternDefaultTypeInternal() {}
+  union {
+    Extern _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ExternDefaultTypeInternal _Extern_default_instance_;
 
 inline constexpr Expr::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
@@ -366,7 +395,7 @@ struct Statement_WhileDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
     PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Statement_WhileDefaultTypeInternal _Statement_While_default_instance_;
 
-inline constexpr Definition::Impl_::Impl_(
+inline constexpr Function::Impl_::Impl_(
     ::_pbi::ConstantInitialized) noexcept
       : _cached_size_{0},
         params_{},
@@ -375,6 +404,32 @@ inline constexpr Definition::Impl_::Impl_(
             ::_pbi::ConstantInitialized()),
         return_type_{nullptr},
         body_{nullptr} {}
+
+template <typename>
+PROTOBUF_CONSTEXPR Function::Function(::_pbi::ConstantInitialized)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(_class_data_.base()),
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(),
+#endif  // PROTOBUF_CUSTOM_VTABLE
+      _impl_(::_pbi::ConstantInitialized()) {
+}
+struct FunctionDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR FunctionDefaultTypeInternal() : _instance(::_pbi::ConstantInitialized{}) {}
+  ~FunctionDefaultTypeInternal() {}
+  union {
+    Function _instance;
+  };
+};
+
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT
+    PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 FunctionDefaultTypeInternal _Function_default_instance_;
+
+inline constexpr Definition::Impl_::Impl_(
+    ::_pbi::ConstantInitialized) noexcept
+      : kind_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
 
 template <typename>
 PROTOBUF_CONSTEXPR Definition::Definition(::_pbi::ConstantInitialized)
@@ -582,34 +637,59 @@ const ::uint32_t
         ::_pbi::kInvalidFieldOffsetTag,
         ::_pbi::kInvalidFieldOffsetTag,
         PROTOBUF_FIELD_OFFSET(::ez_proto::Statement, _impl_.kind_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition_EzTypedParam, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition_EzTypedParam, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::EzTypedParam, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::EzTypedParam, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition_EzTypedParam, _impl_.param_type_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition_EzTypedParam, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::EzTypedParam, _impl_.param_type_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::EzTypedParam, _impl_.name_),
         1,
         0,
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_._has_bits_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _internal_metadata_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _internal_metadata_),
         ~0u,  // no _extensions_
         ~0u,  // no _oneof_case_
         ~0u,  // no _weak_field_map_
         ~0u,  // no _inlined_string_donated_
         ~0u,  // no _split_
         ~0u,  // no sizeof(Split)
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_.return_type_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_.name_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_.params_),
-        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_.body_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _impl_.return_type_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _impl_.params_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Function, _impl_.body_),
         1,
         0,
         ~0u,
         2,
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Extern, _impl_._has_bits_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Extern, _internal_metadata_),
+        ~0u,  // no _extensions_
+        ~0u,  // no _oneof_case_
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Extern, _impl_.return_type_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Extern, _impl_.name_),
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Extern, _impl_.params_),
+        1,
+        0,
+        ~0u,
+        ~0u,  // no _has_bits_
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _internal_metadata_),
+        ~0u,  // no _extensions_
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_._oneof_case_[0]),
+        ~0u,  // no _weak_field_map_
+        ~0u,  // no _inlined_string_donated_
+        ~0u,  // no _split_
+        ~0u,  // no sizeof(Split)
+        ::_pbi::kInvalidFieldOffsetTag,
+        ::_pbi::kInvalidFieldOffsetTag,
+        PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_.kind_),
         ~0u,  // no _has_bits_
         PROTOBUF_FIELD_OFFSET(::ez_proto::Program, _internal_metadata_),
         ~0u,  // no _extensions_
@@ -635,9 +715,11 @@ static const ::_pbi::MigrationSchema
         {115, 125, -1, sizeof(::ez_proto::Statement_While)},
         {127, 137, -1, sizeof(::ez_proto::Statement_Assign)},
         {139, -1, -1, sizeof(::ez_proto::Statement)},
-        {155, 165, -1, sizeof(::ez_proto::Definition_EzTypedParam)},
-        {167, 179, -1, sizeof(::ez_proto::Definition)},
-        {183, -1, -1, sizeof(::ez_proto::Program)},
+        {155, 165, -1, sizeof(::ez_proto::EzTypedParam)},
+        {167, 179, -1, sizeof(::ez_proto::Function)},
+        {183, 194, -1, sizeof(::ez_proto::Extern)},
+        {197, -1, -1, sizeof(::ez_proto::Definition)},
+        {208, -1, -1, sizeof(::ez_proto::Program)},
 };
 static const ::_pb::Message* const file_default_instances[] = {
     &::ez_proto::_EzType_default_instance_._instance,
@@ -652,7 +734,9 @@ static const ::_pb::Message* const file_default_instances[] = {
     &::ez_proto::_Statement_While_default_instance_._instance,
     &::ez_proto::_Statement_Assign_default_instance_._instance,
     &::ez_proto::_Statement_default_instance_._instance,
-    &::ez_proto::_Definition_EzTypedParam_default_instance_._instance,
+    &::ez_proto::_EzTypedParam_default_instance_._instance,
+    &::ez_proto::_Function_default_instance_._instance,
+    &::ez_proto::_Extern_default_instance_._instance,
     &::ez_proto::_Definition_default_instance_._instance,
     &::ez_proto::_Program_default_instance_._instance,
 };
@@ -696,26 +780,30 @@ const char descriptor_table_protodef_ez_5fir_2eproto[] ABSL_ATTRIBUTE_SECTION_VA
     "hile\022!\n\tcondition\030\001 \002(\0132\016.ez_proto.Expr\022"
     "!\n\004body\030\002 \002(\0132\023.ez_proto.Statement\0323\n\006As"
     "sign\022\014\n\004name\030\001 \002(\t\022\033\n\003rhs\030\002 \002(\0132\016.ez_pro"
-    "to.ExprB\006\n\004kind\"\333\001\n\nDefinition\022%\n\013return"
+    "to.ExprB\006\n\004kind\"B\n\014EzTypedParam\022$\n\nparam"
     "_type\030\001 \002(\0132\020.ez_proto.EzType\022\014\n\004name\030\002 "
-    "\002(\t\0221\n\006params\030\003 \003(\0132!.ez_proto.Definitio"
-    "n.EzTypedParam\022!\n\004body\030\004 \002(\0132\023.ez_proto."
-    "Statement\032B\n\014EzTypedParam\022$\n\nparam_type\030"
-    "\001 \002(\0132\020.ez_proto.EzType\022\014\n\004name\030\002 \002(\t\"4\n"
-    "\007Program\022)\n\013definitions\030\001 \003(\0132\024.ez_proto"
-    ".Definition"
+    "\002(\t\"\212\001\n\010Function\022%\n\013return_type\030\001 \002(\0132\020."
+    "ez_proto.EzType\022\014\n\004name\030\002 \002(\t\022&\n\006params\030"
+    "\003 \003(\0132\026.ez_proto.EzTypedParam\022!\n\004body\030\004 "
+    "\002(\0132\023.ez_proto.Statement\"e\n\006Extern\022%\n\013re"
+    "turn_type\030\001 \002(\0132\020.ez_proto.EzType\022\014\n\004nam"
+    "e\030\002 \002(\t\022&\n\006params\030\003 \003(\0132\026.ez_proto.EzTyp"
+    "edParam\"\\\n\nDefinition\022\"\n\004func\030\001 \001(\0132\022.ez"
+    "_proto.FunctionH\000\022\"\n\006extern\030\002 \001(\0132\020.ez_p"
+    "roto.ExternH\000B\006\n\004kind\"4\n\007Program\022)\n\013defi"
+    "nitions\030\001 \003(\0132\024.ez_proto.Definition"
 };
 static ::absl::once_flag descriptor_table_ez_5fir_2eproto_once;
 PROTOBUF_CONSTINIT const ::_pbi::DescriptorTable descriptor_table_ez_5fir_2eproto = {
     false,
     false,
-    1811,
+    1995,
     descriptor_table_protodef_ez_5fir_2eproto,
     "ez_ir.proto",
     &descriptor_table_ez_5fir_2eproto_once,
     nullptr,
     0,
-    15,
+    17,
     schemas,
     file_default_instances,
     TableStruct_ez_5fir_2eproto::offsets,
@@ -4875,42 +4963,42 @@ void Statement::InternalSwap(Statement* PROTOBUF_RESTRICT other) {
 }
 // ===================================================================
 
-class Definition_EzTypedParam::_Internal {
+class EzTypedParam::_Internal {
  public:
   using HasBits =
-      decltype(std::declval<Definition_EzTypedParam>()._impl_._has_bits_);
+      decltype(std::declval<EzTypedParam>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_._has_bits_);
   static bool MissingRequiredFields(const HasBits& has_bits) {
     return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
   }
 };
 
-Definition_EzTypedParam::Definition_EzTypedParam(::google::protobuf::Arena* arena)
+EzTypedParam::EzTypedParam(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ez_proto.Definition.EzTypedParam)
+  // @@protoc_insertion_point(arena_constructor:ez_proto.EzTypedParam)
 }
-inline PROTOBUF_NDEBUG_INLINE Definition_EzTypedParam::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE EzTypedParam::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::ez_proto::Definition_EzTypedParam& from_msg)
+    const Impl_& from, const ::ez_proto::EzTypedParam& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         name_(arena, from.name_) {}
 
-Definition_EzTypedParam::Definition_EzTypedParam(
+EzTypedParam::EzTypedParam(
     ::google::protobuf::Arena* arena,
-    const Definition_EzTypedParam& from)
+    const EzTypedParam& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  Definition_EzTypedParam* const _this = this;
+  EzTypedParam* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -4920,24 +5008,24 @@ Definition_EzTypedParam::Definition_EzTypedParam(
                               arena, *from._impl_.param_type_)
                         : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:ez_proto.Definition.EzTypedParam)
+  // @@protoc_insertion_point(copy_constructor:ez_proto.EzTypedParam)
 }
-inline PROTOBUF_NDEBUG_INLINE Definition_EzTypedParam::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE EzTypedParam::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
         name_(arena) {}
 
-inline void Definition_EzTypedParam::SharedCtor(::_pb::Arena* arena) {
+inline void EzTypedParam::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   _impl_.param_type_ = {};
 }
-Definition_EzTypedParam::~Definition_EzTypedParam() {
-  // @@protoc_insertion_point(destructor:ez_proto.Definition.EzTypedParam)
+EzTypedParam::~EzTypedParam() {
+  // @@protoc_insertion_point(destructor:ez_proto.EzTypedParam)
   _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   SharedDtor();
 }
-inline void Definition_EzTypedParam::SharedDtor() {
+inline void EzTypedParam::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
   _impl_.name_.Destroy();
   delete _impl_.param_type_;
@@ -4947,35 +5035,35 @@ inline void Definition_EzTypedParam::SharedDtor() {
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::google::protobuf::MessageLite::ClassDataFull
-    Definition_EzTypedParam::_class_data_ = {
+    EzTypedParam::_class_data_ = {
         ::google::protobuf::Message::ClassData{
-            &_Definition_EzTypedParam_default_instance_._instance,
+            &_EzTypedParam_default_instance_._instance,
             &_table_.header,
             nullptr,  // OnDemandRegisterArenaDtor
-            Definition_EzTypedParam::IsInitializedImpl,
-            &Definition_EzTypedParam::MergeImpl,
+            EzTypedParam::IsInitializedImpl,
+            &EzTypedParam::MergeImpl,
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-            ::google::protobuf::Message::GetDeleteImpl<Definition_EzTypedParam>(),
-            ::google::protobuf::Message::GetNewImpl<Definition_EzTypedParam>(),
-            ::google::protobuf::Message::GetClearImpl<Definition_EzTypedParam>(), &Definition_EzTypedParam::ByteSizeLong,
-                &Definition_EzTypedParam::_InternalSerialize,
+            ::google::protobuf::Message::GetDeleteImpl<EzTypedParam>(),
+            ::google::protobuf::Message::GetNewImpl<EzTypedParam>(),
+            ::google::protobuf::Message::GetClearImpl<EzTypedParam>(), &EzTypedParam::ByteSizeLong,
+                &EzTypedParam::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-            PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_._cached_size_),
+            PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_._cached_size_),
             false,
         },
-        &Definition_EzTypedParam::kDescriptorMethods,
+        &EzTypedParam::kDescriptorMethods,
         &descriptor_table_ez_5fir_2eproto,
         nullptr,  // tracker
 };
-const ::google::protobuf::MessageLite::ClassData* Definition_EzTypedParam::GetClassData() const {
+const ::google::protobuf::MessageLite::ClassData* EzTypedParam::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<1, 2, 1, 45, 2> Definition_EzTypedParam::_table_ = {
+const ::_pbi::TcParseTable<1, 2, 1, 34, 2> EzTypedParam::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_._has_bits_),
     0, // no _extensions_
     2, 8,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -4988,35 +5076,35 @@ const ::_pbi::TcParseTable<1, 2, 1, 45, 2> Definition_EzTypedParam::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::ez_proto::Definition_EzTypedParam>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::ez_proto::EzTypedParam>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // required string name = 2;
     {::_pbi::TcParser::FastSS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_.name_)}},
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_.name_)}},
     // required .ez_proto.EzType param_type = 1;
     {::_pbi::TcParser::FastMtS1,
-     {10, 1, 0, PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_.param_type_)}},
+     {10, 1, 0, PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_.param_type_)}},
   }}, {{
     65535, 65535
   }}, {{
     // required .ez_proto.EzType param_type = 1;
-    {PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_.param_type_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_.param_type_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // required string name = 2;
-    {PROTOBUF_FIELD_OFFSET(Definition_EzTypedParam, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(EzTypedParam, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kRawString | ::_fl::kRepAString)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ez_proto::EzType>()},
   }}, {{
-    "\40\0\4\0\0\0\0\0"
-    "ez_proto.Definition.EzTypedParam"
+    "\25\0\4\0\0\0\0\0"
+    "ez_proto.EzTypedParam"
     "name"
   }},
 };
 
-PROTOBUF_NOINLINE void Definition_EzTypedParam::Clear() {
-// @@protoc_insertion_point(message_clear_start:ez_proto.Definition.EzTypedParam)
+PROTOBUF_NOINLINE void EzTypedParam::Clear() {
+// @@protoc_insertion_point(message_clear_start:ez_proto.EzTypedParam)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -5037,17 +5125,17 @@ PROTOBUF_NOINLINE void Definition_EzTypedParam::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* Definition_EzTypedParam::_InternalSerialize(
+        ::uint8_t* EzTypedParam::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const Definition_EzTypedParam& this_ = static_cast<const Definition_EzTypedParam&>(base);
+          const EzTypedParam& this_ = static_cast<const EzTypedParam&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* Definition_EzTypedParam::_InternalSerialize(
+        ::uint8_t* EzTypedParam::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const Definition_EzTypedParam& this_ = *this;
+          const EzTypedParam& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.Definition.EzTypedParam)
+          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.EzTypedParam)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -5063,7 +5151,7 @@ PROTOBUF_NOINLINE void Definition_EzTypedParam::Clear() {
           if (cached_has_bits & 0x00000001u) {
             const std::string& _s = this_._internal_name();
             ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(_s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormat::SERIALIZE,
-                                        "ez_proto.Definition.EzTypedParam.name");
+                                        "ez_proto.EzTypedParam.name");
             target = stream->WriteStringMaybeAliased(2, _s, target);
           }
 
@@ -5072,18 +5160,18 @@ PROTOBUF_NOINLINE void Definition_EzTypedParam::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.Definition.EzTypedParam)
+          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.EzTypedParam)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t Definition_EzTypedParam::ByteSizeLong(const MessageLite& base) {
-          const Definition_EzTypedParam& this_ = static_cast<const Definition_EzTypedParam&>(base);
+        ::size_t EzTypedParam::ByteSizeLong(const MessageLite& base) {
+          const EzTypedParam& this_ = static_cast<const EzTypedParam&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t Definition_EzTypedParam::ByteSizeLong() const {
-          const Definition_EzTypedParam& this_ = *this;
+        ::size_t EzTypedParam::ByteSizeLong() const {
+          const EzTypedParam& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:ez_proto.Definition.EzTypedParam)
+          // @@protoc_insertion_point(message_byte_size_start:ez_proto.EzTypedParam)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -5108,11 +5196,11 @@ PROTOBUF_NOINLINE void Definition_EzTypedParam::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void Definition_EzTypedParam::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<Definition_EzTypedParam*>(&to_msg);
-  auto& from = static_cast<const Definition_EzTypedParam&>(from_msg);
+void EzTypedParam::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<EzTypedParam*>(&to_msg);
+  auto& from = static_cast<const EzTypedParam&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.Definition.EzTypedParam)
+  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.EzTypedParam)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -5136,23 +5224,23 @@ void Definition_EzTypedParam::MergeImpl(::google::protobuf::MessageLite& to_msg,
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void Definition_EzTypedParam::CopyFrom(const Definition_EzTypedParam& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.Definition.EzTypedParam)
+void EzTypedParam::CopyFrom(const EzTypedParam& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.EzTypedParam)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-PROTOBUF_NOINLINE bool Definition_EzTypedParam::IsInitializedImpl(
+PROTOBUF_NOINLINE bool EzTypedParam::IsInitializedImpl(
     const MessageLite& msg) {
-  auto& this_ = static_cast<const Definition_EzTypedParam&>(msg);
+  auto& this_ = static_cast<const EzTypedParam&>(msg);
   if (_Internal::MissingRequiredFields(this_._impl_._has_bits_)) {
     return false;
   }
   return true;
 }
 
-void Definition_EzTypedParam::InternalSwap(Definition_EzTypedParam* PROTOBUF_RESTRICT other) {
+void EzTypedParam::InternalSwap(EzTypedParam* PROTOBUF_RESTRICT other) {
   using std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -5162,48 +5250,48 @@ void Definition_EzTypedParam::InternalSwap(Definition_EzTypedParam* PROTOBUF_RES
   swap(_impl_.param_type_, other->_impl_.param_type_);
 }
 
-::google::protobuf::Metadata Definition_EzTypedParam::GetMetadata() const {
+::google::protobuf::Metadata EzTypedParam::GetMetadata() const {
   return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
 }
 // ===================================================================
 
-class Definition::_Internal {
+class Function::_Internal {
  public:
   using HasBits =
-      decltype(std::declval<Definition>()._impl_._has_bits_);
+      decltype(std::declval<Function>()._impl_._has_bits_);
   static constexpr ::int32_t kHasBitsOffset =
-      8 * PROTOBUF_FIELD_OFFSET(Definition, _impl_._has_bits_);
+      8 * PROTOBUF_FIELD_OFFSET(Function, _impl_._has_bits_);
   static bool MissingRequiredFields(const HasBits& has_bits) {
     return ((has_bits[0] & 0x00000007) ^ 0x00000007) != 0;
   }
 };
 
-Definition::Definition(::google::protobuf::Arena* arena)
+Function::Function(::google::protobuf::Arena* arena)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
   SharedCtor(arena);
-  // @@protoc_insertion_point(arena_constructor:ez_proto.Definition)
+  // @@protoc_insertion_point(arena_constructor:ez_proto.Function)
 }
-inline PROTOBUF_NDEBUG_INLINE Definition::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE Function::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
-    const Impl_& from, const ::ez_proto::Definition& from_msg)
+    const Impl_& from, const ::ez_proto::Function& from_msg)
       : _has_bits_{from._has_bits_},
         _cached_size_{0},
         params_{visibility, arena, from.params_},
         name_(arena, from.name_) {}
 
-Definition::Definition(
+Function::Function(
     ::google::protobuf::Arena* arena,
-    const Definition& from)
+    const Function& from)
 #if defined(PROTOBUF_CUSTOM_VTABLE)
     : ::google::protobuf::Message(arena, _class_data_.base()) {
 #else   // PROTOBUF_CUSTOM_VTABLE
     : ::google::protobuf::Message(arena) {
 #endif  // PROTOBUF_CUSTOM_VTABLE
-  Definition* const _this = this;
+  Function* const _this = this;
   (void)_this;
   _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
       from._internal_metadata_);
@@ -5216,16 +5304,16 @@ Definition::Definition(
                               arena, *from._impl_.body_)
                         : nullptr;
 
-  // @@protoc_insertion_point(copy_constructor:ez_proto.Definition)
+  // @@protoc_insertion_point(copy_constructor:ez_proto.Function)
 }
-inline PROTOBUF_NDEBUG_INLINE Definition::Impl_::Impl_(
+inline PROTOBUF_NDEBUG_INLINE Function::Impl_::Impl_(
     ::google::protobuf::internal::InternalVisibility visibility,
     ::google::protobuf::Arena* arena)
       : _cached_size_{0},
         params_{visibility, arena},
         name_(arena) {}
 
-inline void Definition::SharedCtor(::_pb::Arena* arena) {
+inline void Function::SharedCtor(::_pb::Arena* arena) {
   new (&_impl_) Impl_(internal_visibility(), arena);
   ::memset(reinterpret_cast<char *>(&_impl_) +
                offsetof(Impl_, return_type_),
@@ -5234,12 +5322,12 @@ inline void Definition::SharedCtor(::_pb::Arena* arena) {
                offsetof(Impl_, return_type_) +
                sizeof(Impl_::body_));
 }
-Definition::~Definition() {
-  // @@protoc_insertion_point(destructor:ez_proto.Definition)
+Function::~Function() {
+  // @@protoc_insertion_point(destructor:ez_proto.Function)
   _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
   SharedDtor();
 }
-inline void Definition::SharedDtor() {
+inline void Function::SharedDtor() {
   ABSL_DCHECK(GetArena() == nullptr);
   _impl_.name_.Destroy();
   delete _impl_.return_type_;
@@ -5250,35 +5338,35 @@ inline void Definition::SharedDtor() {
 PROTOBUF_CONSTINIT
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
 const ::google::protobuf::MessageLite::ClassDataFull
-    Definition::_class_data_ = {
+    Function::_class_data_ = {
         ::google::protobuf::Message::ClassData{
-            &_Definition_default_instance_._instance,
+            &_Function_default_instance_._instance,
             &_table_.header,
             nullptr,  // OnDemandRegisterArenaDtor
-            Definition::IsInitializedImpl,
-            &Definition::MergeImpl,
+            Function::IsInitializedImpl,
+            &Function::MergeImpl,
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-            ::google::protobuf::Message::GetDeleteImpl<Definition>(),
-            ::google::protobuf::Message::GetNewImpl<Definition>(),
-            ::google::protobuf::Message::GetClearImpl<Definition>(), &Definition::ByteSizeLong,
-                &Definition::_InternalSerialize,
+            ::google::protobuf::Message::GetDeleteImpl<Function>(),
+            ::google::protobuf::Message::GetNewImpl<Function>(),
+            ::google::protobuf::Message::GetClearImpl<Function>(), &Function::ByteSizeLong,
+                &Function::_InternalSerialize,
 #endif  // PROTOBUF_CUSTOM_VTABLE
-            PROTOBUF_FIELD_OFFSET(Definition, _impl_._cached_size_),
+            PROTOBUF_FIELD_OFFSET(Function, _impl_._cached_size_),
             false,
         },
-        &Definition::kDescriptorMethods,
+        &Function::kDescriptorMethods,
         &descriptor_table_ez_5fir_2eproto,
         nullptr,  // tracker
 };
-const ::google::protobuf::MessageLite::ClassData* Definition::GetClassData() const {
+const ::google::protobuf::MessageLite::ClassData* Function::GetClassData() const {
   ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
   ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
   return _class_data_.base();
 }
 PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
-const ::_pbi::TcParseTable<2, 4, 3, 32, 2> Definition::_table_ = {
+const ::_pbi::TcParseTable<2, 4, 3, 30, 2> Function::_table_ = {
   {
-    PROTOBUF_FIELD_OFFSET(Definition, _impl_._has_bits_),
+    PROTOBUF_FIELD_OFFSET(Function, _impl_._has_bits_),
     0, // no _extensions_
     4, 24,  // max_field_number, fast_idx_mask
     offsetof(decltype(_table_), field_lookup_table),
@@ -5291,49 +5379,49 @@ const ::_pbi::TcParseTable<2, 4, 3, 32, 2> Definition::_table_ = {
     nullptr,  // post_loop_handler
     ::_pbi::TcParser::GenericFallback,  // fallback
     #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
-    ::_pbi::TcParser::GetTable<::ez_proto::Definition>(),  // to_prefetch
+    ::_pbi::TcParser::GetTable<::ez_proto::Function>(),  // to_prefetch
     #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
   }, {{
     // required .ez_proto.Statement body = 4;
     {::_pbi::TcParser::FastMtS1,
-     {34, 2, 2, PROTOBUF_FIELD_OFFSET(Definition, _impl_.body_)}},
+     {34, 2, 2, PROTOBUF_FIELD_OFFSET(Function, _impl_.body_)}},
     // required .ez_proto.EzType return_type = 1;
     {::_pbi::TcParser::FastMtS1,
-     {10, 1, 0, PROTOBUF_FIELD_OFFSET(Definition, _impl_.return_type_)}},
+     {10, 1, 0, PROTOBUF_FIELD_OFFSET(Function, _impl_.return_type_)}},
     // required string name = 2;
     {::_pbi::TcParser::FastSS1,
-     {18, 0, 0, PROTOBUF_FIELD_OFFSET(Definition, _impl_.name_)}},
-    // repeated .ez_proto.Definition.EzTypedParam params = 3;
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(Function, _impl_.name_)}},
+    // repeated .ez_proto.EzTypedParam params = 3;
     {::_pbi::TcParser::FastMtR1,
-     {26, 63, 1, PROTOBUF_FIELD_OFFSET(Definition, _impl_.params_)}},
+     {26, 63, 1, PROTOBUF_FIELD_OFFSET(Function, _impl_.params_)}},
   }}, {{
     65535, 65535
   }}, {{
     // required .ez_proto.EzType return_type = 1;
-    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.return_type_), _Internal::kHasBitsOffset + 1, 0,
+    {PROTOBUF_FIELD_OFFSET(Function, _impl_.return_type_), _Internal::kHasBitsOffset + 1, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
     // required string name = 2;
-    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
+    {PROTOBUF_FIELD_OFFSET(Function, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
     (0 | ::_fl::kFcOptional | ::_fl::kRawString | ::_fl::kRepAString)},
-    // repeated .ez_proto.Definition.EzTypedParam params = 3;
-    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.params_), -1, 1,
+    // repeated .ez_proto.EzTypedParam params = 3;
+    {PROTOBUF_FIELD_OFFSET(Function, _impl_.params_), -1, 1,
     (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
     // required .ez_proto.Statement body = 4;
-    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.body_), _Internal::kHasBitsOffset + 2, 2,
+    {PROTOBUF_FIELD_OFFSET(Function, _impl_.body_), _Internal::kHasBitsOffset + 2, 2,
     (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
   }}, {{
     {::_pbi::TcParser::GetTable<::ez_proto::EzType>()},
-    {::_pbi::TcParser::GetTable<::ez_proto::Definition_EzTypedParam>()},
+    {::_pbi::TcParser::GetTable<::ez_proto::EzTypedParam>()},
     {::_pbi::TcParser::GetTable<::ez_proto::Statement>()},
   }}, {{
-    "\23\0\4\0\0\0\0\0"
-    "ez_proto.Definition"
+    "\21\0\4\0\0\0\0\0"
+    "ez_proto.Function"
     "name"
   }},
 };
 
-PROTOBUF_NOINLINE void Definition::Clear() {
-// @@protoc_insertion_point(message_clear_start:ez_proto.Definition)
+PROTOBUF_NOINLINE void Function::Clear() {
+// @@protoc_insertion_point(message_clear_start:ez_proto.Function)
   ::google::protobuf::internal::TSanWrite(&_impl_);
   ::uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
@@ -5359,17 +5447,17 @@ PROTOBUF_NOINLINE void Definition::Clear() {
 }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::uint8_t* Definition::_InternalSerialize(
+        ::uint8_t* Function::_InternalSerialize(
             const MessageLite& base, ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) {
-          const Definition& this_ = static_cast<const Definition&>(base);
+          const Function& this_ = static_cast<const Function&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::uint8_t* Definition::_InternalSerialize(
+        ::uint8_t* Function::_InternalSerialize(
             ::uint8_t* target,
             ::google::protobuf::io::EpsCopyOutputStream* stream) const {
-          const Definition& this_ = *this;
+          const Function& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.Definition)
+          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.Function)
           ::uint32_t cached_has_bits = 0;
           (void)cached_has_bits;
 
@@ -5385,11 +5473,11 @@ PROTOBUF_NOINLINE void Definition::Clear() {
           if (cached_has_bits & 0x00000001u) {
             const std::string& _s = this_._internal_name();
             ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(_s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormat::SERIALIZE,
-                                        "ez_proto.Definition.name");
+                                        "ez_proto.Function.name");
             target = stream->WriteStringMaybeAliased(2, _s, target);
           }
 
-          // repeated .ez_proto.Definition.EzTypedParam params = 3;
+          // repeated .ez_proto.EzTypedParam params = 3;
           for (unsigned i = 0, n = static_cast<unsigned>(
                                    this_._internal_params_size());
                i < n; i++) {
@@ -5412,18 +5500,18 @@ PROTOBUF_NOINLINE void Definition::Clear() {
                 ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
                     this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
           }
-          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.Definition)
+          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.Function)
           return target;
         }
 
 #if defined(PROTOBUF_CUSTOM_VTABLE)
-        ::size_t Definition::ByteSizeLong(const MessageLite& base) {
-          const Definition& this_ = static_cast<const Definition&>(base);
+        ::size_t Function::ByteSizeLong(const MessageLite& base) {
+          const Function& this_ = static_cast<const Function&>(base);
 #else   // PROTOBUF_CUSTOM_VTABLE
-        ::size_t Definition::ByteSizeLong() const {
-          const Definition& this_ = *this;
+        ::size_t Function::ByteSizeLong() const {
+          const Function& this_ = *this;
 #endif  // PROTOBUF_CUSTOM_VTABLE
-          // @@protoc_insertion_point(message_byte_size_start:ez_proto.Definition)
+          // @@protoc_insertion_point(message_byte_size_start:ez_proto.Function)
           ::size_t total_size = 0;
 
           ::uint32_t cached_has_bits = 0;
@@ -5432,7 +5520,7 @@ PROTOBUF_NOINLINE void Definition::Clear() {
 
           ::_pbi::Prefetch5LinesFrom7Lines(&this_);
            {
-            // repeated .ez_proto.Definition.EzTypedParam params = 3;
+            // repeated .ez_proto.EzTypedParam params = 3;
              {
               total_size += 1UL * this_._internal_params_size();
               for (const auto& msg : this_._internal_params()) {
@@ -5462,11 +5550,11 @@ PROTOBUF_NOINLINE void Definition::Clear() {
                                                      &this_._impl_._cached_size_);
         }
 
-void Definition::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
-  auto* const _this = static_cast<Definition*>(&to_msg);
-  auto& from = static_cast<const Definition&>(from_msg);
+void Function::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Function*>(&to_msg);
+  auto& from = static_cast<const Function&>(from_msg);
   ::google::protobuf::Arena* arena = _this->GetArena();
-  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.Definition)
+  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.Function)
   ABSL_DCHECK_NE(&from, _this);
   ::uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -5501,16 +5589,16 @@ void Definition::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::goog
   _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void Definition::CopyFrom(const Definition& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.Definition)
+void Function::CopyFrom(const Function& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.Function)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-PROTOBUF_NOINLINE bool Definition::IsInitializedImpl(
+PROTOBUF_NOINLINE bool Function::IsInitializedImpl(
     const MessageLite& msg) {
-  auto& this_ = static_cast<const Definition&>(msg);
+  auto& this_ = static_cast<const Function&>(msg);
   if (_Internal::MissingRequiredFields(this_._impl_._has_bits_)) {
     return false;
   }
@@ -5522,7 +5610,7 @@ PROTOBUF_NOINLINE bool Definition::IsInitializedImpl(
   return true;
 }
 
-void Definition::InternalSwap(Definition* PROTOBUF_RESTRICT other) {
+void Function::InternalSwap(Function* PROTOBUF_RESTRICT other) {
   using std::swap;
   auto* arena = GetArena();
   ABSL_DCHECK_EQ(arena, other->GetArena());
@@ -5531,11 +5619,699 @@ void Definition::InternalSwap(Definition* PROTOBUF_RESTRICT other) {
   _impl_.params_.InternalSwap(&other->_impl_.params_);
   ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
   ::google::protobuf::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(Definition, _impl_.body_)
-      + sizeof(Definition::_impl_.body_)
-      - PROTOBUF_FIELD_OFFSET(Definition, _impl_.return_type_)>(
+      PROTOBUF_FIELD_OFFSET(Function, _impl_.body_)
+      + sizeof(Function::_impl_.body_)
+      - PROTOBUF_FIELD_OFFSET(Function, _impl_.return_type_)>(
           reinterpret_cast<char*>(&_impl_.return_type_),
           reinterpret_cast<char*>(&other->_impl_.return_type_));
+}
+
+::google::protobuf::Metadata Function::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Extern::_Internal {
+ public:
+  using HasBits =
+      decltype(std::declval<Extern>()._impl_._has_bits_);
+  static constexpr ::int32_t kHasBitsOffset =
+      8 * PROTOBUF_FIELD_OFFSET(Extern, _impl_._has_bits_);
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000003) ^ 0x00000003) != 0;
+  }
+};
+
+Extern::Extern(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ez_proto.Extern)
+}
+inline PROTOBUF_NDEBUG_INLINE Extern::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ez_proto::Extern& from_msg)
+      : _has_bits_{from._has_bits_},
+        _cached_size_{0},
+        params_{visibility, arena, from.params_},
+        name_(arena, from.name_) {}
+
+Extern::Extern(
+    ::google::protobuf::Arena* arena,
+    const Extern& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Extern* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  ::uint32_t cached_has_bits = _impl_._has_bits_[0];
+  _impl_.return_type_ = (cached_has_bits & 0x00000002u) ? ::google::protobuf::Message::CopyConstruct<::ez_proto::EzType>(
+                              arena, *from._impl_.return_type_)
+                        : nullptr;
+
+  // @@protoc_insertion_point(copy_constructor:ez_proto.Extern)
+}
+inline PROTOBUF_NDEBUG_INLINE Extern::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : _cached_size_{0},
+        params_{visibility, arena},
+        name_(arena) {}
+
+inline void Extern::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+  _impl_.return_type_ = {};
+}
+Extern::~Extern() {
+  // @@protoc_insertion_point(destructor:ez_proto.Extern)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void Extern::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  _impl_.name_.Destroy();
+  delete _impl_.return_type_;
+  _impl_.~Impl_();
+}
+
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::MessageLite::ClassDataFull
+    Extern::_class_data_ = {
+        ::google::protobuf::Message::ClassData{
+            &_Extern_default_instance_._instance,
+            &_table_.header,
+            nullptr,  // OnDemandRegisterArenaDtor
+            Extern::IsInitializedImpl,
+            &Extern::MergeImpl,
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+            ::google::protobuf::Message::GetDeleteImpl<Extern>(),
+            ::google::protobuf::Message::GetNewImpl<Extern>(),
+            ::google::protobuf::Message::GetClearImpl<Extern>(), &Extern::ByteSizeLong,
+                &Extern::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+            PROTOBUF_FIELD_OFFSET(Extern, _impl_._cached_size_),
+            false,
+        },
+        &Extern::kDescriptorMethods,
+        &descriptor_table_ez_5fir_2eproto,
+        nullptr,  // tracker
+};
+const ::google::protobuf::MessageLite::ClassData* Extern::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<2, 3, 2, 28, 2> Extern::_table_ = {
+  {
+    PROTOBUF_FIELD_OFFSET(Extern, _impl_._has_bits_),
+    0, // no _extensions_
+    3, 24,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967288,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    3,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ez_proto::Extern>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+    // required .ez_proto.EzType return_type = 1;
+    {::_pbi::TcParser::FastMtS1,
+     {10, 1, 0, PROTOBUF_FIELD_OFFSET(Extern, _impl_.return_type_)}},
+    // required string name = 2;
+    {::_pbi::TcParser::FastSS1,
+     {18, 0, 0, PROTOBUF_FIELD_OFFSET(Extern, _impl_.name_)}},
+    // repeated .ez_proto.EzTypedParam params = 3;
+    {::_pbi::TcParser::FastMtR1,
+     {26, 63, 1, PROTOBUF_FIELD_OFFSET(Extern, _impl_.params_)}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // required .ez_proto.EzType return_type = 1;
+    {PROTOBUF_FIELD_OFFSET(Extern, _impl_.return_type_), _Internal::kHasBitsOffset + 1, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kMessage | ::_fl::kTvTable)},
+    // required string name = 2;
+    {PROTOBUF_FIELD_OFFSET(Extern, _impl_.name_), _Internal::kHasBitsOffset + 0, 0,
+    (0 | ::_fl::kFcOptional | ::_fl::kRawString | ::_fl::kRepAString)},
+    // repeated .ez_proto.EzTypedParam params = 3;
+    {PROTOBUF_FIELD_OFFSET(Extern, _impl_.params_), -1, 1,
+    (0 | ::_fl::kFcRepeated | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ez_proto::EzType>()},
+    {::_pbi::TcParser::GetTable<::ez_proto::EzTypedParam>()},
+  }}, {{
+    "\17\0\4\0\0\0\0\0"
+    "ez_proto.Extern"
+    "name"
+  }},
+};
+
+PROTOBUF_NOINLINE void Extern::Clear() {
+// @@protoc_insertion_point(message_clear_start:ez_proto.Extern)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.params_.Clear();
+  cached_has_bits = _impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _impl_.name_.ClearNonDefaultToEmpty();
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(_impl_.return_type_ != nullptr);
+      _impl_.return_type_->Clear();
+    }
+  }
+  _impl_._has_bits_.Clear();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* Extern::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const Extern& this_ = static_cast<const Extern&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* Extern::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const Extern& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.Extern)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          cached_has_bits = this_._impl_._has_bits_[0];
+          // required .ez_proto.EzType return_type = 1;
+          if (cached_has_bits & 0x00000002u) {
+            target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                1, *this_._impl_.return_type_, this_._impl_.return_type_->GetCachedSize(), target,
+                stream);
+          }
+
+          // required string name = 2;
+          if (cached_has_bits & 0x00000001u) {
+            const std::string& _s = this_._internal_name();
+            ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(_s.data(), static_cast<int>(_s.length()), ::google::protobuf::internal::WireFormat::SERIALIZE,
+                                        "ez_proto.Extern.name");
+            target = stream->WriteStringMaybeAliased(2, _s, target);
+          }
+
+          // repeated .ez_proto.EzTypedParam params = 3;
+          for (unsigned i = 0, n = static_cast<unsigned>(
+                                   this_._internal_params_size());
+               i < n; i++) {
+            const auto& repfield = this_._internal_params().Get(i);
+            target =
+                ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                    3, repfield, repfield.GetCachedSize(),
+                    target, stream);
+          }
+
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.Extern)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t Extern::ByteSizeLong(const MessageLite& base) {
+          const Extern& this_ = static_cast<const Extern&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t Extern::ByteSizeLong() const {
+          const Extern& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ez_proto.Extern)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          ::_pbi::Prefetch5LinesFrom7Lines(&this_);
+           {
+            // repeated .ez_proto.EzTypedParam params = 3;
+             {
+              total_size += 1UL * this_._internal_params_size();
+              for (const auto& msg : this_._internal_params()) {
+                total_size += ::google::protobuf::internal::WireFormatLite::MessageSize(msg);
+              }
+            }
+          }
+          cached_has_bits = this_._impl_._has_bits_[0];
+          if (cached_has_bits & 0x00000003u) {
+            // required string name = 2;
+            if (cached_has_bits & 0x00000001u) {
+              total_size += 1 + ::google::protobuf::internal::WireFormatLite::StringSize(
+                                              this_._internal_name());
+            }
+            // required .ez_proto.EzType return_type = 1;
+            if (cached_has_bits & 0x00000002u) {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.return_type_);
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void Extern::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Extern*>(&to_msg);
+  auto& from = static_cast<const Extern&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.Extern)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_internal_mutable_params()->MergeFrom(
+      from._internal_params());
+  cached_has_bits = from._impl_._has_bits_[0];
+  if (cached_has_bits & 0x00000003u) {
+    if (cached_has_bits & 0x00000001u) {
+      _this->_internal_set_name(from._internal_name());
+    }
+    if (cached_has_bits & 0x00000002u) {
+      ABSL_DCHECK(from._impl_.return_type_ != nullptr);
+      if (_this->_impl_.return_type_ == nullptr) {
+        _this->_impl_.return_type_ =
+            ::google::protobuf::Message::CopyConstruct<::ez_proto::EzType>(arena, *from._impl_.return_type_);
+      } else {
+        _this->_impl_.return_type_->MergeFrom(*from._impl_.return_type_);
+      }
+    }
+  }
+  _this->_impl_._has_bits_[0] |= cached_has_bits;
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Extern::CopyFrom(const Extern& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.Extern)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool Extern::IsInitializedImpl(
+    const MessageLite& msg) {
+  auto& this_ = static_cast<const Extern&>(msg);
+  if (_Internal::MissingRequiredFields(this_._impl_._has_bits_)) {
+    return false;
+  }
+  if (!::google::protobuf::internal::AllAreInitialized(this_._internal_params()))
+    return false;
+  return true;
+}
+
+void Extern::InternalSwap(Extern* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  auto* arena = GetArena();
+  ABSL_DCHECK_EQ(arena, other->GetArena());
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_._has_bits_[0], other->_impl_._has_bits_[0]);
+  _impl_.params_.InternalSwap(&other->_impl_.params_);
+  ::_pbi::ArenaStringPtr::InternalSwap(&_impl_.name_, &other->_impl_.name_, arena);
+  swap(_impl_.return_type_, other->_impl_.return_type_);
+}
+
+::google::protobuf::Metadata Extern::GetMetadata() const {
+  return ::google::protobuf::Message::GetMetadataImpl(GetClassData()->full());
+}
+// ===================================================================
+
+class Definition::_Internal {
+ public:
+  static constexpr ::int32_t kOneofCaseOffset =
+      PROTOBUF_FIELD_OFFSET(::ez_proto::Definition, _impl_._oneof_case_);
+};
+
+void Definition::set_allocated_func(::ez_proto::Function* func) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_kind();
+  if (func) {
+    ::google::protobuf::Arena* submessage_arena = func->GetArena();
+    if (message_arena != submessage_arena) {
+      func = ::google::protobuf::internal::GetOwnedMessage(message_arena, func, submessage_arena);
+    }
+    set_has_func();
+    _impl_.kind_.func_ = func;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.func)
+}
+void Definition::set_allocated_extern_(::ez_proto::Extern* extern_) {
+  ::google::protobuf::Arena* message_arena = GetArena();
+  clear_kind();
+  if (extern_) {
+    ::google::protobuf::Arena* submessage_arena = extern_->GetArena();
+    if (message_arena != submessage_arena) {
+      extern_ = ::google::protobuf::internal::GetOwnedMessage(message_arena, extern_, submessage_arena);
+    }
+    set_has_extern_();
+    _impl_.kind_.extern__ = extern_;
+  }
+  // @@protoc_insertion_point(field_set_allocated:ez_proto.Definition.extern)
+}
+Definition::Definition(::google::protobuf::Arena* arena)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  SharedCtor(arena);
+  // @@protoc_insertion_point(arena_constructor:ez_proto.Definition)
+}
+inline PROTOBUF_NDEBUG_INLINE Definition::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility, ::google::protobuf::Arena* arena,
+    const Impl_& from, const ::ez_proto::Definition& from_msg)
+      : kind_{},
+        _cached_size_{0},
+        _oneof_case_{from._oneof_case_[0]} {}
+
+Definition::Definition(
+    ::google::protobuf::Arena* arena,
+    const Definition& from)
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+    : ::google::protobuf::Message(arena, _class_data_.base()) {
+#else   // PROTOBUF_CUSTOM_VTABLE
+    : ::google::protobuf::Message(arena) {
+#endif  // PROTOBUF_CUSTOM_VTABLE
+  Definition* const _this = this;
+  (void)_this;
+  _internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(
+      from._internal_metadata_);
+  new (&_impl_) Impl_(internal_visibility(), arena, from._impl_, from);
+  switch (kind_case()) {
+    case KIND_NOT_SET:
+      break;
+      case kFunc:
+        _impl_.kind_.func_ = ::google::protobuf::Message::CopyConstruct<::ez_proto::Function>(arena, *from._impl_.kind_.func_);
+        break;
+      case kExtern:
+        _impl_.kind_.extern__ = ::google::protobuf::Message::CopyConstruct<::ez_proto::Extern>(arena, *from._impl_.kind_.extern__);
+        break;
+  }
+
+  // @@protoc_insertion_point(copy_constructor:ez_proto.Definition)
+}
+inline PROTOBUF_NDEBUG_INLINE Definition::Impl_::Impl_(
+    ::google::protobuf::internal::InternalVisibility visibility,
+    ::google::protobuf::Arena* arena)
+      : kind_{},
+        _cached_size_{0},
+        _oneof_case_{} {}
+
+inline void Definition::SharedCtor(::_pb::Arena* arena) {
+  new (&_impl_) Impl_(internal_visibility(), arena);
+}
+Definition::~Definition() {
+  // @@protoc_insertion_point(destructor:ez_proto.Definition)
+  _internal_metadata_.Delete<::google::protobuf::UnknownFieldSet>();
+  SharedDtor();
+}
+inline void Definition::SharedDtor() {
+  ABSL_DCHECK(GetArena() == nullptr);
+  if (has_kind()) {
+    clear_kind();
+  }
+  _impl_.~Impl_();
+}
+
+void Definition::clear_kind() {
+// @@protoc_insertion_point(one_of_clear_start:ez_proto.Definition)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  switch (kind_case()) {
+    case kFunc: {
+      if (GetArena() == nullptr) {
+        delete _impl_.kind_.func_;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.func_);
+      }
+      break;
+    }
+    case kExtern: {
+      if (GetArena() == nullptr) {
+        delete _impl_.kind_.extern__;
+      } else if (::google::protobuf::internal::DebugHardenClearOneofMessageOnArena()) {
+        ::google::protobuf::internal::MaybePoisonAfterClear(_impl_.kind_.extern__);
+      }
+      break;
+    }
+    case KIND_NOT_SET: {
+      break;
+    }
+  }
+  _impl_._oneof_case_[0] = KIND_NOT_SET;
+}
+
+
+PROTOBUF_CONSTINIT
+PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::google::protobuf::MessageLite::ClassDataFull
+    Definition::_class_data_ = {
+        ::google::protobuf::Message::ClassData{
+            &_Definition_default_instance_._instance,
+            &_table_.header,
+            nullptr,  // OnDemandRegisterArenaDtor
+            Definition::IsInitializedImpl,
+            &Definition::MergeImpl,
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+            ::google::protobuf::Message::GetDeleteImpl<Definition>(),
+            ::google::protobuf::Message::GetNewImpl<Definition>(),
+            ::google::protobuf::Message::GetClearImpl<Definition>(), &Definition::ByteSizeLong,
+                &Definition::_InternalSerialize,
+#endif  // PROTOBUF_CUSTOM_VTABLE
+            PROTOBUF_FIELD_OFFSET(Definition, _impl_._cached_size_),
+            false,
+        },
+        &Definition::kDescriptorMethods,
+        &descriptor_table_ez_5fir_2eproto,
+        nullptr,  // tracker
+};
+const ::google::protobuf::MessageLite::ClassData* Definition::GetClassData() const {
+  ::google::protobuf::internal::PrefetchToLocalCache(&_class_data_);
+  ::google::protobuf::internal::PrefetchToLocalCache(_class_data_.tc_table);
+  return _class_data_.base();
+}
+PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1
+const ::_pbi::TcParseTable<0, 2, 2, 0, 2> Definition::_table_ = {
+  {
+    0,  // no _has_bits_
+    0, // no _extensions_
+    2, 0,  // max_field_number, fast_idx_mask
+    offsetof(decltype(_table_), field_lookup_table),
+    4294967292,  // skipmap
+    offsetof(decltype(_table_), field_entries),
+    2,  // num_field_entries
+    2,  // num_aux_entries
+    offsetof(decltype(_table_), aux_entries),
+    _class_data_.base(),
+    nullptr,  // post_loop_handler
+    ::_pbi::TcParser::GenericFallback,  // fallback
+    #ifdef PROTOBUF_PREFETCH_PARSE_TABLE
+    ::_pbi::TcParser::GetTable<::ez_proto::Definition>(),  // to_prefetch
+    #endif  // PROTOBUF_PREFETCH_PARSE_TABLE
+  }, {{
+    {::_pbi::TcParser::MiniParse, {}},
+  }}, {{
+    65535, 65535
+  }}, {{
+    // .ez_proto.Function func = 1;
+    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.kind_.func_), _Internal::kOneofCaseOffset + 0, 0,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+    // .ez_proto.Extern extern = 2;
+    {PROTOBUF_FIELD_OFFSET(Definition, _impl_.kind_.extern__), _Internal::kOneofCaseOffset + 0, 1,
+    (0 | ::_fl::kFcOneof | ::_fl::kMessage | ::_fl::kTvTable)},
+  }}, {{
+    {::_pbi::TcParser::GetTable<::ez_proto::Function>()},
+    {::_pbi::TcParser::GetTable<::ez_proto::Extern>()},
+  }}, {{
+  }},
+};
+
+PROTOBUF_NOINLINE void Definition::Clear() {
+// @@protoc_insertion_point(message_clear_start:ez_proto.Definition)
+  ::google::protobuf::internal::TSanWrite(&_impl_);
+  ::uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  clear_kind();
+  _internal_metadata_.Clear<::google::protobuf::UnknownFieldSet>();
+}
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::uint8_t* Definition::_InternalSerialize(
+            const MessageLite& base, ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) {
+          const Definition& this_ = static_cast<const Definition&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::uint8_t* Definition::_InternalSerialize(
+            ::uint8_t* target,
+            ::google::protobuf::io::EpsCopyOutputStream* stream) const {
+          const Definition& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(serialize_to_array_start:ez_proto.Definition)
+          ::uint32_t cached_has_bits = 0;
+          (void)cached_has_bits;
+
+          switch (this_.kind_case()) {
+            case kFunc: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  1, *this_._impl_.kind_.func_, this_._impl_.kind_.func_->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            case kExtern: {
+              target = ::google::protobuf::internal::WireFormatLite::InternalWriteMessage(
+                  2, *this_._impl_.kind_.extern__, this_._impl_.kind_.extern__->GetCachedSize(), target,
+                  stream);
+              break;
+            }
+            default:
+              break;
+          }
+          if (PROTOBUF_PREDICT_FALSE(this_._internal_metadata_.have_unknown_fields())) {
+            target =
+                ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+                    this_._internal_metadata_.unknown_fields<::google::protobuf::UnknownFieldSet>(::google::protobuf::UnknownFieldSet::default_instance), target, stream);
+          }
+          // @@protoc_insertion_point(serialize_to_array_end:ez_proto.Definition)
+          return target;
+        }
+
+#if defined(PROTOBUF_CUSTOM_VTABLE)
+        ::size_t Definition::ByteSizeLong(const MessageLite& base) {
+          const Definition& this_ = static_cast<const Definition&>(base);
+#else   // PROTOBUF_CUSTOM_VTABLE
+        ::size_t Definition::ByteSizeLong() const {
+          const Definition& this_ = *this;
+#endif  // PROTOBUF_CUSTOM_VTABLE
+          // @@protoc_insertion_point(message_byte_size_start:ez_proto.Definition)
+          ::size_t total_size = 0;
+
+          ::uint32_t cached_has_bits = 0;
+          // Prevent compiler warnings about cached_has_bits being unused
+          (void)cached_has_bits;
+
+          switch (this_.kind_case()) {
+            // .ez_proto.Function func = 1;
+            case kFunc: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.kind_.func_);
+              break;
+            }
+            // .ez_proto.Extern extern = 2;
+            case kExtern: {
+              total_size += 1 +
+                            ::google::protobuf::internal::WireFormatLite::MessageSize(*this_._impl_.kind_.extern__);
+              break;
+            }
+            case KIND_NOT_SET: {
+              break;
+            }
+          }
+          return this_.MaybeComputeUnknownFieldsSize(total_size,
+                                                     &this_._impl_._cached_size_);
+        }
+
+void Definition::MergeImpl(::google::protobuf::MessageLite& to_msg, const ::google::protobuf::MessageLite& from_msg) {
+  auto* const _this = static_cast<Definition*>(&to_msg);
+  auto& from = static_cast<const Definition&>(from_msg);
+  ::google::protobuf::Arena* arena = _this->GetArena();
+  // @@protoc_insertion_point(class_specific_merge_from_start:ez_proto.Definition)
+  ABSL_DCHECK_NE(&from, _this);
+  ::uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (const uint32_t oneof_from_case = from._impl_._oneof_case_[0]) {
+    const uint32_t oneof_to_case = _this->_impl_._oneof_case_[0];
+    const bool oneof_needs_init = oneof_to_case != oneof_from_case;
+    if (oneof_needs_init) {
+      if (oneof_to_case != 0) {
+        _this->clear_kind();
+      }
+      _this->_impl_._oneof_case_[0] = oneof_from_case;
+    }
+
+    switch (oneof_from_case) {
+      case kFunc: {
+        if (oneof_needs_init) {
+          _this->_impl_.kind_.func_ =
+              ::google::protobuf::Message::CopyConstruct<::ez_proto::Function>(arena, *from._impl_.kind_.func_);
+        } else {
+          _this->_impl_.kind_.func_->MergeFrom(from._internal_func());
+        }
+        break;
+      }
+      case kExtern: {
+        if (oneof_needs_init) {
+          _this->_impl_.kind_.extern__ =
+              ::google::protobuf::Message::CopyConstruct<::ez_proto::Extern>(arena, *from._impl_.kind_.extern__);
+        } else {
+          _this->_impl_.kind_.extern__->MergeFrom(from._internal_extern_());
+        }
+        break;
+      }
+      case KIND_NOT_SET:
+        break;
+    }
+  }
+  _this->_internal_metadata_.MergeFrom<::google::protobuf::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Definition::CopyFrom(const Definition& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ez_proto.Definition)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+PROTOBUF_NOINLINE bool Definition::IsInitializedImpl(
+    const MessageLite& msg) {
+  auto& this_ = static_cast<const Definition&>(msg);
+  switch (this_.kind_case()) {
+    case kFunc: {
+      if (this_.kind_case() == kFunc && !this_._impl_.kind_.func_->IsInitialized())
+        return false;
+      break;
+    }
+    case kExtern: {
+      if (this_.kind_case() == kExtern && !this_._impl_.kind_.extern__->IsInitialized())
+        return false;
+      break;
+    }
+    case KIND_NOT_SET: {
+      break;
+    }
+  }
+  return true;
+}
+
+void Definition::InternalSwap(Definition* PROTOBUF_RESTRICT other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.kind_, other->_impl_.kind_);
+  swap(_impl_._oneof_case_[0], other->_impl_._oneof_case_[0]);
 }
 
 ::google::protobuf::Metadata Definition::GetMetadata() const {

@@ -7,4 +7,6 @@ WORK_DIR=`mktemp -d "/tmp/${BASENAME}_XXXXXX"`
 echo Working Directory: $WORK_DIR
 
 ./_build/default/bin/ezfront.exe $1 $WORK_DIR/$BASENAME.irpb
-./_build_cmake/ezback $WORK_DIR/$BASENAME.irpb $WORK_DIR/$BASENAME.o
+./_build_back/ezback $WORK_DIR/$BASENAME.irpb $WORK_DIR/$BASENAME.o
+clang++ -pie -o $WORK_DIR/$BASENAME $WORK_DIR/$BASENAME.o -L./ezstd/zig-out/lib -lezstd -Wl,-rpath=.
+cp ./ezstd/zig-out/lib/libezstd.so $WORK_DIR

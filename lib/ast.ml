@@ -18,7 +18,10 @@ type stmt0 =
   | Return of expr0
   | Assign of identifier * expr0
 
-type def0 = ez_type * identifier * definition_ez_typed_param list * stmt0
+type def0 =
+  | Function of ez_type * identifier * ez_typed_param list * stmt0
+  | Extern of ez_type * identifier * ez_typed_param list
+
 type prog0 = def0 list
 
 let binop_to_string (binop : expr_binary_bin_op) =

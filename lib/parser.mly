@@ -57,6 +57,7 @@
 %token ELSE
 %token WHILE
 %token RETURN
+%token EXTERN
 
 %start <prog0> program_eof
 
@@ -65,40 +66,50 @@
 program_eof:
   | defs=list(definition) EOF { defs }
 
+
+
 definition: 
-  | t=type_param id=IDENTIFIER LPAREN RPAREN body=statement {
-    (t, id, [], body) 
+  | EXTERN t=ez_type id=IDENTIFIER params=param_list SEMICOL {
+    Extern(t, id, params)
   }
-  | t=type_param id=IDENTIFIER UNIT body=statement {
-    (t, id, [], body) 
-  }
-  | t=type_param id=IDENTIFIER LPAREN args=arg_list RPAREN body=statement {
-    (t, id, args, body) 
+  | t=ez_type id=IDENTIFIER params=param_list  body=statement {
+    Function(t, id, params, body) 
   }
 
-type_param: 
+ez_type: 
   | UNIT_T { Non_ptr(Unit)  }
   | INT_T { Non_ptr(I64) }
   | STR_T { Non_ptr(Str) }
   | FLOAT_T { Non_ptr(F64) }
   | BOOL_T { Non_ptr(Bool) }
-  | PTR_T LBKT inner=type_param RBKT {
+  | PTR_T LBKT inner=ez_type RBKT {
     Ptr(inner)
   }
 
-arg_list: 
-  | a=arg { [a] } 
-  | a=arg COMMA rest=arg_list { [a] @ rest }
+param_list:
+  | LPAREN RPAREN {
+    []
+  }
+  | UNIT {
+    []
+  }
+  | LPAREN params=param_list_inner RPAREN {
+    params
+  }
 
-arg:
-  | param_type=type_param name=IDENTIFIER { { param_type; name } } 
+param_list_inner: 
+  | a=param { [a] } 
+  | a=param COMMA rest=param_list_inner { [a] @ rest }
+
+param:
+  | param_type=ez_type name=IDENTIFIER { { param_type; name } } 
 
 statement: 
   | LBRACE stmts=list(statement) RBRACE {
     Block(stmts)
   }
   | RETURN e=expression SEMICOL { Return(e) }
-  | id=IDENTIFIER COLON ty=type_param ASSIGN e=expression SEMICOL { Declaration(ty, id, e) }
+  | id=IDENTIFIER COLON ty=ez_type ASSIGN e=expression SEMICOL { Declaration(ty, id, e) }
   | id=IDENTIFIER ASSIGN e=expression SEMICOL { Assign(id, e) }
   | e=expression SEMICOL { Expr(e) }
   | IF LPAREN test=expression RPAREN then_clause=statement ELSE else_clause=statement {
@@ -122,14 +133,14 @@ statement:
   | AND { Land } 
   | OR { Lor } 
 
-param_list: 
+arg_list: 
   | e=expression { [e] } 
-  | e=expression COMMA rest=param_list { [e] @ rest }
+  | e=expression COMMA rest=arg_list { [e] @ rest }
 
 expression: 
   | id=IDENTIFIER LPAREN RPAREN { Call(id, []) }
   | id=IDENTIFIER UNIT { Call(id, []) }
-  | id=IDENTIFIER LPAREN l=param_list RPAREN { Call(id, l) }
+  | id=IDENTIFIER LPAREN l=arg_list RPAREN { Call(id, l) }
   | id=IDENTIFIER { Var(id) }
   | lhs=expression op=bin_op rhs=expression { BinOp(op, lhs, rhs) }
   | LPAREN inner=expression RPAREN { inner }

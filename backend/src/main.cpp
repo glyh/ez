@@ -2,6 +2,7 @@
 #include <fstream>
 #include <ios>
 #include <memory>
+#include <stdexcept>
 
 #include "ez_ir.pb.h"
 #include "ir_visitor.hpp"
@@ -29,11 +30,24 @@ int main(int argc, char **argv) {
 
     CodegenVisitor visitor(ctx, mod);
     for (auto def : program.definitions()) {
-      Function *cur_fn = visitor.codegen(def);
-      // Recreate an optimizer is needed
-      // https://discourse.llvm.org/t/segmentation-faults-running-the-new-llvm-modulepassmanager-with-default-pipeline
-      Optimizer optimizer(ctx, mod);
-      optimizer.run_on_function(cur_fn);
+      switch (def.kind_case()) {
+      case ez_proto::Definition::kFunc: {
+        auto func = def.func();
+        Function *cur_fn = visitor.codegen(func);
+        // Recreate an optimizer is needed
+        // https://discourse.llvm.org/t/segmentation-faults-running-the-new-llvm-modulepassmanager-with-default-pipeline
+        Optimizer optimizer(ctx, mod);
+        optimizer.run_on_function(cur_fn);
+        break;
+      }
+      case ez_proto::Definition::kExtern: {
+        auto extern_fn = def.extern_();
+        Function *cur_fn = visitor.codegen(extern_fn);
+        break;
+      }
+      default:
+        throw std::domain_error("invalid definition");
+      }
     }
     Objgen objgen(mod);
     return objgen.generate_object(argv[2]);

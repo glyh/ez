@@ -57,12 +57,48 @@ Type *CodegenVisitor::generate_type(const ez_proto::EzType &ty) {
   }
 }
 
+Type *CodegenVisitor::generate_extern_type(const ez_proto::EzType &ty) {
+  switch (ty.kind_case()) {
+  case ez_proto::EzType::kNonPtr:
+    switch (ty.non_ptr()) {
+    case ez_proto::EzType_NonPtr_UNIT:
+      return Type::getVoidTy(*context);
+
+    case ez_proto::EzType_NonPtr_BOOL:
+      return Type::getInt1Ty(*context);
+
+    case ez_proto::EzType_NonPtr_I64:
+      return Type::getInt64Ty(*context);
+
+    case ez_proto::EzType_NonPtr_F64:
+      return Type::getDoubleTy(*context);
+
+    case ez_proto::EzType_NonPtr_STR:
+      throw NotImplemented("type for string");
+    }
+  case ez_proto::EzType::kPtr:
+    return PointerType::get(*context, 0);
+  default:
+    throw std::domain_error("type has invalid type");
+  }
+}
+
 FunctionType *
-CodegenVisitor::generate_function_type(const ez_proto::Definition &definiton) {
-  Type *return_type = generate_type(definiton.return_type());
+CodegenVisitor::generate_function_type(const ez_proto::Function &func) {
+  Type *return_type = generate_type(func.return_type());
   std::vector<Type *> param_types;
-  for (auto param : definiton.params()) {
+  for (auto param : func.params()) {
     param_types.push_back(generate_type(param.param_type()));
+  }
+  return FunctionType::get(return_type, param_types, false);
+}
+
+FunctionType *
+CodegenVisitor::generate_function_type(const ez_proto::Extern &extern_func) {
+  Type *return_type = generate_type(extern_func.return_type());
+  std::vector<Type *> param_types;
+  for (auto param : extern_func.params()) {
+    param_types.push_back(generate_extern_type(param.param_type()));
   }
   return FunctionType::get(return_type, param_types, false);
 }
@@ -418,12 +454,12 @@ void CodegenVisitor::sanitize_function(Function &f) {
   }
 }
 
-Function *CodegenVisitor::codegen(const ez_proto::Definition &def) {
-  FunctionType *cur_fn_type = generate_function_type(def);
-  const std::string &name = def.name();
+Function *CodegenVisitor::codegen(const ez_proto::Function &func) {
+  FunctionType *cur_fn_type = generate_function_type(func);
+  const std::string &name = func.name();
   Function *cur_fn = Function::Create(cur_fn_type, Function::ExternalLinkage,
                                       name, module.get());
-  auto params = def.params();
+  auto params = func.params();
   int idx = 0;
   for (auto &arg : cur_fn->args()) {
     arg.setName(params.at(idx).name());
@@ -443,10 +479,16 @@ Function *CodegenVisitor::codegen(const ez_proto::Definition &def) {
     builder->CreateStore(&arg, alloc_inst);
     env->add(name, alloc_inst);
   }
-  codegen(def.body());
+  codegen(func.body());
   sanitize_function(*cur_fn);
   verifyFunction(*cur_fn, &errs());
 
   env->exit_scope();
   return cur_fn;
+}
+
+Function *CodegenVisitor::codegen(const ez_proto::Extern &extern_fn) {
+  FunctionType *cur_fn_type = generate_function_type(extern_fn);
+  return Function::Create(cur_fn_type, Function::ExternalLinkage,
+                          extern_fn.name(), module.get());
 }

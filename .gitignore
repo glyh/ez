@@ -28,8 +28,11 @@ setup.log
 # Local OPAM switch
 _opam/
 
-# For Cmake
-_build_cmake/
+# For Backend
+_build_back/
 .cache
 
 /tmp
+
+.zig-cache
+/ezstd/zig-out

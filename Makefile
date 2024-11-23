@@ -2,7 +2,7 @@
 
 default: build
 
-build: frontend _build_cmake/ezback
+build: _build/default/bin/ezfront.exe _build_back/ezback ezstd/zig-out/lib/libezstd.a
 	
 ./lib/ez_ir.ml ./lib/ez_ir.mli: ./proto/ez_ir.proto
 	ocaml-protoc --binary --ml_out ./lib/ ./proto/ez_ir.proto 
@@ -10,16 +10,22 @@ build: frontend _build_cmake/ezback
 OCAML_DIRS := bin lib test
 OCAML_FILES := $(foreach dir,$(OCAML_DIRS),$(wildcard $(dir)/*.ml) $(wildcard $(dir)/*.mli)  $(wildcard $(dir)/dune))
 
-frontend: $(OCAML_FILES)
+
+_build/default/bin/ezfront.exe: $(OCAML_FILES)
 	dune build
 
 ./backend/proto_gen/ez_ir.pb.h ./backend/proto_gen/ez_ir.pb.cc: ./proto/ez_ir.proto
 	protoc -I=./proto/ --cpp_out=./backend/proto_gen/ ./proto/ez_ir.proto 
 
-CPP_PROTO_GEN := $(wildcard backend/proto_gen/*)
-CPP_HEADER := $(wildcard backend/include/*.hpp)
-CPP_SRC := $(wildcard backend/src/*.cpp)
+BACK_PROTO_GEN := $(wildcard backend/proto_gen/*)
+BACK_HEADER := $(wildcard backend/include/*.hpp)
+BACK_SRC := $(wildcard backend/src/*.cpp)
 
-_build_cmake/ezback: $(CPP_PROTO_GEN) $(CPP_HEADER) $(CPP_SRC) ./backend/CMakeLists.txt
-	cmake -S backend -B _build_cmake
-	cmake --build _build_cmake
+_build_back/ezback: $(BACK_PROTO_GEN) $(BACK_HEADER) $(BACK_SRC) ./backend/CMakeLists.txt
+	cmake -S backend -B _build_back
+	cmake --build _build_back
+
+BACK_SRC := $(wildcard ezstd/src/*.zig)
+
+ezstd/zig-out/lib/libezstd.so: $(STD_SRC) ./ezstd/build.zig ./ezstd/build.zig.zon
+	cd ezstd && zig build
