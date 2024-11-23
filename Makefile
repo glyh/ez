@@ -2,7 +2,7 @@
 
 default: build
 
-build: _build/default/bin/ezfront.exe _build_back/ezback ezstd/zig-out/lib/libezstd.a
+build: _build/default/bin/ezfront.exe _build_back/ezback ezstd/zig-out/lib/libezstd.so
 	
 ./lib/ez_ir.ml ./lib/ez_ir.mli: ./proto/ez_ir.proto
 	ocaml-protoc --binary --ml_out ./lib/ ./proto/ez_ir.proto 
@@ -25,7 +25,7 @@ _build_back/ezback: $(BACK_PROTO_GEN) $(BACK_HEADER) $(BACK_SRC) ./backend/CMake
 	cmake -S backend -B _build_back
 	cmake --build _build_back
 
-BACK_SRC := $(wildcard ezstd/src/*.zig)
+STD_SRC := $(wildcard ezstd/src/*.zig)
 
 ezstd/zig-out/lib/libezstd.so: $(STD_SRC) ./ezstd/build.zig ./ezstd/build.zig.zon
 	cd ezstd && zig build
