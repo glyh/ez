@@ -1,4 +1,4 @@
-extern unit print_int(i64 num);
+require "std";
 
 i64 fib(i64 n) {
   if(n == 0) {
@@ -12,5 +12,6 @@ i64 fib(i64 n) {
 
 i64 main() {
   print_int(fib(7));
+  print_endline();
   return 0;
 }

@@ -32,7 +32,6 @@ _opam/
 _build_back/
 .cache
 
-/tmp
+_build_std/
 
-.zig-cache
-/ezstd/zig-out
+/tmp

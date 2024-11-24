@@ -6,7 +6,6 @@ An ez language implemented with OCaml, Cpp and LLVM.
 - LLVM 18.1
 - opam 2.2
 - libprotoc 28.3
-- zig 0.13
 
 ### Building
 

@@ -30,8 +30,10 @@ struct CodegenVisitor {
   Value *codegen(const ez_proto::Expr &);
   Value *codegen(const ez_proto::Expr_Binary &);
   void codegen(const ez_proto::Statement &);
+
   Function *codegen(const ez_proto::Function &);
   Function *codegen(const ez_proto::Extern &);
+
   void sanitize_function(Function &);
 
   std::shared_ptr<LLVMContext> context;

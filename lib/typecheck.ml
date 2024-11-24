@@ -30,12 +30,14 @@ let dump_function_sig (fsig : identifier * function_type) : string =
   let fname, ty = fsig in
   fname ^ ": " ^ dump_funtion_type ty
 
-let definiton_to_function_type (def : def0) : string * (ez_type list * ez_type)
-    =
+let definiton_to_function_type (def : def_precheck) :
+    (string * (ez_type list * ez_type)) option =
   match def with
   | Function (return_type, name, args, _) | Extern (return_type, name, args) ->
-      ( name,
-        (args |> List.map (fun { param_type; _ } -> param_type), return_type) )
+      Some
+        ( name,
+          (args |> List.map (fun { param_type; _ } -> param_type), return_type)
+        )
 
 module StrMap = Map.Make (String)
 
@@ -46,8 +48,11 @@ let dump_function_sigs (sigs : funcsig_map) : string =
   let sigs_list = sigs |> StrMap.to_list in
   List.map dump_function_sig sigs_list |> String.concat "\n"
 
-let collect_function_signatures (p : prog0) : funcsig_map =
-  p |> List.map definiton_to_function_type |> StrMap.of_list
+let collect_function_signatures (p : prog_precheck) : funcsig_map =
+  p
+  |> List.map definiton_to_function_type
+  |> List.filter_map (fun x -> x)
+  |> StrMap.of_list
 
 let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
     expr =
@@ -188,9 +193,11 @@ and check_statements (return_ty : ez_type) (sigs : funcsig_map)
       in
       (locals_final, stmt_checked :: rest_checked)
 
-let check_definitons (sigs : funcsig_map) (def0_to_check : def0) : definition =
-  match def0_to_check with
-  | Extern (return_type, name, params) -> Extern { return_type; name; params }
+let check_definitons (sigs : funcsig_map) (def_precheck_to_check : def_precheck)
+    : definition list =
+  match def_precheck_to_check with
+  | Extern (return_type, name, params) ->
+      [ Extern { return_type; name; params } ]
   | Function (return_type, name, params, body) ->
       let initial_params =
         params
@@ -200,9 +207,11 @@ let check_definitons (sigs : funcsig_map) (def0_to_check : def0) : definition =
       let _, statement_checked =
         check_statement return_type sigs initial_params body
       in
-      Func { return_type; name; params; body = statement_checked }
+      [ Func { return_type; name; params; body = statement_checked } ]
 
-let typecheck (p : prog0) : program =
+let typecheck (p : prog_precheck) : program =
   let function_sigs = collect_function_signatures p in
-  let definitions = p |> List.map (check_definitons function_sigs) in
+  let definitions =
+    p |> List.map (check_definitons function_sigs) |> List.concat
+  in
   { definitions }

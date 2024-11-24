@@ -21,8 +21,15 @@ type stmt0 =
 type def0 =
   | Function of ez_type * identifier * ez_typed_param list * stmt0
   | Extern of ez_type * identifier * ez_typed_param list
+  | Require of string
 
 type prog0 = def0 list
+
+type def_precheck =
+  | Function of ez_type * identifier * ez_typed_param list * stmt0
+  | Extern of ez_type * identifier * ez_typed_param list
+
+type prog_precheck = def_precheck list
 
 let binop_to_string (binop : expr_binary_bin_op) =
   match binop with

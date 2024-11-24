@@ -1,0 +1,3 @@
+extern unit print_int(i64 num);
+
+extern unit print_endline();

@@ -8,5 +8,5 @@ echo Working Directory: $WORK_DIR
 
 ./_build/default/bin/ezfront.exe $1 $WORK_DIR/$BASENAME.irpb
 ./_build_back/ezback $WORK_DIR/$BASENAME.irpb $WORK_DIR/$BASENAME.o
-clang++ -pie -o $WORK_DIR/$BASENAME $WORK_DIR/$BASENAME.o -L./ezstd/zig-out/lib -lezstd -Wl,-rpath=.
-cp ./ezstd/zig-out/lib/libezstd.so $WORK_DIR
+clang++ -pie -o $WORK_DIR/$BASENAME $WORK_DIR/$BASENAME.o -L./_build_std -lezstd -Wl,-rpath=.
+cp ./_build_std/libezstd.so $WORK_DIR

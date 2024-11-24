@@ -55,9 +55,10 @@ rule next_token = parse
   | "/" { DIV }
   | "=" { ASSIGN }
 
+  | "require" { REQUIRE }
+  | "extern" { EXTERN }
   | "return" { RETURN }
   | "string" { STR_T }
-  | "extern" { EXTERN }
   | "false" { FALSE }
   | "while" { WHILE }
   | "bool" { BOOL_T }

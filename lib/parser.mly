@@ -58,6 +58,7 @@
 %token WHILE
 %token RETURN
 %token EXTERN
+%token REQUIRE
 
 %start <prog0> program_eof
 
@@ -69,6 +70,7 @@ program_eof:
 
 
 definition: 
+  | REQUIRE module_path=STRING SEMICOL { Require(module_path) }
   | EXTERN t=ez_type id=IDENTIFIER params=param_list SEMICOL {
     Extern(t, id, params)
   }

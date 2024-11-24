@@ -31,3 +31,8 @@ public:
                                      ez_binop_to_string(op),
                                      ez_type_to_string(ty))) {};
 };
+
+class InputEror : public std::logic_error {
+public:
+  InputEror(const std::string &file_name) : std::logic_error(file_name) {};
+};
