@@ -48,7 +48,7 @@ Type *CodegenVisitor::generate_type(const ez_proto::EzType &ty) {
       return Type::getDoubleTy(*context);
 
     case ez_proto::EzType_NonPtr_STR:
-      throw NotImplemented("type for string");
+      return Type::getInt8Ty(*context)->getPointerTo();
     }
   case ez_proto::EzType::kPtr:
     return PointerType::get(*context, 0);
@@ -74,7 +74,7 @@ Type *CodegenVisitor::generate_extern_type(const ez_proto::EzType &ty) {
       return Type::getDoubleTy(*context);
 
     case ez_proto::EzType_NonPtr_STR:
-      throw NotImplemented("type for string");
+      return Type::getInt8Ty(*context)->getPointerTo();
     }
   case ez_proto::EzType::kPtr:
     return PointerType::get(*context, 0);
@@ -126,7 +126,7 @@ Value *CodegenVisitor::codegen(const ez_proto::Value &value) {
     return ConstantInt::get(Type::getInt1Ty(*context), value.bool_val());
 
   case ez_proto::Value::kStrVal:
-    throw NotImplemented("string literal");
+    return builder->CreateGlobalStringPtr(value.str_val());
 
   default:
     throw std::domain_error("value has invalid type");
@@ -320,6 +320,11 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     auto block_stmt = stmt.block();
     for (auto stmt : block_stmt.statements()) {
       codegen(stmt);
+
+      // if we already exit the block, stop code generation
+      if (builder->GetInsertBlock()->getTerminator()) {
+        break;
+      }
     }
     env->exit_scope();
     break;
@@ -340,7 +345,11 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     // 2. Generating code for then branch
     builder->SetInsertPoint(ThenBB);
     codegen(if_stmt.then_branch());
-    builder->CreateBr(MergeBB);
+    // Only branch back to merge bb if we're not returned yet.
+    if (!builder->GetInsertBlock()->getTerminator()) {
+      builder->CreateBr(MergeBB);
+    }
+
     // Codegen of 'Then' can change the current block, update ThenBB for the
     // PHI.
     ThenBB = builder->GetInsertBlock();
@@ -348,6 +357,10 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     TheFunction->insert(TheFunction->end(), ElseBB);
     builder->SetInsertPoint(ElseBB);
     codegen(if_stmt.else_branch());
+    // Only branch back to merge bb if we're not returned yet.
+    if (!builder->GetInsertBlock()->getTerminator()) {
+      builder->CreateBr(MergeBB);
+    }
     // codegen of 'Else' can change the current block, update ElseBB for the
     // PHI.
     ElseBB = builder->GetInsertBlock();
@@ -371,7 +384,10 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
     TheFunction->insert(TheFunction->end(), BodyBB);
     builder->SetInsertPoint(BodyBB);
     codegen(while_stmt.body());
-    builder->CreateBr(TestBB);
+    // Only branch back to merge bb if we're not returned yet.
+    if (!builder->GetInsertBlock()->getTerminator()) {
+      builder->CreateBr(TestBB);
+    }
     // Codegen of 'Body' can change the current block, update BodyBB for the
     // PHI.
     BodyBB = builder->GetInsertBlock();
@@ -416,44 +432,6 @@ void CodegenVisitor::codegen(const ez_proto::Statement &stmt) {
   }
 }
 
-void CodegenVisitor::sanitize_function(Function &f) {
-  // 1. ensure each block has only a single PC Inst at the end
-  for (BasicBlock &BB : f) {
-    auto remove_start = BB.end();
-    for (auto it = BB.begin(); it != BB.end(); ++it) {
-      if (it->isTerminator()) {
-        remove_start = ++it;
-        break;
-      }
-    }
-    BB.erase(remove_start, BB.end());
-  }
-  // 2. remove all empty blocks and fix
-  // Iterate through all the basic blocks in the function
-  BasicBlock *cur_head = nullptr;
-  std::unordered_set<BasicBlock *> to_erase;
-
-  for (BasicBlock &bb : reverse(f)) {
-    if (BranchInst *b_inst = dyn_cast<BranchInst>(&bb.back())) {
-      for (int idx = b_inst->getNumSuccessors() - 1; idx >= 0; --idx) {
-        auto successor = b_inst->getSuccessor(idx);
-        if (to_erase.contains(successor)) {
-          b_inst->setSuccessor(idx, cur_head);
-        }
-      }
-    }
-    if (bb.empty()) {
-      to_erase.insert(&bb);
-    } else {
-      cur_head = &bb;
-    }
-  }
-
-  for (auto bb : to_erase) {
-    bb->eraseFromParent();
-  }
-}
-
 Function *CodegenVisitor::codegen(const ez_proto::Function &func) {
   FunctionType *cur_fn_type = generate_function_type(func);
   const std::string &name = func.name();
@@ -480,7 +458,13 @@ Function *CodegenVisitor::codegen(const ez_proto::Function &func) {
     env->add(name, alloc_inst);
   }
   codegen(func.body());
-  sanitize_function(*cur_fn);
+
+  // Add a return instruction if the user neglected to do so.
+  if (!builder->GetInsertBlock()->getTerminator()) {
+    Type *return_type = generate_type(func.return_type());
+    builder->CreateRet(Constant::getNullValue(return_type));
+  }
+
   verifyFunction(*cur_fn, &errs());
 
   env->exit_scope();

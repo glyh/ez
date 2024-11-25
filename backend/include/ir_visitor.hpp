@@ -34,8 +34,6 @@ struct CodegenVisitor {
   Function *codegen(const ez_proto::Function &);
   Function *codegen(const ez_proto::Extern &);
 
-  void sanitize_function(Function &);
-
   std::shared_ptr<LLVMContext> context;
   std::shared_ptr<Module> module;
   std::unique_ptr<IRBuilder<>> builder;

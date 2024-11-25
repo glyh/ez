@@ -1,3 +1,8 @@
-extern unit print_int(i64 num);
+extern unit ezstd_init();
 
+extern unit print_int(i64 num);
 extern unit print_endline();
+
+extern bool string_eq(string lhs, string rhs);
+extern string string_add(string lhs, string rhs);
+extern unit print_string(string str);

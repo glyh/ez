@@ -11,6 +11,11 @@ let read_file_as_string filename =
 let rec transform_precheck (our_module : File_path.t) (ast : prog0) :
     prog_precheck =
   let collect_definition : def0 -> def_precheck list = function
+    | Function (ty, "main", params, body) ->
+        [
+          Function
+            (ty, "main", params, Block [ Expr (Call ("ezstd_init", [])); body ]);
+        ]
     | Function (ty, id, params, body) -> [ Function (ty, id, params, body) ]
     | Extern (ty, id, params) -> [ Extern (ty, id, params) ]
     | Require _module ->

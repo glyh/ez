@@ -1,0 +1,13 @@
+require "std";
+
+i64 main() {
+  print_string("Hello, " + "World!\n");
+  customer: string = "Ben";
+  if (customer == "Ben") {
+    print_string("Serving " + customer + "...\n");
+  } else {
+    print_string("Sorry, no serve!\n");
+  }
+  print_endline();
+  return 0;
+}

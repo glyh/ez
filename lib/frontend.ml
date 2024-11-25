@@ -2,7 +2,6 @@ open Lexing
 open Typecheck
 open Ast
 open Precheck
-open Postcheck
 open File_path.Operators
 
 let colnum pos = pos.pos_cnum - pos.pos_bol - 1
@@ -25,11 +24,10 @@ let frontend source_path_string target_file =
           (type_to_string lhs) (type_to_string rhs);
         exit 1
   in
-  let transformed_ast = transform_postcheck typed_ast in
 
   (* serialize the AST *)
   let encoder = Pbrt.Encoder.create () in
-  Ez_ir.encode_pb_program transformed_ast encoder;
+  Ez_ir.encode_pb_program typed_ast encoder;
   (* output the protobuf message to a file *)
   let oc = open_out target_file in
   output_bytes oc (Pbrt.Encoder.to_bytes encoder);

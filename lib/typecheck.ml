@@ -57,7 +57,30 @@ let collect_function_signatures (p : prog_precheck) : funcsig_map =
 let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
     expr =
   match e with
-  | BinOp (((Add | Sub | Mul | Div | Mod) as op), lhs, rhs) -> (
+  | BinOp ((Add as op), lhs, rhs) -> (
+      let typed_rhs = check_expression sigs locals rhs in
+      let rhs_type = typed_rhs.expr_type in
+      let typed_lhs = check_expression sigs locals lhs in
+      let lhs_type = typed_lhs.expr_type in
+      match (lhs_type, rhs_type) with
+      | Non_ptr I64, Non_ptr I64 ->
+          {
+            expr_type = Non_ptr I64;
+            kind = Binary { op; lhs = typed_lhs; rhs = typed_rhs };
+          }
+      | Non_ptr F64, Non_ptr F64 ->
+          {
+            expr_type = Non_ptr F64;
+            kind = Binary { op; lhs = typed_lhs; rhs = typed_rhs };
+          }
+      | Non_ptr Str, Non_ptr Str ->
+          {
+            expr_type = Non_ptr Str;
+            kind =
+              Call { callee = "string_add"; args = [ typed_lhs; typed_rhs ] };
+          }
+      | _ -> raise (BinTypeMismatch (op, lhs_type, rhs_type)))
+  | BinOp (((Sub | Mul | Div | Mod) as op), lhs, rhs) -> (
       let typed_rhs = check_expression sigs locals rhs in
       let rhs_type = typed_rhs.expr_type in
       let typed_lhs = check_expression sigs locals lhs in
@@ -80,10 +103,18 @@ let rec check_expression (sigs : funcsig_map) (locals : local_map) (e : expr0) :
       let typed_lhs = check_expression sigs locals lhs in
       let lhs_type = typed_lhs.expr_type in
       if 0 == compare lhs_type rhs_type then
-        {
-          expr_type = Non_ptr Bool;
-          kind = Binary { op; lhs = typed_lhs; rhs = typed_rhs };
-        }
+        match lhs_type with
+        | Non_ptr Str ->
+            {
+              expr_type = Non_ptr Bool;
+              kind =
+                Call { callee = "string_eq"; args = [ typed_lhs; typed_rhs ] };
+            }
+        | _ ->
+            {
+              expr_type = Non_ptr Bool;
+              kind = Binary { op; lhs = typed_lhs; rhs = typed_rhs };
+            }
       else raise (BinTypeMismatch (op, lhs_type, rhs_type))
   | BinOp (((Lessthan | Lesseq | Greaterthan | Greatereq) as op), lhs, rhs) -> (
       let typed_rhs = check_expression sigs locals rhs in

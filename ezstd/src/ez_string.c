@@ -22,3 +22,5 @@ char *string_add(const char *str1, const char *str2) {
 
   return result;
 }
+
+void print_string(const char *str) { printf("%s", str); }
