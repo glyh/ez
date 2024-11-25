@@ -1,0 +1,7 @@
+require "std";
+
+i64 main() {
+  print_string("You can see me.");
+  return 0;
+  print_string("But not me, haha.");
+}

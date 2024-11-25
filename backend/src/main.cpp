@@ -49,6 +49,10 @@ int main(int argc, char **argv) {
         throw std::domain_error("invalid definition");
       }
     }
+    printf("Emitted LLVM IR:\n");
+    fflush(stdout);
+    mod->print(outs(), nullptr);
+
     Objgen objgen(mod);
     return objgen.generate_object(argv[2]);
   }
