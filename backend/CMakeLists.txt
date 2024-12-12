@@ -1,6 +1,8 @@
 # Meta Information ####
 cmake_minimum_required(VERSION 3.15...3.31)
 
+include(FetchContent)
+
 project(
   EzBackEnd
   VERSION 0.1
@@ -52,3 +54,9 @@ add_definitions(${LLVM_DEFINITIONS_LIST})
 
 # On Arch Linux, all LLVM components are linked together
 target_link_libraries(ezback -lLLVM)
+
+# argparse
+FetchContent_Declare(argparse
+                     GIT_REPOSITORY https://github.com/p-ranav/argparse.git)
+FetchContent_MakeAvailable(argparse)
+target_link_libraries(ezback argparse)
